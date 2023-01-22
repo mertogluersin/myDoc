@@ -1,0 +1,48 @@
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+   -keyout ~/Desktop/k8s.key -out ~/Desktop/k8s.crt \
+   -subj "/CN=my-address-finder.com/O=my-address-finder.com"
+
+kubectl create secret tls address-finder-tls-secret \
+   --cert=~/Desktop/k8s.crt \
+   --key=~/Desktop/k8s.key
+   
+  
+
+### key oluşturma   
+openssl genrsa -out my_key.key 2048 
+
+
+### CSR sertifikası oluşturma (yukarıda oluşturduğumuz key'den üreteceğiz.)
+openssl req -new -key my_key.key -out my_csr.csr -subj "/CN=ersinmertoglu@orion.com/O=PlatformTeam"
+
+
+
+### Serfika oluşturduğumuzda CONDITION değeri "pending" olur. 
+### Aşağıdaki komutla CONDITION  değeri "approve" olarak değiştirilir.
+kubectl certificate approve my_certficate
+
+
+###
+
+
+
+### Burada private key .key uzantılı dosyada olan key
+### public key ise .crt içerisinde bulunan key 
+### Aşağıda user_name isimli kullanıcı .crt isimli public key'e sahip olduğu için bu adımdan sonra kubernets üzerinde işlem yapabilecek
+kubectl config set-credentials {user_name} --client-certificate=my_crt.crt --client-key=my_key.key
+
+
+### Kullanıcı yaratıldı ancak bunu Cluster ile iliskilendirmek gerekli
+### Bunu context kullanarak yapacağız
+### user_name sertifika oluştururken kullandığımız user ismi(CN)
+kubectl config set-context {context_name} --cluster{cluster_name} --user={user_name}
+
+
+
+### artık oluşturduğumuz context 'i kullanabiliriz
+kubectl config use-context {context_name}
+
+
+### Bu işlemler ile bir kullanıcının kimlik doğrolaması yapılarak kubernets'e bağlanması sağlandı.
+### Ama  herhangi bir işlem yapamaz bu kullanıcı. Listeleme dahi yapamaz! (Her kullancı varsayılan olarak sıfır yetki ile gelir.)
+### Bunun içiin Role ve RollBinding objeleri oluşturulmalı bu kullanıcı için.

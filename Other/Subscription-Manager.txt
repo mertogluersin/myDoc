@@ -1,0 +1,62 @@
+
+
+# subscription-manager register --username <username> --password <password> --auto-attach
+
+ subscription-manager refresh
+ 
+ 
+ subscription-manager attach --auto
+ 
+ 
+ subscription-manager attach --pool=<POOL_ID>
+ 
+ 
+ subscription-manager list --available --all
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ subscription-manager repos --enable rhel-7-server-extras-rpms
+ 
+ yum install -y leapp
+ 
+ leapp upgrade --reboot
+ 
+ 
+ 
+ Un-registering a system 
+
+# subscription-manager remove --all
+# subscription-manager unregister
+# subscription-manager clean
+
+
+subscription-manager list --installed
+
+subscription-manager register --username RHEL-AVAYA --password 20AVAcorp14 --auto-attach
+
+
+
+
+
+
+
+
+
+
+# get subscription-manager result
+SUBSCRIBE_VAL=$(subscription-manager list --installed | grep -i "Status:" | awk '{print $2}')
+
+# check subscription-manager  if installed
+if [ "${SUBSCRIBE_VAL}" != "Subscribed" ]
+then
+    echo -e "${RED}${BOLD}subscription-manager must be enable. ${DEF}"
+    exit
+fi
+
+# enable repos 
+subscription-manager repos --enable rhel-7-server-optional-rpms --enable rhel-7-server-extras-rpms

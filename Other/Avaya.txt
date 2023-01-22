@@ -1,0 +1,82 @@
+#################################  esxi and VMs   #################################
+Avaya123$
+Avaya@123
+
+
+#################################  remote mach info   #################################
+cba.sde.mera.com
+LOGIN: user
+PASSWORD: Qwerty456_xcv!
+
+
+
+
+#################################  free ip   #################################
+192.168.37.185   187   188    are free
+
+
+#################################   Credentials for Qualys platform: #################################
+
+Login: avaya_gk1
+Password: __FX991es4__
+
+
+#################################   Red Hat Account    #################################
+Login: RHEL-AVAYA
+Password: 20AVAcorp14
+
+
+
+
+#################################  Create OVA   #################################
+export OVFTOOL_PATH="/vmfs/volumes/datastore1/vmware-ovftool/ovftool"
+export ESXI_SERVER='root:Avaya123$@'192.168.37.180 								
+export VMACHINE="5.0.1.x-cba-ss-37-184" 										
+export OVA_CBA="/vmfs/volumes/datastore1/ovas/CBA_7.9/CBA_7.9.ova" 				
+export PARAMS='-dm=thin --noNvramFile --noSSLVerify'							
+
+$OVFTOOL_PATH $PARAMS "vi://$ESXI_SERVER/$VMACHINE" "$OVA_CBA"
+
+
+export OVFTOOL_PATH="/vmfs/volumes/datastore1/vmware-ovftool/ovftool"
+export ESXI_SERVER='root:Avaya123$@'192.168.37.180				
+export VMACHINE="ersin-test-ova"						
+export OVA_CBA="/vmfs/volumes/datastore1/ovas/CBA_7.9/ersin-test.ova"			
+export PARAMS='-dm=thin --noNvramFile --noSSLVerify'			
+
+$OVFTOOL_PATH $PARAMS "vi://$ESXI_SERVER/$VMACHINE" "$OVA_CBA"
+
+
+export OVFTOOL_PATH="/vmfs/volumes/datastore1/vmware-ovftool/ovftool"
+export ESXI_SERVER='root:Avaya123$@'192.168.37.180	
+export VMACHINE="callbackassist_core_ova_template"
+export OVA_CBA="/vmfs/volumes/datastore1/ovas/CBA_7.9/callbackassist-core-5.0.1.4-RHEL_7.9.ova"
+export PARAMS='-dm=thin --noNvramFile --noSSLVerify'	
+
+$OVFTOOL_PATH $PARAMS "vi://$ESXI_SERVER/$VMACHINE" "$OVA_CBA"
+
+
+export OVFTOOL_PATH="/vmfs/volumes/datastore1/vmware-ovftool/ovftool"
+export ESXI_SERVER='root:Avaya123$@'192.168.37.180	
+export VMACHINE="callbackassist_reporting_ova_template"
+export OVA_CBA="/vmfs/volumes/datastore1/ovas/CBA_7.9/callbackassist-reporting-5.0.1.4-RHEL_7.9.ova"
+export PARAMS='-dm=thin --noNvramFile --noSSLVerify'	
+
+$OVFTOOL_PATH $PARAMS "vi://$ESXI_SERVER/$VMACHINE" "$OVA_CBA"
+
+
+
+export OVFTOOL_PATH="/vmfs/volumes/datastore1/vmware-ovftool/ovftool"
+export ESXI_SERVER='root:Avaya123$@'192.168.37.180	
+export VMACHINE="VM_for_last_OVA"
+export OVA_CBA="/vmfs/volumes/datastore1/ovas/CBA_7.9/callbackassist-core-5.0.1.4-RHEL_7.9_test.ova"
+export PARAMS='-dm=thin --noNvramFile --noSSLVerify'	
+
+$OVFTOOL_PATH $PARAMS "vi://$ESXI_SERVER/$VMACHINE" "$OVA_CBA"
+#################################  Create OVA   ###################################
+
+
+
+Avaya@123
+Avaya123$
+

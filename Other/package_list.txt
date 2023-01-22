@@ -1,0 +1,1955 @@
+[root@localhost mnt]# leapp preupgrade --no-rhsm --enablerepo BaseOS --enablerepo AppStream
+==> Processing phase `configuration_phase`
+====> * ipu_workflow_config
+        IPU workflow config actor
+==> Processing phase `FactsCollection`
+====> * register_yum_adjustment
+        Registers a workaround which will adjust the yum directories during the upgrade.
+====> * transaction_workarounds
+        Provides additional RPM transaction tasks based on bundled RPM packages.
+====> * source_boot_loader_scanner
+        Scans the boot loader configuration on the source system.
+====> * rpm_scanner
+        Provides data about installed RPM Packages.
+Loaded plugins: product-id, subscription-manager
+
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2022-09-09 09:29:34.511 CRITICAL PID: 1145 dnf: Detection of Platform Module failed: Missing PLATFORM_ID in /etc/os-release
+====> * network_manager_read_config
+        Provides data about NetworkManager configuration.
+====> * scan_pkg_manager
+        Provides data about package manager (yum/dnf)
+====> * grubdevname
+        Get name of block device where GRUB is located
+====> * repository_mapping
+        Produces message containing repository mapping based on provided file.
+====> * root_scanner
+        Scan the system root directory and produce a message containing
+====> * scanclienablerepo
+        Produce CustomTargetRepository based on the LEAPP_ENABLE_REPOS in config.
+====> * scanmemory
+        Scan Memory of the machine.
+====> * get_installed_desktops
+        Actor checks if kde or gnome desktop environments
+====> * scan_sap_hana
+        Gathers information related to SAP HANA instances on the system.
+====> * get_enabled_modules
+        Provides data about which module streams are enabled on the source system.
+2022-09-09 09:29:36.637 CRITICAL PID: 1646 dnf: Detection of Platform Module failed: Missing PLATFORM_ID in /etc/os-release
+====> * udevadm_info
+        Produces data exported by the "udevadm info" command.
+====> * scan_custom_repofile
+        Scan the custom /etc/leapp/files/leapp_upgrade_repositories.repo repo file.
+====> * pam_modules_scanner
+        Scan the pam directory for services and modules used in them
+====> * scandasd
+        In case of s390x architecture, check whether DASD is used.
+====> * scan_files_for_target_userspace
+        Scan the source system and identify files that will be copied into the target userspace when it is created.
+====> * sssd_facts
+        Check SSSD configuration for changes in RHEL8 and report them in model.
+====> * common_leapp_dracut_modules
+        Influences the generation of the initram disk
+====> * checkrhui
+        Check if system is using RHUI infrastructure (on public cloud) and send messages to
+====> * load_device_driver_deprecation_data
+        Loads deprecation data for drivers and devices (PCI & CPU)
+====> * satellite_upgrade_facts
+        Report which Satellite packages require updates and how to handle PostgreSQL data
+====> * firewalld_facts_actor
+        Provide data about firewalld
+====> * scan_subscription_manager_info
+        Scans the current system for subscription manager information
+====> * read_openssh_config
+        Collect information about the OpenSSH configuration.
+====> * scan_kernel_cmdline
+        No documentation has been provided for the scan_kernel_cmdline actor.
+====> * tcp_wrappers_config_read
+        Parse tcp_wrappers configuration files /etc/hosts.{allow,deny}.
+====> * pci_devices_scanner
+        Provides data about existing PCI Devices.
+====> * persistentnetnames
+        Get network interface information for physical ethernet interfaces of the original system.
+====> * authselect_scanner
+        Detect what authselect configuration should be suggested to administrator.
+====> * check_kde_apps
+        Actor checks which KDE apps are installed.
+====> * persistentnetnamesdisable
+        Disable systemd-udevd persistent network naming on machine with single eth0 NIC
+====> * system_facts
+        Provides data about many facts from system.
+====> * removed_pam_modules_scanner
+        Scan PAM configuration for modules that are not available in RHEL-8.
+====> * red_hat_signed_rpm_scanner
+        Provide data about installed RPM Packages signed by Red Hat.
+====> * storage_scanner
+        Provides data about storage settings.
+====> * biosdevname
+        Enable biosdevname on the target RHEL system if all interfaces on the source RHEL
+====> * ipa_scanner
+        Scan system for ipa-client and ipa-server status
+====> * xfs_info_scanner
+        This actor scans all mounted mountpoints for XFS information
+====> * rpm_transaction_config_tasks_collector
+        Provides additional RPM transaction tasks from /etc/leapp/transaction.
+====> * spamassassin_config_read
+        Reads spamc configuration (/etc/mail/spamassassin/spamc.conf), the
+====> * cups_scanner
+        Gather facts about CUPS features which needs to be migrated
+====> * scancpu
+        Scan CPUs of the machine.
+====> * sctp_read_status
+        Determines whether or not the SCTP kernel module might be wanted.
+====> * quagga_daemons
+        Active quagga daemons check.
+====> * used_repository_scanner
+        Scan used enabled repositories
+====> * detect_kernel_drivers
+        Matches all currently loaded kernel drivers against known deprecated and removed drivers.
+====> * multipath_conf_read
+        Read multipath configuration files and extract the necessary informaton
+====> * repositories_blacklist
+        Exclude target repositories provided by Red Hat without support.
+====> * vsftpd_config_read
+        Reads vsftpd configuration files (/etc/vsftpd/*.conf) and extracts necessary information.
+====> * selinuxcontentscanner
+        Scan the system for any SELinux customizations
+====> * pes_events_scanner
+        Provides data about package events from Package Evolution Service.
+====> * setuptargetrepos
+        Produces list of repositories that should be available to be used by Upgrade process.
+==> Processing phase `Checks`
+====> * cups_check
+        Reports changes in configuration between CUPS 1.6.3 and 2.2.6
+====> * check_installed_devel_kernels
+        Inhibit IPU (in-place upgrade) when multiple devel kernels are installed.
+====> * checkacpid
+        Check if acpid is installed. If yes, write information about non-compatible changes.
+====> * check_wireshark
+        Report a couple of changes in tshark usage
+====> * red_hat_signed_rpm_check
+        Check if there are packages not signed by Red Hat in use. If yes, warn user about it.
+====> * check_boot_avail_space
+        Check if at least 100Mib of available space on /boot. If not, inhibit the upgrade process.
+====> * satellite_upgrade_check
+        Check state of Satellite system before upgrade
+====> * multiple_package_versions
+        Check for problematic 32bit packages installed together with 64bit ones.
+====> * tcp_wrappers_check
+        Check the list of packages previously compiled with TCP wrappers support
+====> * unsupported_upgrade_check
+        Checks enviroment variables and produces a warning report if the upgrade is unsupported.
+====> * checkmemory
+        The actor check the size of RAM against RHEL8 minimal hardware requirements
+====> * check_kde_gnome
+        Checks whether KDE is installed
+====> * check_etc_releasever
+        Check releasever info and provide a guidance based on the facts
+====> * checkirssi
+        Check if irssi is installed. If yes, write information about non-compatible changes.
+====> * quagga_report
+        Checking for babeld on RHEL-7.
+====> * efi_check_boot
+        Adjust EFI boot entry for first reboot
+====> * zipl_check_boot_entries
+        Inhibits the upgrade if a problematic Zipl configuration is detected on the system.
+====> * detect_grub_config_error
+        Check grub configuration for syntax error in GRUB_CMDLINE_LINUX value.
+====> * powertop
+        Check if PowerTOP is installed. If yes, write information about non-compatible changes.
+====> * multipath_conf_check
+        Checks whether the multipath configuration can be updated to RHEL-8 and
+====> * check_removed_envvars
+        Check for usage of removed environment variables and inhibit the upgrade
+====> * check_ipa_server
+        Check for ipa-server and inhibit upgrade
+====> * check_ha_cluster
+        Check if HA Cluster is in use. If yes, inhibit the upgrade process.
+====> * python_inform_user
+        This actor informs the user of differences in Python version and support in RHEL 8.
+====> * check_ntp
+        Check if ntp and/or ntpdate configuration needs to be migrated.
+====> * check_installed_debug_kernels
+        Inhibit IPU (in-place upgrade) when multiple debug kernels are installed.
+====> * checkhybridimage
+        Check if the system is using Azure hybrid image.
+====> * yum_config_scanner
+        Scans the configuration of the YUM package manager.
+====> * postgresql_check
+        Actor checking for presence of PostgreSQL installation.
+====> * check_fips
+        Inhibit upgrade if FIPS is detected as enabled.
+====> * sctp_checks
+        Parses collected SCTP information and take necessary actions.
+====> * check_brltty
+        Check if brltty is installed, check whether configuration update is needed.
+====> * check_luks_and_inhibit
+        Check if any encrypted partitions is in use. If yes, inhibit the upgrade process.
+====> * check_installed_kernels
+        Inhibit IPU (in-place upgrade) when installed kernels conflict with a safe upgrade.
+====> * check_detected_devices_and_drivers
+        Checks whether or not detected devices and drivers are usable on the target system.
+====> * open_ssh_use_privilege_separation
+        UsePrivilegeSeparation configuration option was removed.
+====> * check_cifs
+        Check if CIFS filesystem is in use. If yes, inhibit the upgrade process.
+====> * open_ssh_deprecated_directives_check
+        Check for any deprecated directives in the OpenSSH configuration.
+====> * vsftpd_config_check
+        Checks whether the vsftpd configuration is supported in RHEL-8. Namely checks that
+====> * check_se_linux
+        Check SELinux status and produce decision messages for further action.
+====> * open_ssh_protocol
+        Protocol configuration option was removed.
+====> * check_chrony
+        Check for incompatible changes in chrony configuration.
+====> * checkfstabxfsoptions
+        Check the FSTAB file for the deprecated / removed XFS mount options.
+====> * check_non_mount_boot_s390
+        Inhibits on s390 when /boot is NOT on a separate partition.
+====> * openssh_permit_root_login
+        OpenSSH no longer allows root logins with password.
+====> * checkdosfstools
+        Check if dosfstools is installed. If yes, write information about non-compatible changes.
+====> * spamassassin_config_check
+        Reports changes in spamassassin between RHEL-7 and RHEL-8
+====> * authselect_check
+        Confirm suggested authselect call from AuthselectScanner.
+====> * check_rhsmsku
+        Ensure the system is subscribed to the subscription manager
+====> * check_postfix
+        Check if postfix is installed, check whether configuration update is needed.
+====> * check_system_arch
+        Check if system is running at a supported architecture. If no, inhibit the upgrade process.
+====> * sssd_check
+        Check SSSD configuration for changes in RHEL8 and report them.
+====> * check_firewalld
+        Check for certain firewalld configuration that may prevent an upgrade.
+====> * check_memcached
+        Check for incompatible changes in memcached configuration.
+====> * check_bind
+        Actor parsing BIND configuration and checking for known issues in it.
+====> * check_os_release
+        Check if the current RHEL minor version is supported. If not, inhibit the upgrade process.
+====> * check_docker
+        Checks if Docker is installed and warns about its deprecation in RHEL8.
+====> * check_btrfs
+        Check if Btrfs filesystem is in use. If yes, inhibit the upgrade process.
+====> * checktargetrepos
+        Check whether target yum repositories are specified.
+====> * open_ssh_algorithms
+        OpenSSH configuration does not contain any unsupported cryptographic algorithms.
+====> * check_skipped_repositories
+        Produces a report if any repositories enabled on the system are going to be skipped.
+====> * removed_pam_modules
+        Check for modules that are not available in RHEL 8 anymore
+====> * check_grub_core
+        Check whether we are on legacy (BIOS) system and instruct Leapp to upgrade GRUB core
+====> * check_sendmail
+        Check if sendmail is installed, check whether configuration update is needed, inhibit upgrade if TCP wrappers
+====> * check_root_symlinks
+        Check if the symlinks /bin and /lib are relative, not absolute.
+====> * check_rpm_transaction_events
+        Filter RPM transaction events based on installed RPM packages
+====> * check_sap_hana
+        If SAP HANA has been detected, several checks are performed to ensure a successful upgrade.
+====> * checkgrep
+        Check if Grep is installed. If yes, write information about non-compatible changes.
+====> * check_nfs
+        Check if NFS filesystem is in use. If yes, inhibit the upgrade process.
+====> * removed_pam_modules_check
+        Check if it is all right to disable PAM modules that are not in RHEL-8.
+====> * check_yum_plugins_enabled
+        Checks that the required yum plugins are enabled.
+====> * check_skip_phase
+        Skip all the subsequent phases until the report phase.
+==> Processing phase `TargetTransactionFactsCollection`
+====> * target_userspace_creator
+        Initializes a directory to be populated as a minimal environment to run binaries from the target system.
+rhel-8-for-x86_64-appstream-rpms                163 MB/s | 7.5 MB     00:00
+rhel-8-for-x86_64-baseos-rpms                   159 MB/s | 2.4 MB     00:00
+Last metadata expiration check: 0:00:01 ago on Fri Sep  9 09:30:33 2022.
+Dependencies resolved.
+================================================================================
+ Package                     Arch   Version                     Repository
+                                                                           Size
+================================================================================
+Installing:
+ dnf                         noarch 4.7.0-8.el8                 BaseOS    541 k
+ dnf-plugins-core            noarch 4.0.21-11.el8               BaseOS     71 k
+Installing dependencies:
+ unbound-libs                x86_64 1.7.3-17.el8                AppStream 504 k
+ xkeyboard-config            noarch 2.28-1.el8                  AppStream 782 k
+ acl                         x86_64 2.2.53-1.el8                BaseOS     81 k
+ audit-libs                  x86_64 3.0.7-2.el8.2               BaseOS    123 k
+ basesystem                  noarch 11-5.el8                    BaseOS     11 k
+ bash                        x86_64 4.4.20-3.el8                BaseOS    1.5 M
+ brotli                      x86_64 1.0.6-3.el8                 BaseOS    323 k
+ bzip2-libs                  x86_64 1.0.6-26.el8                BaseOS     48 k
+ ca-certificates             noarch 2021.2.50-80.0.el8_4        BaseOS    390 k
+ chkconfig                   x86_64 1.19.1-1.el8                BaseOS    198 k
+ coreutils                   x86_64 8.30-12.el8                 BaseOS    1.2 M
+ coreutils-common            x86_64 8.30-12.el8                 BaseOS    2.0 M
+ cpio                        x86_64 2.12-11.el8                 BaseOS    266 k
+ cracklib                    x86_64 2.9.6-15.el8                BaseOS     93 k
+ cracklib-dicts              x86_64 2.9.6-15.el8                BaseOS    4.0 M
+ crypto-policies             noarch 20211116-1.gitae470d6.el8   BaseOS     64 k
+ cryptsetup-libs             x86_64 2.3.7-2.el8                 BaseOS    488 k
+ curl                        x86_64 7.61.1-22.el8               BaseOS    351 k
+ cyrus-sasl-lib              x86_64 2.1.27-6.el8_5              BaseOS    123 k
+ dbus                        x86_64 1:1.12.8-18.el8             BaseOS     41 k
+ dbus-common                 noarch 1:1.12.8-18.el8             BaseOS     46 k
+ dbus-daemon                 x86_64 1:1.12.8-18.el8             BaseOS    240 k
+ dbus-glib                   x86_64 0.110-2.el8                 BaseOS    127 k
+ dbus-libs                   x86_64 1:1.12.8-18.el8             BaseOS    184 k
+ dbus-tools                  x86_64 1:1.12.8-18.el8             BaseOS     86 k
+ device-mapper               x86_64 8:1.02.181-3.el8            BaseOS    377 k
+ device-mapper-libs          x86_64 8:1.02.181-3.el8            BaseOS    410 k
+ dnf-data                    noarch 4.7.0-8.el8                 BaseOS    155 k
+ dracut                      x86_64 049-201.git20220131.el8     BaseOS    376 k
+ elfutils-default-yama-scope noarch 0.186-1.el8                 BaseOS     50 k
+ elfutils-libelf             x86_64 0.186-1.el8                 BaseOS    229 k
+ elfutils-libs               x86_64 0.186-1.el8                 BaseOS    295 k
+ expat                       x86_64 2.2.5-8.el8                 BaseOS    113 k
+ file                        x86_64 5.33-20.el8                 BaseOS     77 k
+ file-libs                   x86_64 5.33-20.el8                 BaseOS    543 k
+ filesystem                  x86_64 3.8-6.el8                   BaseOS    1.1 M
+ findutils                   x86_64 1:4.6.0-20.el8              BaseOS    528 k
+ gawk                        x86_64 4.2.1-4.el8                 BaseOS    1.1 M
+ gdbm                        x86_64 1:1.18-1.el8                BaseOS    130 k
+ gdbm-libs                   x86_64 1:1.18-1.el8                BaseOS     60 k
+ gettext                     x86_64 0.19.8.1-17.el8             BaseOS    1.1 M
+ gettext-libs                x86_64 0.19.8.1-17.el8             BaseOS    313 k
+ glib2                       x86_64 2.56.4-158.el8              BaseOS    2.5 M
+ glibc                       x86_64 2.28-189.1.el8              BaseOS    2.2 M
+ glibc-all-langpacks         x86_64 2.28-189.1.el8              BaseOS     25 M
+ glibc-common                x86_64 2.28-189.1.el8              BaseOS    1.3 M
+ gmp                         x86_64 1:6.1.2-10.el8              BaseOS    321 k
+ gnupg2                      x86_64 2.2.20-2.el8                BaseOS    2.4 M
+ gnutls                      x86_64 3.6.16-4.el8                BaseOS    1.0 M
+ gpgme                       x86_64 1.13.1-11.el8               BaseOS    336 k
+ grep                        x86_64 3.1-6.el8                   BaseOS    274 k
+ grub2-common                noarch 1:2.02-123.el8              BaseOS    893 k
+ grub2-tools                 x86_64 1:2.02-123.el8              BaseOS    2.0 M
+ grub2-tools-minimal         x86_64 1:2.02-123.el8              BaseOS    211 k
+ gzip                        x86_64 1.9-12.el8                  BaseOS    167 k
+ ima-evm-utils               x86_64 1.3.2-12.el8                BaseOS     64 k
+ info                        x86_64 6.5-7.el8                   BaseOS    198 k
+ json-c                      x86_64 0.13.1-3.el8                BaseOS     41 k
+ json-glib                   x86_64 1.4.4-1.el8                 BaseOS    144 k
+ kbd-legacy                  noarch 2.0.4-10.el8                BaseOS    481 k
+ kbd-misc                    noarch 2.0.4-10.el8                BaseOS    1.5 M
+ keyutils-libs               x86_64 1.5.10-9.el8                BaseOS     34 k
+ kmod                        x86_64 25-19.el8                   BaseOS    126 k
+ kmod-libs                   x86_64 25-19.el8                   BaseOS     68 k
+ krb5-libs                   x86_64 1.18.2-14.el8               BaseOS    840 k
+ libacl                      x86_64 2.2.53-1.el8                BaseOS     35 k
+ libarchive                  x86_64 3.3.3-3.el8_5               BaseOS    360 k
+ libassuan                   x86_64 2.5.1-3.el8                 BaseOS     83 k
+ libattr                     x86_64 2.4.48-3.el8                BaseOS     27 k
+ libblkid                    x86_64 2.32.1-35.el8               BaseOS    219 k
+ libcap                      x86_64 2.48-2.el8                  BaseOS     74 k
+ libcap-ng                   x86_64 0.7.11-1.el8                BaseOS     33 k
+ libcom_err                  x86_64 1.45.6-4.el8                BaseOS     49 k
+ libcomps                    x86_64 0.1.18-1.el8                BaseOS     82 k
+ libcroco                    x86_64 0.6.12-4.el8_2.1            BaseOS    113 k
+ libcurl                     x86_64 7.61.1-22.el8               BaseOS    301 k
+ libdb                       x86_64 5.3.28-42.el8_4             BaseOS    751 k
+ libdb-utils                 x86_64 5.3.28-42.el8_4             BaseOS    150 k
+ libdnf                      x86_64 0.63.0-8.el8                BaseOS    706 k
+ libevent                    x86_64 2.1.8-5.el8                 BaseOS    253 k
+ libfdisk                    x86_64 2.32.1-35.el8               BaseOS    252 k
+ libffi                      x86_64 3.1-23.el8                  BaseOS     37 k
+ libgcc                      x86_64 8.5.0-10.el8                BaseOS     80 k
+ libgcrypt                   x86_64 1.8.5-6.el8                 BaseOS    463 k
+ libgomp                     x86_64 8.5.0-10.el8                BaseOS    207 k
+ libgpg-error                x86_64 1.31-1.el8                  BaseOS    242 k
+ libidn2                     x86_64 2.2.0-1.el8                 BaseOS     94 k
+ libkcapi                    x86_64 1.2.0-2.el8                 BaseOS     48 k
+ libkcapi-hmaccalc           x86_64 1.2.0-2.el8                 BaseOS     31 k
+ libksba                     x86_64 1.3.5-7.el8                 BaseOS    135 k
+ libmodulemd                 x86_64 2.13.0-1.el8                BaseOS    233 k
+ libmount                    x86_64 2.32.1-35.el8               BaseOS    235 k
+ libnghttp2                  x86_64 1.33.0-3.el8_2.1            BaseOS     77 k
+ libnsl2                     x86_64 1.2.0-2.20180605git4a062cf.el8
+                                                                BaseOS     58 k
+ libpsl                      x86_64 0.20.2-6.el8                BaseOS     61 k
+ libpwquality                x86_64 1.4.4-3.el8                 BaseOS    107 k
+ librepo                     x86_64 1.14.2-1.el8                BaseOS     93 k
+ libreport-filesystem        x86_64 2.9.5-15.el8                BaseOS     21 k
+ librhsm                     x86_64 0.0.3-4.el8                 BaseOS     33 k
+ libseccomp                  x86_64 2.5.2-1.el8                 BaseOS     71 k
+ libsecret                   x86_64 0.18.6-1.el8                BaseOS    163 k
+ libselinux                  x86_64 2.9-5.el8                   BaseOS    165 k
+ libsemanage                 x86_64 2.9-8.el8                   BaseOS    168 k
+ libsepol                    x86_64 2.9-3.el8                   BaseOS    340 k
+ libsigsegv                  x86_64 2.11-5.el8                  BaseOS     30 k
+ libsmartcols                x86_64 2.32.1-35.el8               BaseOS    178 k
+ libsolv                     x86_64 0.7.20-1.el8                BaseOS    375 k
+ libssh                      x86_64 0.9.6-3.el8                 BaseOS    216 k
+ libssh-config               noarch 0.9.6-3.el8                 BaseOS     19 k
+ libstdc++                   x86_64 8.5.0-10.el8                BaseOS    453 k
+ libtasn1                    x86_64 4.13-3.el8                  BaseOS     76 k
+ libtirpc                    x86_64 1.1.4-6.el8                 BaseOS    113 k
+ libunistring                x86_64 0.9.9-3.el8                 BaseOS    422 k
+ libusbx                     x86_64 1.0.23-4.el8                BaseOS     74 k
+ libutempter                 x86_64 1.1.6-14.el8                BaseOS     32 k
+ libuuid                     x86_64 2.32.1-35.el8               BaseOS     97 k
+ libverto                    x86_64 0.3.0-5.el8                 BaseOS     24 k
+ libxcrypt                   x86_64 4.1.1-6.el8                 BaseOS     73 k
+ libxml2                     x86_64 2.9.7-13.el8                BaseOS    696 k
+ libyaml                     x86_64 0.1.7-5.el8                 BaseOS     61 k
+ libzstd                     x86_64 1.4.4-1.el8                 BaseOS    266 k
+ lua-libs                    x86_64 5.3.4-12.el8                BaseOS    118 k
+ lz4-libs                    x86_64 1.8.3-3.el8_4               BaseOS     66 k
+ mpfr                        x86_64 3.1.6-1.el8                 BaseOS    221 k
+ ncurses                     x86_64 6.1-9.20180224.el8          BaseOS    387 k
+ ncurses-base                noarch 6.1-9.20180224.el8          BaseOS     81 k
+ ncurses-libs                x86_64 6.1-9.20180224.el8          BaseOS    334 k
+ nettle                      x86_64 3.4.1-7.el8                 BaseOS    301 k
+ npth                        x86_64 1.5-4.el8                   BaseOS     26 k
+ openldap                    x86_64 2.4.46-18.el8               BaseOS    352 k
+ openssl                     x86_64 1:1.1.1k-6.el8_5            BaseOS    709 k
+ openssl-libs                x86_64 1:1.1.1k-6.el8_5            BaseOS    1.5 M
+ os-prober                   x86_64 1.74-9.el8                  BaseOS     51 k
+ p11-kit                     x86_64 0.23.22-1.el8               BaseOS    324 k
+ p11-kit-trust               x86_64 0.23.22-1.el8               BaseOS    137 k
+ pam                         x86_64 1.3.1-16.el8                BaseOS    738 k
+ pcre                        x86_64 8.42-6.el8                  BaseOS    211 k
+ pcre2                       x86_64 10.32-2.el8                 BaseOS    246 k
+ platform-python             x86_64 3.6.8-45.el8                BaseOS     85 k
+ platform-python-setuptools  noarch 39.2.0-6.el8                BaseOS    632 k
+ popt                        x86_64 1.18-1.el8                  BaseOS     61 k
+ procps-ng                   x86_64 3.3.15-6.el8                BaseOS    329 k
+ publicsuffix-list-dafsa     noarch 20180723-1.el8              BaseOS     56 k
+ python3-dateutil            noarch 1:2.6.1-6.el8               BaseOS    251 k
+ python3-dbus                x86_64 1.2.4-15.el8                BaseOS    134 k
+ python3-dnf                 noarch 4.7.0-8.el8                 BaseOS    545 k
+ python3-dnf-plugins-core    noarch 4.0.21-11.el8               BaseOS    240 k
+ python3-gpg                 x86_64 1.13.1-11.el8               BaseOS    244 k
+ python3-hawkey              x86_64 0.63.0-8.el8                BaseOS    117 k
+ python3-libcomps            x86_64 0.1.18-1.el8                BaseOS     52 k
+ python3-libdnf              x86_64 0.63.0-8.el8                BaseOS    778 k
+ python3-libs                x86_64 3.6.8-45.el8                BaseOS    7.8 M
+ python3-pip-wheel           noarch 9.0.3-22.el8                BaseOS    895 k
+ python3-rpm                 x86_64 4.14.3-23.el8               BaseOS    155 k
+ python3-setuptools-wheel    noarch 39.2.0-6.el8                BaseOS    289 k
+ python3-six                 noarch 1.11.0-8.el8                BaseOS     38 k
+ readline                    x86_64 7.0-10.el8                  BaseOS    199 k
+ redhat-release              x86_64 8.6-0.1.el8                 BaseOS     44 k
+ rpm                         x86_64 4.14.3-23.el8               BaseOS    543 k
+ rpm-build-libs              x86_64 4.14.3-23.el8               BaseOS    157 k
+ rpm-libs                    x86_64 4.14.3-23.el8               BaseOS    345 k
+ sed                         x86_64 4.5-5.el8                   BaseOS    298 k
+ setup                       noarch 2.12.2-6.el8                BaseOS    181 k
+ shadow-utils                x86_64 2:4.6-16.el8                BaseOS    1.2 M
+ sqlite-libs                 x86_64 3.26.0-15.el8               BaseOS    581 k
+ systemd-libs                x86_64 239-58.el8                  BaseOS    1.1 M
+ systemd-pam                 x86_64 239-58.el8                  BaseOS    483 k
+ systemd-udev                x86_64 239-58.el8                  BaseOS    1.6 M
+ tpm2-tss                    x86_64 2.3.2-4.el8                 BaseOS    275 k
+ trousers-lib                x86_64 0.3.15-1.el8                BaseOS    168 k
+ tzdata                      noarch 2022a-1.el8                 BaseOS    474 k
+ util-linux                  x86_64 2.32.1-35.el8               BaseOS    2.5 M
+ which                       x86_64 2.21-17.el8                 BaseOS     49 k
+ xz                          x86_64 5.2.4-3.el8                 BaseOS    153 k
+ xz-libs                     x86_64 5.2.4-3.el8                 BaseOS     94 k
+ zlib                        x86_64 1.2.11-18.el8_5             BaseOS    102 k
+Installing weak dependencies:
+ glibc-gconv-extra           x86_64 2.28-189.1.el8              AppStream 1.5 M
+ libxkbcommon                x86_64 0.9.1-1.el8                 AppStream 116 k
+ pinentry                    x86_64 1.1.0-2.el8                 AppStream 100 k
+ python3-unbound             x86_64 1.7.3-17.el8                AppStream 119 k
+ crypto-policies-scripts     noarch 20211116-1.gitae470d6.el8   BaseOS     83 k
+ diffutils                   x86_64 3.6-6.el8                   BaseOS    359 k
+ elfutils-debuginfod-client  x86_64 0.186-1.el8                 BaseOS     71 k
+ gnupg2-smime                x86_64 2.2.20-2.el8                BaseOS    283 k
+ grubby                      x86_64 8.40-42.el8                 BaseOS     49 k
+ hardlink                    x86_64 1:1.3-6.el8                 BaseOS     29 k
+ kbd                         x86_64 2.0.4-10.el8                BaseOS    390 k
+ kpartx                      x86_64 0.8.4-22.el8                BaseOS    114 k
+ memstrack                   x86_64 0.1.11-1.el8                BaseOS     48 k
+ openssl-pkcs11              x86_64 0.4.10-2.el8                BaseOS     66 k
+ pigz                        x86_64 2.4-4.el8                   BaseOS     79 k
+ platform-python-pip         noarch 9.0.3-22.el8                BaseOS    1.6 M
+ redhat-release-eula         x86_64 8.6-0.1.el8                 BaseOS     19 k
+ rpm-plugin-systemd-inhibit  x86_64 4.14.3-23.el8               BaseOS     79 k
+ shared-mime-info            x86_64 1.9-3.el8                   BaseOS    329 k
+ systemd                     x86_64 239-58.el8                  BaseOS    3.6 M
+ trousers                    x86_64 0.3.15-1.el8                BaseOS    153 k
+
+Transaction Summary
+================================================================================
+Install  199 Packages
+
+Total size: 110 M
+Installed size: 705 M
+Downloading Packages:
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Running scriptlet: filesystem-3.8-6.el8.x86_64                            1/1
+  Preparing        :                                                        1/1
+  Installing       : libgcc-8.5.0-10.el8.x86_64                           1/199
+  Running scriptlet: libgcc-8.5.0-10.el8.x86_64                           1/199
+  Installing       : crypto-policies-20211116-1.gitae470d6.el8.noarch     2/199
+  Running scriptlet: crypto-policies-20211116-1.gitae470d6.el8.noarch     2/199
+  Installing       : tzdata-2022a-1.el8.noarch                            3/199
+  Installing       : python3-setuptools-wheel-39.2.0-6.el8.noarch         4/199
+  Installing       : python3-pip-wheel-9.0.3-22.el8.noarch                5/199
+  Installing       : redhat-release-8.6-0.1.el8.x86_64                    6/199
+  Installing       : setup-2.12.2-6.el8.noarch                            7/199
+  Running scriptlet: setup-2.12.2-6.el8.noarch                            7/199
+  Installing       : filesystem-3.8-6.el8.x86_64                          8/199
+  Installing       : basesystem-11-5.el8.noarch                           9/199
+  Installing       : publicsuffix-list-dafsa-20180723-1.el8.noarch       10/199
+  Installing       : ncurses-base-6.1-9.20180224.el8.noarch              11/199
+  Installing       : pcre2-10.32-2.el8.x86_64                            12/199
+  Installing       : libselinux-2.9-5.el8.x86_64                         13/199
+  Installing       : ncurses-libs-6.1-9.20180224.el8.x86_64              14/199
+  Installing       : glibc-all-langpacks-2.28-189.1.el8.x86_64           15/199
+  Installing       : glibc-common-2.28-189.1.el8.x86_64                  16/199
+  Running scriptlet: glibc-2.28-189.1.el8.x86_64                         17/199
+  Installing       : glibc-2.28-189.1.el8.x86_64                         17/199
+  Running scriptlet: glibc-2.28-189.1.el8.x86_64                         17/199
+  Installing       : bash-4.4.20-3.el8.x86_64                            18/199
+  Running scriptlet: bash-4.4.20-3.el8.x86_64                            18/199
+  Installing       : libsepol-2.9-3.el8.x86_64                           19/199
+  Running scriptlet: libsepol-2.9-3.el8.x86_64                           19/199
+  Installing       : zlib-1.2.11-18.el8_5.x86_64                         20/199
+  Installing       : xz-libs-5.2.4-3.el8.x86_64                          21/199
+  Installing       : libgpg-error-1.31-1.el8.x86_64                      22/199
+  Installing       : info-6.5-7.el8.x86_64                               23/199
+  Installing       : bzip2-libs-1.0.6-26.el8.x86_64                      24/199
+  Installing       : sqlite-libs-3.26.0-15.el8.x86_64                    25/199
+  Installing       : libxml2-2.9.7-13.el8.x86_64                         26/199
+  Installing       : libcap-2.48-2.el8.x86_64                            27/199
+  Installing       : elfutils-libelf-0.186-1.el8.x86_64                  28/199
+  Installing       : libzstd-1.4.4-1.el8.x86_64                          29/199
+  Installing       : expat-2.2.5-8.el8.x86_64                            30/199
+  Installing       : libxcrypt-4.1.1-6.el8.x86_64                        31/199
+  Installing       : popt-1.18-1.el8.x86_64                              32/199
+  Installing       : libunistring-0.9.9-3.el8.x86_64                     33/199
+  Installing       : readline-7.0-10.el8.x86_64                          34/199
+  Running scriptlet: readline-7.0-10.el8.x86_64                          34/199
+install-info: No such file or directory for /dev/null
+install-info: No such file or directory for /dev/null
+
+  Installing       : libgcrypt-1.8.5-6.el8.x86_64                        35/199
+  Running scriptlet: libgcrypt-1.8.5-6.el8.x86_64                        35/199
+  Installing       : gmp-1:6.1.2-10.el8.x86_64                           36/199
+  Running scriptlet: gmp-1:6.1.2-10.el8.x86_64                           36/199
+  Installing       : libcom_err-1.45.6-4.el8.x86_64                      37/199
+  Running scriptlet: libcom_err-1.45.6-4.el8.x86_64                      37/199
+  Installing       : libuuid-2.32.1-35.el8.x86_64                        38/199
+  Running scriptlet: libuuid-2.32.1-35.el8.x86_64                        38/199
+  Installing       : lua-libs-5.3.4-12.el8.x86_64                        39/199
+  Installing       : libidn2-2.2.0-1.el8.x86_64                          40/199
+  Installing       : chkconfig-1.19.1-1.el8.x86_64                       41/199
+  Installing       : libassuan-2.5.1-3.el8.x86_64                        42/199
+  Installing       : file-libs-5.33-20.el8.x86_64                        43/199
+  Installing       : json-c-0.13.1-3.el8.x86_64                          44/199
+  Installing       : libattr-2.4.48-3.el8.x86_64                         45/199
+  Installing       : libacl-2.2.53-1.el8.x86_64                          46/199
+  Installing       : sed-4.5-5.el8.x86_64                                47/199
+  Running scriptlet: sed-4.5-5.el8.x86_64                                47/199
+install-info: No such file or directory for /dev/null
+
+  Installing       : libsmartcols-2.32.1-35.el8.x86_64                   48/199
+  Running scriptlet: libsmartcols-2.32.1-35.el8.x86_64                   48/199
+  Installing       : libstdc++-8.5.0-10.el8.x86_64                       49/199
+  Running scriptlet: libstdc++-8.5.0-10.el8.x86_64                       49/199
+  Installing       : libcap-ng-0.7.11-1.el8.x86_64                       50/199
+  Installing       : audit-libs-3.0.7-2.el8.2.x86_64                     51/199
+  Installing       : libffi-3.1-23.el8.x86_64                            52/199
+  Installing       : p11-kit-0.23.22-1.el8.x86_64                        53/199
+  Installing       : lz4-libs-1.8.3-3.el8_4.x86_64                       54/199
+  Installing       : findutils-1:4.6.0-20.el8.x86_64                     55/199
+  Running scriptlet: findutils-1:4.6.0-20.el8.x86_64                     55/199
+  Installing       : libgomp-8.5.0-10.el8.x86_64                         56/199
+  Running scriptlet: libgomp-8.5.0-10.el8.x86_64                         56/199
+  Installing       : libksba-1.3.5-7.el8.x86_64                          57/199
+  Installing       : grub2-common-1:2.02-123.el8.noarch                  58/199
+  Installing       : gdbm-libs-1:1.18-1.el8.x86_64                       59/199
+  Installing       : keyutils-libs-1.5.10-9.el8.x86_64                   60/199
+  Installing       : libtasn1-4.13-3.el8.x86_64                          61/199
+  Running scriptlet: libtasn1-4.13-3.el8.x86_64                          61/199
+  Installing       : p11-kit-trust-0.23.22-1.el8.x86_64                  62/199
+  Running scriptlet: p11-kit-trust-0.23.22-1.el8.x86_64                  62/199
+  Installing       : pcre-8.42-6.el8.x86_64                              63/199
+  Installing       : grep-3.1-6.el8.x86_64                               64/199
+  Running scriptlet: grep-3.1-6.el8.x86_64                               64/199
+  Installing       : xz-5.2.4-3.el8.x86_64                               65/199
+  Installing       : gdbm-1:1.18-1.el8.x86_64                            66/199
+  Installing       : libsemanage-2.9-8.el8.x86_64                        67/199
+  Installing       : acl-2.2.53-1.el8.x86_64                             68/199
+  Installing       : file-5.33-20.el8.x86_64                             69/199
+  Installing       : libpsl-0.20.2-6.el8.x86_64                          70/199
+  Installing       : mpfr-3.1.6-1.el8.x86_64                             71/199
+  Running scriptlet: mpfr-3.1.6-1.el8.x86_64                             71/199
+  Installing       : nettle-3.4.1-7.el8.x86_64                           72/199
+  Running scriptlet: nettle-3.4.1-7.el8.x86_64                           72/199
+  Installing       : gnutls-3.6.16-4.el8.x86_64                          73/199
+  Installing       : libcomps-0.1.18-1.el8.x86_64                        74/199
+  Installing       : coreutils-common-8.30-12.el8.x86_64                 75/199
+  Running scriptlet: coreutils-common-8.30-12.el8.x86_64                 75/199
+  Installing       : elfutils-default-yama-scope-0.186-1.el8.noarch      76/199
+  Running scriptlet: elfutils-default-yama-scope-0.186-1.el8.noarch      76/199
+  Installing       : elfutils-libs-0.186-1.el8.x86_64                    77/199
+  Installing       : brotli-1.0.6-3.el8.x86_64                           78/199
+  Installing       : cpio-2.12-11.el8.x86_64                             79/199
+  Installing       : libnghttp2-1.33.0-3.el8_2.1.x86_64                  80/199
+  Installing       : libseccomp-2.5.2-1.el8.x86_64                       81/199
+  Running scriptlet: libseccomp-2.5.2-1.el8.x86_64                       81/199
+  Installing       : libsigsegv-2.11-5.el8.x86_64                        82/199
+  Installing       : gawk-4.2.1-4.el8.x86_64                             83/199
+  Installing       : libverto-0.3.0-5.el8.x86_64                         84/199
+  Installing       : libyaml-0.1.7-5.el8.x86_64                          85/199
+  Installing       : ncurses-6.1-9.20180224.el8.x86_64                   86/199
+  Installing       : openssl-libs-1:1.1.1k-6.el8_5.x86_64                87/199
+  Running scriptlet: openssl-libs-1:1.1.1k-6.el8_5.x86_64                87/199
+  Installing       : coreutils-8.30-12.el8.x86_64                        88/199
+  Running scriptlet: ca-certificates-2021.2.50-80.0.el8_4.noarch         89/199
+  Installing       : ca-certificates-2021.2.50-80.0.el8_4.noarch         89/199
+  Running scriptlet: ca-certificates-2021.2.50-80.0.el8_4.noarch         89/199
+  Installing       : libdb-5.3.28-42.el8_4.x86_64                        90/199
+  Running scriptlet: libdb-5.3.28-42.el8_4.x86_64                        90/199
+  Installing       : libblkid-2.32.1-35.el8.x86_64                       91/199
+  Running scriptlet: libblkid-2.32.1-35.el8.x86_64                       91/199
+  Installing       : shadow-utils-2:4.6-16.el8.x86_64                    92/199
+  Installing       : libmount-2.32.1-35.el8.x86_64                       93/199
+  Running scriptlet: libmount-2.32.1-35.el8.x86_64                       93/199
+  Installing       : glib2-2.56.4-158.el8.x86_64                         94/199
+  Installing       : systemd-libs-239-58.el8.x86_64                      95/199
+  Running scriptlet: systemd-libs-239-58.el8.x86_64                      95/199
+  Installing       : dbus-libs-1:1.12.8-18.el8.x86_64                    96/199
+  Running scriptlet: dbus-libs-1:1.12.8-18.el8.x86_64                    96/199
+  Installing       : json-glib-1.4.4-1.el8.x86_64                        97/199
+  Installing       : krb5-libs-1.18.2-14.el8.x86_64                      98/199
+  Installing       : libtirpc-1.1.4-6.el8.x86_64                         99/199
+  Running scriptlet: libtirpc-1.1.4-6.el8.x86_64                         99/199
+  Installing       : librhsm-0.0.3-4.el8.x86_64                         100/199
+  Installing       : kmod-25-19.el8.x86_64                              101/199
+  Installing       : kmod-libs-25-19.el8.x86_64                         102/199
+  Running scriptlet: kmod-libs-25-19.el8.x86_64                         102/199
+  Installing       : libnsl2-1.2.0-2.20180605git4a062cf.el8.x86_64      103/199
+  Running scriptlet: libnsl2-1.2.0-2.20180605git4a062cf.el8.x86_64      103/199
+  Installing       : platform-python-setuptools-39.2.0-6.el8.noarch     104/199
+  Installing       : platform-python-3.6.8-45.el8.x86_64                105/199
+  Running scriptlet: platform-python-3.6.8-45.el8.x86_64                105/199
+  Installing       : python3-libs-3.6.8-45.el8.x86_64                   106/199
+  Installing       : libcroco-0.6.12-4.el8_2.1.x86_64                   107/199
+  Running scriptlet: libcroco-0.6.12-4.el8_2.1.x86_64                   107/199
+  Installing       : gzip-1.9-12.el8.x86_64                             108/199
+  Running scriptlet: gzip-1.9-12.el8.x86_64                             108/199
+  Installing       : cracklib-2.9.6-15.el8.x86_64                       109/199
+  Installing       : libevent-2.1.8-5.el8.x86_64                        110/199
+  Installing       : cracklib-dicts-2.9.6-15.el8.x86_64                 111/199
+  Installing       : libpwquality-1.4.4-3.el8.x86_64                    112/199
+  Installing       : pam-1.3.1-16.el8.x86_64                            113/199
+  Running scriptlet: pam-1.3.1-16.el8.x86_64                            113/199
+  Installing       : gettext-libs-0.19.8.1-17.el8.x86_64                114/199
+  Installing       : gettext-0.19.8.1-17.el8.x86_64                     115/199
+  Running scriptlet: gettext-0.19.8.1-17.el8.x86_64                     115/199
+  Installing       : python3-libcomps-0.1.18-1.el8.x86_64               116/199
+  Installing       : python3-six-1.11.0-8.el8.noarch                    117/199
+  Installing       : python3-dateutil-1:2.6.1-6.el8.noarch              118/199
+  Installing       : cyrus-sasl-lib-2.1.27-6.el8_5.x86_64               119/199
+  Running scriptlet: cyrus-sasl-lib-2.1.27-6.el8_5.x86_64               119/199
+  Installing       : openldap-2.4.46-18.el8.x86_64                      120/199
+  Installing       : dbus-glib-0.110-2.el8.x86_64                       121/199
+  Running scriptlet: dbus-glib-0.110-2.el8.x86_64                       121/199
+  Installing       : python3-dbus-1.2.4-15.el8.x86_64                   122/199
+  Installing       : dbus-tools-1:1.12.8-18.el8.x86_64                  123/199
+  Installing       : libusbx-1.0.23-4.el8.x86_64                        124/199
+  Installing       : procps-ng-3.3.15-6.el8.x86_64                      125/199
+  Installing       : libsecret-0.18.6-1.el8.x86_64                      126/199
+  Running scriptlet: libutempter-1.1.6-14.el8.x86_64                    127/199
+  Installing       : libutempter-1.1.6-14.el8.x86_64                    127/199
+  Running scriptlet: tpm2-tss-2.3.2-4.el8.x86_64                        128/199
+  Installing       : tpm2-tss-2.3.2-4.el8.x86_64                        128/199
+  Running scriptlet: tpm2-tss-2.3.2-4.el8.x86_64                        128/199
+  Installing       : ima-evm-utils-1.3.2-12.el8.x86_64                  129/199
+  Installing       : libfdisk-2.32.1-35.el8.x86_64                      130/199
+  Running scriptlet: libfdisk-2.32.1-35.el8.x86_64                      130/199
+  Installing       : util-linux-2.32.1-35.el8.x86_64                    131/199
+  Running scriptlet: util-linux-2.32.1-35.el8.x86_64                    131/199
+  Installing       : device-mapper-8:1.02.181-3.el8.x86_64              132/199
+  Installing       : device-mapper-libs-8:1.02.181-3.el8.x86_64         133/199
+  Installing       : cryptsetup-libs-2.3.7-2.el8.x86_64                 134/199
+  Running scriptlet: cryptsetup-libs-2.3.7-2.el8.x86_64                 134/199
+  Installing       : dbus-common-1:1.12.8-18.el8.noarch                 135/199
+  Running scriptlet: dbus-daemon-1:1.12.8-18.el8.x86_64                 136/199
+  Installing       : dbus-daemon-1:1.12.8-18.el8.x86_64                 136/199
+  Running scriptlet: dbus-daemon-1:1.12.8-18.el8.x86_64                 136/199
+  Installing       : systemd-pam-239-58.el8.x86_64                      137/199
+  Running scriptlet: systemd-239-58.el8.x86_64                          138/199
+  Installing       : systemd-239-58.el8.x86_64                          138/199
+  Running scriptlet: systemd-239-58.el8.x86_64                          138/199
+  Installing       : dbus-1:1.12.8-18.el8.x86_64                        139/199
+  Installing       : systemd-udev-239-58.el8.x86_64                     140/199
+  Running scriptlet: systemd-udev-239-58.el8.x86_64                     140/199
+Failed to open /dev/urandom: No such file or directory
+
+  Installing       : os-prober-1.74-9.el8.x86_64                        141/199
+  Running scriptlet: unbound-libs-1.7.3-17.el8.x86_64                   142/199
+  Installing       : unbound-libs-1.7.3-17.el8.x86_64                   142/199
+  Running scriptlet: unbound-libs-1.7.3-17.el8.x86_64                   142/199
+  Installing       : libkcapi-1.2.0-2.el8.x86_64                        143/199
+  Installing       : libkcapi-hmaccalc-1.2.0-2.el8.x86_64               144/199
+  Installing       : dracut-049-201.git20220131.el8.x86_64              145/199
+  Installing       : grub2-tools-minimal-1:2.02-123.el8.x86_64          146/199
+  Installing       : libdb-utils-5.3.28-42.el8_4.x86_64                 147/199
+  Installing       : openssl-1:1.1.1k-6.el8_5.x86_64                    148/199
+  Installing       : which-2.21-17.el8.x86_64                           149/199
+  Installing       : libarchive-3.3.3-3.el8_5.x86_64                    150/199
+  Installing       : trousers-lib-0.3.15-1.el8.x86_64                   151/199
+  Running scriptlet: trousers-lib-0.3.15-1.el8.x86_64                   151/199
+  Installing       : npth-1.5-4.el8.x86_64                              152/199
+  Installing       : gnupg2-2.2.20-2.el8.x86_64                         153/199
+  Installing       : gpgme-1.13.1-11.el8.x86_64                         154/199
+  Installing       : python3-gpg-1.13.1-11.el8.x86_64                   155/199
+  Installing       : libssh-config-0.9.6-3.el8.noarch                   156/199
+  Installing       : libssh-0.9.6-3.el8.x86_64                          157/199
+  Installing       : libcurl-7.61.1-22.el8.x86_64                       158/199
+  Installing       : librepo-1.14.2-1.el8.x86_64                        159/199
+  Installing       : curl-7.61.1-22.el8.x86_64                          160/199
+  Installing       : rpm-4.14.3-23.el8.x86_64                           161/199
+  Installing       : rpm-libs-4.14.3-23.el8.x86_64                      162/199
+  Running scriptlet: rpm-libs-4.14.3-23.el8.x86_64                      162/199
+  Installing       : libmodulemd-2.13.0-1.el8.x86_64                    163/199
+  Installing       : libsolv-0.7.20-1.el8.x86_64                        164/199
+  Installing       : libdnf-0.63.0-8.el8.x86_64                         165/199
+  Installing       : python3-libdnf-0.63.0-8.el8.x86_64                 166/199
+  Installing       : python3-hawkey-0.63.0-8.el8.x86_64                 167/199
+  Running scriptlet: grub2-tools-1:2.02-123.el8.x86_64                  168/199
+  Installing       : grub2-tools-1:2.02-123.el8.x86_64                  168/199
+  Running scriptlet: grub2-tools-1:2.02-123.el8.x86_64                  168/199
+  Installing       : rpm-build-libs-4.14.3-23.el8.x86_64                169/199
+  Running scriptlet: rpm-build-libs-4.14.3-23.el8.x86_64                169/199
+  Installing       : python3-rpm-4.14.3-23.el8.x86_64                   170/199
+  Installing       : libreport-filesystem-2.9.5-15.el8.x86_64           171/199
+  Installing       : dnf-data-4.7.0-8.el8.noarch                        172/199
+  Installing       : python3-dnf-4.7.0-8.el8.noarch                     173/199
+  Installing       : python3-dnf-plugins-core-4.0.21-11.el8.noarch      174/199
+  Installing       : kbd-misc-2.0.4-10.el8.noarch                       175/199
+  Installing       : kbd-legacy-2.0.4-10.el8.noarch                     176/199
+  Installing       : xkeyboard-config-2.28-1.el8.noarch                 177/199
+  Installing       : libxkbcommon-0.9.1-1.el8.x86_64                    178/199
+  Installing       : kbd-2.0.4-10.el8.x86_64                            179/199
+  Installing       : dnf-plugins-core-4.0.21-11.el8.noarch              180/199
+  Installing       : dnf-4.7.0-8.el8.noarch                             181/199
+  Running scriptlet: dnf-4.7.0-8.el8.noarch                             181/199
+  Installing       : grubby-8.40-42.el8.x86_64                          182/199
+  Installing       : rpm-plugin-systemd-inhibit-4.14.3-23.el8.x86_64    183/199
+  Installing       : elfutils-debuginfod-client-0.186-1.el8.x86_64      184/199
+  Installing       : gnupg2-smime-2.2.20-2.el8.x86_64                   185/199
+  Running scriptlet: trousers-0.3.15-1.el8.x86_64                       186/199
+  Installing       : trousers-0.3.15-1.el8.x86_64                       186/199
+  Running scriptlet: trousers-0.3.15-1.el8.x86_64                       186/199
+  Installing       : openssl-pkcs11-0.4.10-2.el8.x86_64                 187/199
+  Installing       : python3-unbound-1.7.3-17.el8.x86_64                188/199
+  Installing       : kpartx-0.8.4-22.el8.x86_64                         189/199
+  Installing       : pinentry-1.1.0-2.el8.x86_64                        190/199
+  Running scriptlet: pinentry-1.1.0-2.el8.x86_64                        190/199
+  Installing       : crypto-policies-scripts-20211116-1.gitae470d6.el   191/199
+  Installing       : platform-python-pip-9.0.3-22.el8.noarch            192/199
+  Installing       : shared-mime-info-1.9-3.el8.x86_64                  193/199
+  Running scriptlet: shared-mime-info-1.9-3.el8.x86_64                  193/199
+  Installing       : diffutils-3.6-6.el8.x86_64                         194/199
+  Running scriptlet: diffutils-3.6-6.el8.x86_64                         194/199
+  Installing       : pigz-2.4-4.el8.x86_64                              195/199
+  Installing       : glibc-gconv-extra-2.28-189.1.el8.x86_64            196/199
+  Running scriptlet: glibc-gconv-extra-2.28-189.1.el8.x86_64            196/199
+  Installing       : hardlink-1:1.3-6.el8.x86_64                        197/199
+  Installing       : memstrack-0.1.11-1.el8.x86_64                      198/199
+  Installing       : redhat-release-eula-8.6-0.1.el8.x86_64             199/199
+  Running scriptlet: filesystem-3.8-6.el8.x86_64                        199/199
+  Running scriptlet: glibc-all-langpacks-2.28-189.1.el8.x86_64          199/199
+  Running scriptlet: ca-certificates-2021.2.50-80.0.el8_4.noarch        199/199
+  Running scriptlet: crypto-policies-scripts-20211116-1.gitae470d6.el   199/199
+  Verifying        : glibc-gconv-extra-2.28-189.1.el8.x86_64              1/199
+  Verifying        : libxkbcommon-0.9.1-1.el8.x86_64                      2/199
+  Verifying        : pinentry-1.1.0-2.el8.x86_64                          3/199
+  Verifying        : python3-unbound-1.7.3-17.el8.x86_64                  4/199
+  Verifying        : unbound-libs-1.7.3-17.el8.x86_64                     5/199
+  Verifying        : xkeyboard-config-2.28-1.el8.noarch                   6/199
+  Verifying        : acl-2.2.53-1.el8.x86_64                              7/199
+  Verifying        : audit-libs-3.0.7-2.el8.2.x86_64                      8/199
+  Verifying        : basesystem-11-5.el8.noarch                           9/199
+  Verifying        : bash-4.4.20-3.el8.x86_64                            10/199
+  Verifying        : brotli-1.0.6-3.el8.x86_64                           11/199
+  Verifying        : bzip2-libs-1.0.6-26.el8.x86_64                      12/199
+  Verifying        : ca-certificates-2021.2.50-80.0.el8_4.noarch         13/199
+  Verifying        : chkconfig-1.19.1-1.el8.x86_64                       14/199
+  Verifying        : coreutils-8.30-12.el8.x86_64                        15/199
+  Verifying        : coreutils-common-8.30-12.el8.x86_64                 16/199
+  Verifying        : cpio-2.12-11.el8.x86_64                             17/199
+  Verifying        : cracklib-2.9.6-15.el8.x86_64                        18/199
+  Verifying        : cracklib-dicts-2.9.6-15.el8.x86_64                  19/199
+  Verifying        : crypto-policies-20211116-1.gitae470d6.el8.noarch    20/199
+  Verifying        : crypto-policies-scripts-20211116-1.gitae470d6.el    21/199
+  Verifying        : cryptsetup-libs-2.3.7-2.el8.x86_64                  22/199
+  Verifying        : curl-7.61.1-22.el8.x86_64                           23/199
+  Verifying        : cyrus-sasl-lib-2.1.27-6.el8_5.x86_64                24/199
+  Verifying        : dbus-1:1.12.8-18.el8.x86_64                         25/199
+  Verifying        : dbus-common-1:1.12.8-18.el8.noarch                  26/199
+  Verifying        : dbus-daemon-1:1.12.8-18.el8.x86_64                  27/199
+  Verifying        : dbus-glib-0.110-2.el8.x86_64                        28/199
+  Verifying        : dbus-libs-1:1.12.8-18.el8.x86_64                    29/199
+  Verifying        : dbus-tools-1:1.12.8-18.el8.x86_64                   30/199
+  Verifying        : device-mapper-8:1.02.181-3.el8.x86_64               31/199
+  Verifying        : device-mapper-libs-8:1.02.181-3.el8.x86_64          32/199
+  Verifying        : diffutils-3.6-6.el8.x86_64                          33/199
+  Verifying        : dnf-4.7.0-8.el8.noarch                              34/199
+  Verifying        : dnf-data-4.7.0-8.el8.noarch                         35/199
+  Verifying        : dnf-plugins-core-4.0.21-11.el8.noarch               36/199
+  Verifying        : dracut-049-201.git20220131.el8.x86_64               37/199
+  Verifying        : elfutils-debuginfod-client-0.186-1.el8.x86_64       38/199
+  Verifying        : elfutils-default-yama-scope-0.186-1.el8.noarch      39/199
+  Verifying        : elfutils-libelf-0.186-1.el8.x86_64                  40/199
+  Verifying        : elfutils-libs-0.186-1.el8.x86_64                    41/199
+  Verifying        : expat-2.2.5-8.el8.x86_64                            42/199
+  Verifying        : file-5.33-20.el8.x86_64                             43/199
+  Verifying        : file-libs-5.33-20.el8.x86_64                        44/199
+  Verifying        : filesystem-3.8-6.el8.x86_64                         45/199
+  Verifying        : findutils-1:4.6.0-20.el8.x86_64                     46/199
+  Verifying        : gawk-4.2.1-4.el8.x86_64                             47/199
+  Verifying        : gdbm-1:1.18-1.el8.x86_64                            48/199
+  Verifying        : gdbm-libs-1:1.18-1.el8.x86_64                       49/199
+  Verifying        : gettext-0.19.8.1-17.el8.x86_64                      50/199
+  Verifying        : gettext-libs-0.19.8.1-17.el8.x86_64                 51/199
+  Verifying        : glib2-2.56.4-158.el8.x86_64                         52/199
+  Verifying        : glibc-2.28-189.1.el8.x86_64                         53/199
+  Verifying        : glibc-all-langpacks-2.28-189.1.el8.x86_64           54/199
+  Verifying        : glibc-common-2.28-189.1.el8.x86_64                  55/199
+  Verifying        : gmp-1:6.1.2-10.el8.x86_64                           56/199
+  Verifying        : gnupg2-2.2.20-2.el8.x86_64                          57/199
+  Verifying        : gnupg2-smime-2.2.20-2.el8.x86_64                    58/199
+  Verifying        : gnutls-3.6.16-4.el8.x86_64                          59/199
+  Verifying        : gpgme-1.13.1-11.el8.x86_64                          60/199
+  Verifying        : grep-3.1-6.el8.x86_64                               61/199
+  Verifying        : grub2-common-1:2.02-123.el8.noarch                  62/199
+  Verifying        : grub2-tools-1:2.02-123.el8.x86_64                   63/199
+  Verifying        : grub2-tools-minimal-1:2.02-123.el8.x86_64           64/199
+  Verifying        : grubby-8.40-42.el8.x86_64                           65/199
+  Verifying        : gzip-1.9-12.el8.x86_64                              66/199
+  Verifying        : hardlink-1:1.3-6.el8.x86_64                         67/199
+  Verifying        : ima-evm-utils-1.3.2-12.el8.x86_64                   68/199
+  Verifying        : info-6.5-7.el8.x86_64                               69/199
+  Verifying        : json-c-0.13.1-3.el8.x86_64                          70/199
+  Verifying        : json-glib-1.4.4-1.el8.x86_64                        71/199
+  Verifying        : kbd-2.0.4-10.el8.x86_64                             72/199
+  Verifying        : kbd-legacy-2.0.4-10.el8.noarch                      73/199
+  Verifying        : kbd-misc-2.0.4-10.el8.noarch                        74/199
+  Verifying        : keyutils-libs-1.5.10-9.el8.x86_64                   75/199
+  Verifying        : kmod-25-19.el8.x86_64                               76/199
+  Verifying        : kmod-libs-25-19.el8.x86_64                          77/199
+  Verifying        : kpartx-0.8.4-22.el8.x86_64                          78/199
+  Verifying        : krb5-libs-1.18.2-14.el8.x86_64                      79/199
+  Verifying        : libacl-2.2.53-1.el8.x86_64                          80/199
+  Verifying        : libarchive-3.3.3-3.el8_5.x86_64                     81/199
+  Verifying        : libassuan-2.5.1-3.el8.x86_64                        82/199
+  Verifying        : libattr-2.4.48-3.el8.x86_64                         83/199
+  Verifying        : libblkid-2.32.1-35.el8.x86_64                       84/199
+  Verifying        : libcap-2.48-2.el8.x86_64                            85/199
+  Verifying        : libcap-ng-0.7.11-1.el8.x86_64                       86/199
+  Verifying        : libcom_err-1.45.6-4.el8.x86_64                      87/199
+  Verifying        : libcomps-0.1.18-1.el8.x86_64                        88/199
+  Verifying        : libcroco-0.6.12-4.el8_2.1.x86_64                    89/199
+  Verifying        : libcurl-7.61.1-22.el8.x86_64                        90/199
+  Verifying        : libdb-5.3.28-42.el8_4.x86_64                        91/199
+  Verifying        : libdb-utils-5.3.28-42.el8_4.x86_64                  92/199
+  Verifying        : libdnf-0.63.0-8.el8.x86_64                          93/199
+  Verifying        : libevent-2.1.8-5.el8.x86_64                         94/199
+  Verifying        : libfdisk-2.32.1-35.el8.x86_64                       95/199
+  Verifying        : libffi-3.1-23.el8.x86_64                            96/199
+  Verifying        : libgcc-8.5.0-10.el8.x86_64                          97/199
+  Verifying        : libgcrypt-1.8.5-6.el8.x86_64                        98/199
+  Verifying        : libgomp-8.5.0-10.el8.x86_64                         99/199
+  Verifying        : libgpg-error-1.31-1.el8.x86_64                     100/199
+  Verifying        : libidn2-2.2.0-1.el8.x86_64                         101/199
+  Verifying        : libkcapi-1.2.0-2.el8.x86_64                        102/199
+  Verifying        : libkcapi-hmaccalc-1.2.0-2.el8.x86_64               103/199
+  Verifying        : libksba-1.3.5-7.el8.x86_64                         104/199
+  Verifying        : libmodulemd-2.13.0-1.el8.x86_64                    105/199
+  Verifying        : libmount-2.32.1-35.el8.x86_64                      106/199
+  Verifying        : libnghttp2-1.33.0-3.el8_2.1.x86_64                 107/199
+  Verifying        : libnsl2-1.2.0-2.20180605git4a062cf.el8.x86_64      108/199
+  Verifying        : libpsl-0.20.2-6.el8.x86_64                         109/199
+  Verifying        : libpwquality-1.4.4-3.el8.x86_64                    110/199
+  Verifying        : librepo-1.14.2-1.el8.x86_64                        111/199
+  Verifying        : libreport-filesystem-2.9.5-15.el8.x86_64           112/199
+  Verifying        : librhsm-0.0.3-4.el8.x86_64                         113/199
+  Verifying        : libseccomp-2.5.2-1.el8.x86_64                      114/199
+  Verifying        : libsecret-0.18.6-1.el8.x86_64                      115/199
+  Verifying        : libselinux-2.9-5.el8.x86_64                        116/199
+  Verifying        : libsemanage-2.9-8.el8.x86_64                       117/199
+  Verifying        : libsepol-2.9-3.el8.x86_64                          118/199
+  Verifying        : libsigsegv-2.11-5.el8.x86_64                       119/199
+  Verifying        : libsmartcols-2.32.1-35.el8.x86_64                  120/199
+  Verifying        : libsolv-0.7.20-1.el8.x86_64                        121/199
+  Verifying        : libssh-0.9.6-3.el8.x86_64                          122/199
+  Verifying        : libssh-config-0.9.6-3.el8.noarch                   123/199
+  Verifying        : libstdc++-8.5.0-10.el8.x86_64                      124/199
+  Verifying        : libtasn1-4.13-3.el8.x86_64                         125/199
+  Verifying        : libtirpc-1.1.4-6.el8.x86_64                        126/199
+  Verifying        : libunistring-0.9.9-3.el8.x86_64                    127/199
+  Verifying        : libusbx-1.0.23-4.el8.x86_64                        128/199
+  Verifying        : libutempter-1.1.6-14.el8.x86_64                    129/199
+  Verifying        : libuuid-2.32.1-35.el8.x86_64                       130/199
+  Verifying        : libverto-0.3.0-5.el8.x86_64                        131/199
+  Verifying        : libxcrypt-4.1.1-6.el8.x86_64                       132/199
+  Verifying        : libxml2-2.9.7-13.el8.x86_64                        133/199
+  Verifying        : libyaml-0.1.7-5.el8.x86_64                         134/199
+  Verifying        : libzstd-1.4.4-1.el8.x86_64                         135/199
+  Verifying        : lua-libs-5.3.4-12.el8.x86_64                       136/199
+  Verifying        : lz4-libs-1.8.3-3.el8_4.x86_64                      137/199
+  Verifying        : memstrack-0.1.11-1.el8.x86_64                      138/199
+  Verifying        : mpfr-3.1.6-1.el8.x86_64                            139/199
+  Verifying        : ncurses-6.1-9.20180224.el8.x86_64                  140/199
+  Verifying        : ncurses-base-6.1-9.20180224.el8.noarch             141/199
+  Verifying        : ncurses-libs-6.1-9.20180224.el8.x86_64             142/199
+  Verifying        : nettle-3.4.1-7.el8.x86_64                          143/199
+  Verifying        : npth-1.5-4.el8.x86_64                              144/199
+  Verifying        : openldap-2.4.46-18.el8.x86_64                      145/199
+  Verifying        : openssl-1:1.1.1k-6.el8_5.x86_64                    146/199
+  Verifying        : openssl-libs-1:1.1.1k-6.el8_5.x86_64               147/199
+  Verifying        : openssl-pkcs11-0.4.10-2.el8.x86_64                 148/199
+  Verifying        : os-prober-1.74-9.el8.x86_64                        149/199
+  Verifying        : p11-kit-0.23.22-1.el8.x86_64                       150/199
+  Verifying        : p11-kit-trust-0.23.22-1.el8.x86_64                 151/199
+  Verifying        : pam-1.3.1-16.el8.x86_64                            152/199
+  Verifying        : pcre-8.42-6.el8.x86_64                             153/199
+  Verifying        : pcre2-10.32-2.el8.x86_64                           154/199
+  Verifying        : pigz-2.4-4.el8.x86_64                              155/199
+  Verifying        : platform-python-3.6.8-45.el8.x86_64                156/199
+  Verifying        : platform-python-pip-9.0.3-22.el8.noarch            157/199
+  Verifying        : platform-python-setuptools-39.2.0-6.el8.noarch     158/199
+  Verifying        : popt-1.18-1.el8.x86_64                             159/199
+  Verifying        : procps-ng-3.3.15-6.el8.x86_64                      160/199
+  Verifying        : publicsuffix-list-dafsa-20180723-1.el8.noarch      161/199
+  Verifying        : python3-dateutil-1:2.6.1-6.el8.noarch              162/199
+  Verifying        : python3-dbus-1.2.4-15.el8.x86_64                   163/199
+  Verifying        : python3-dnf-4.7.0-8.el8.noarch                     164/199
+  Verifying        : python3-dnf-plugins-core-4.0.21-11.el8.noarch      165/199
+  Verifying        : python3-gpg-1.13.1-11.el8.x86_64                   166/199
+  Verifying        : python3-hawkey-0.63.0-8.el8.x86_64                 167/199
+  Verifying        : python3-libcomps-0.1.18-1.el8.x86_64               168/199
+  Verifying        : python3-libdnf-0.63.0-8.el8.x86_64                 169/199
+  Verifying        : python3-libs-3.6.8-45.el8.x86_64                   170/199
+  Verifying        : python3-pip-wheel-9.0.3-22.el8.noarch              171/199
+  Verifying        : python3-rpm-4.14.3-23.el8.x86_64                   172/199
+  Verifying        : python3-setuptools-wheel-39.2.0-6.el8.noarch       173/199
+  Verifying        : python3-six-1.11.0-8.el8.noarch                    174/199
+  Verifying        : readline-7.0-10.el8.x86_64                         175/199
+  Verifying        : redhat-release-8.6-0.1.el8.x86_64                  176/199
+  Verifying        : redhat-release-eula-8.6-0.1.el8.x86_64             177/199
+  Verifying        : rpm-4.14.3-23.el8.x86_64                           178/199
+  Verifying        : rpm-build-libs-4.14.3-23.el8.x86_64                179/199
+  Verifying        : rpm-libs-4.14.3-23.el8.x86_64                      180/199
+  Verifying        : rpm-plugin-systemd-inhibit-4.14.3-23.el8.x86_64    181/199
+  Verifying        : sed-4.5-5.el8.x86_64                               182/199
+  Verifying        : setup-2.12.2-6.el8.noarch                          183/199
+  Verifying        : shadow-utils-2:4.6-16.el8.x86_64                   184/199
+  Verifying        : shared-mime-info-1.9-3.el8.x86_64                  185/199
+  Verifying        : sqlite-libs-3.26.0-15.el8.x86_64                   186/199
+  Verifying        : systemd-239-58.el8.x86_64                          187/199
+  Verifying        : systemd-libs-239-58.el8.x86_64                     188/199
+  Verifying        : systemd-pam-239-58.el8.x86_64                      189/199
+  Verifying        : systemd-udev-239-58.el8.x86_64                     190/199
+  Verifying        : tpm2-tss-2.3.2-4.el8.x86_64                        191/199
+  Verifying        : trousers-0.3.15-1.el8.x86_64                       192/199
+  Verifying        : trousers-lib-0.3.15-1.el8.x86_64                   193/199
+  Verifying        : tzdata-2022a-1.el8.noarch                          194/199
+  Verifying        : util-linux-2.32.1-35.el8.x86_64                    195/199
+  Verifying        : which-2.21-17.el8.x86_64                           196/199
+  Verifying        : xz-5.2.4-3.el8.x86_64                              197/199
+  Verifying        : xz-libs-5.2.4-3.el8.x86_64                         198/199
+  Verifying        : zlib-1.2.11-18.el8_5.x86_64                        199/199
+
+Installed:
+  dnf-4.7.0-8.el8.noarch
+  dnf-plugins-core-4.0.21-11.el8.noarch
+  glibc-gconv-extra-2.28-189.1.el8.x86_64
+  libxkbcommon-0.9.1-1.el8.x86_64
+  pinentry-1.1.0-2.el8.x86_64
+  python3-unbound-1.7.3-17.el8.x86_64
+  crypto-policies-scripts-20211116-1.gitae470d6.el8.noarch
+  diffutils-3.6-6.el8.x86_64
+  elfutils-debuginfod-client-0.186-1.el8.x86_64
+  gnupg2-smime-2.2.20-2.el8.x86_64
+  grubby-8.40-42.el8.x86_64
+  hardlink-1:1.3-6.el8.x86_64
+  kbd-2.0.4-10.el8.x86_64
+  kpartx-0.8.4-22.el8.x86_64
+  memstrack-0.1.11-1.el8.x86_64
+  openssl-pkcs11-0.4.10-2.el8.x86_64
+  pigz-2.4-4.el8.x86_64
+  platform-python-pip-9.0.3-22.el8.noarch
+  redhat-release-eula-8.6-0.1.el8.x86_64
+  rpm-plugin-systemd-inhibit-4.14.3-23.el8.x86_64
+  shared-mime-info-1.9-3.el8.x86_64
+  systemd-239-58.el8.x86_64
+  trousers-0.3.15-1.el8.x86_64
+  unbound-libs-1.7.3-17.el8.x86_64
+  xkeyboard-config-2.28-1.el8.noarch
+  acl-2.2.53-1.el8.x86_64
+  audit-libs-3.0.7-2.el8.2.x86_64
+  basesystem-11-5.el8.noarch
+  bash-4.4.20-3.el8.x86_64
+  brotli-1.0.6-3.el8.x86_64
+  bzip2-libs-1.0.6-26.el8.x86_64
+  ca-certificates-2021.2.50-80.0.el8_4.noarch
+  chkconfig-1.19.1-1.el8.x86_64
+  coreutils-8.30-12.el8.x86_64
+  coreutils-common-8.30-12.el8.x86_64
+  cpio-2.12-11.el8.x86_64
+  cracklib-2.9.6-15.el8.x86_64
+  cracklib-dicts-2.9.6-15.el8.x86_64
+  crypto-policies-20211116-1.gitae470d6.el8.noarch
+  cryptsetup-libs-2.3.7-2.el8.x86_64
+  curl-7.61.1-22.el8.x86_64
+  cyrus-sasl-lib-2.1.27-6.el8_5.x86_64
+  dbus-1:1.12.8-18.el8.x86_64
+  dbus-common-1:1.12.8-18.el8.noarch
+  dbus-daemon-1:1.12.8-18.el8.x86_64
+  dbus-glib-0.110-2.el8.x86_64
+  dbus-libs-1:1.12.8-18.el8.x86_64
+  dbus-tools-1:1.12.8-18.el8.x86_64
+  device-mapper-8:1.02.181-3.el8.x86_64
+  device-mapper-libs-8:1.02.181-3.el8.x86_64
+  dnf-data-4.7.0-8.el8.noarch
+  dracut-049-201.git20220131.el8.x86_64
+  elfutils-default-yama-scope-0.186-1.el8.noarch
+  elfutils-libelf-0.186-1.el8.x86_64
+  elfutils-libs-0.186-1.el8.x86_64
+  expat-2.2.5-8.el8.x86_64
+  file-5.33-20.el8.x86_64
+  file-libs-5.33-20.el8.x86_64
+  filesystem-3.8-6.el8.x86_64
+  findutils-1:4.6.0-20.el8.x86_64
+  gawk-4.2.1-4.el8.x86_64
+  gdbm-1:1.18-1.el8.x86_64
+  gdbm-libs-1:1.18-1.el8.x86_64
+  gettext-0.19.8.1-17.el8.x86_64
+  gettext-libs-0.19.8.1-17.el8.x86_64
+  glib2-2.56.4-158.el8.x86_64
+  glibc-2.28-189.1.el8.x86_64
+  glibc-all-langpacks-2.28-189.1.el8.x86_64
+  glibc-common-2.28-189.1.el8.x86_64
+  gmp-1:6.1.2-10.el8.x86_64
+  gnupg2-2.2.20-2.el8.x86_64
+  gnutls-3.6.16-4.el8.x86_64
+  gpgme-1.13.1-11.el8.x86_64
+  grep-3.1-6.el8.x86_64
+  grub2-common-1:2.02-123.el8.noarch
+  grub2-tools-1:2.02-123.el8.x86_64
+  grub2-tools-minimal-1:2.02-123.el8.x86_64
+  gzip-1.9-12.el8.x86_64
+  ima-evm-utils-1.3.2-12.el8.x86_64
+  info-6.5-7.el8.x86_64
+  json-c-0.13.1-3.el8.x86_64
+  json-glib-1.4.4-1.el8.x86_64
+  kbd-legacy-2.0.4-10.el8.noarch
+  kbd-misc-2.0.4-10.el8.noarch
+  keyutils-libs-1.5.10-9.el8.x86_64
+  kmod-25-19.el8.x86_64
+  kmod-libs-25-19.el8.x86_64
+  krb5-libs-1.18.2-14.el8.x86_64
+  libacl-2.2.53-1.el8.x86_64
+  libarchive-3.3.3-3.el8_5.x86_64
+  libassuan-2.5.1-3.el8.x86_64
+  libattr-2.4.48-3.el8.x86_64
+  libblkid-2.32.1-35.el8.x86_64
+  libcap-2.48-2.el8.x86_64
+  libcap-ng-0.7.11-1.el8.x86_64
+  libcom_err-1.45.6-4.el8.x86_64
+  libcomps-0.1.18-1.el8.x86_64
+  libcroco-0.6.12-4.el8_2.1.x86_64
+  libcurl-7.61.1-22.el8.x86_64
+  libdb-5.3.28-42.el8_4.x86_64
+  libdb-utils-5.3.28-42.el8_4.x86_64
+  libdnf-0.63.0-8.el8.x86_64
+  libevent-2.1.8-5.el8.x86_64
+  libfdisk-2.32.1-35.el8.x86_64
+  libffi-3.1-23.el8.x86_64
+  libgcc-8.5.0-10.el8.x86_64
+  libgcrypt-1.8.5-6.el8.x86_64
+  libgomp-8.5.0-10.el8.x86_64
+  libgpg-error-1.31-1.el8.x86_64
+  libidn2-2.2.0-1.el8.x86_64
+  libkcapi-1.2.0-2.el8.x86_64
+  libkcapi-hmaccalc-1.2.0-2.el8.x86_64
+  libksba-1.3.5-7.el8.x86_64
+  libmodulemd-2.13.0-1.el8.x86_64
+  libmount-2.32.1-35.el8.x86_64
+  libnghttp2-1.33.0-3.el8_2.1.x86_64
+  libnsl2-1.2.0-2.20180605git4a062cf.el8.x86_64
+  libpsl-0.20.2-6.el8.x86_64
+  libpwquality-1.4.4-3.el8.x86_64
+  librepo-1.14.2-1.el8.x86_64
+  libreport-filesystem-2.9.5-15.el8.x86_64
+  librhsm-0.0.3-4.el8.x86_64
+  libseccomp-2.5.2-1.el8.x86_64
+  libsecret-0.18.6-1.el8.x86_64
+  libselinux-2.9-5.el8.x86_64
+  libsemanage-2.9-8.el8.x86_64
+  libsepol-2.9-3.el8.x86_64
+  libsigsegv-2.11-5.el8.x86_64
+  libsmartcols-2.32.1-35.el8.x86_64
+  libsolv-0.7.20-1.el8.x86_64
+  libssh-0.9.6-3.el8.x86_64
+  libssh-config-0.9.6-3.el8.noarch
+  libstdc++-8.5.0-10.el8.x86_64
+  libtasn1-4.13-3.el8.x86_64
+  libtirpc-1.1.4-6.el8.x86_64
+  libunistring-0.9.9-3.el8.x86_64
+  libusbx-1.0.23-4.el8.x86_64
+  libutempter-1.1.6-14.el8.x86_64
+  libuuid-2.32.1-35.el8.x86_64
+  libverto-0.3.0-5.el8.x86_64
+  libxcrypt-4.1.1-6.el8.x86_64
+  libxml2-2.9.7-13.el8.x86_64
+  libyaml-0.1.7-5.el8.x86_64
+  libzstd-1.4.4-1.el8.x86_64
+  lua-libs-5.3.4-12.el8.x86_64
+  lz4-libs-1.8.3-3.el8_4.x86_64
+  mpfr-3.1.6-1.el8.x86_64
+  ncurses-6.1-9.20180224.el8.x86_64
+  ncurses-base-6.1-9.20180224.el8.noarch
+  ncurses-libs-6.1-9.20180224.el8.x86_64
+  nettle-3.4.1-7.el8.x86_64
+  npth-1.5-4.el8.x86_64
+  openldap-2.4.46-18.el8.x86_64
+  openssl-1:1.1.1k-6.el8_5.x86_64
+  openssl-libs-1:1.1.1k-6.el8_5.x86_64
+  os-prober-1.74-9.el8.x86_64
+  p11-kit-0.23.22-1.el8.x86_64
+  p11-kit-trust-0.23.22-1.el8.x86_64
+  pam-1.3.1-16.el8.x86_64
+  pcre-8.42-6.el8.x86_64
+  pcre2-10.32-2.el8.x86_64
+  platform-python-3.6.8-45.el8.x86_64
+  platform-python-setuptools-39.2.0-6.el8.noarch
+  popt-1.18-1.el8.x86_64
+  procps-ng-3.3.15-6.el8.x86_64
+  publicsuffix-list-dafsa-20180723-1.el8.noarch
+  python3-dateutil-1:2.6.1-6.el8.noarch
+  python3-dbus-1.2.4-15.el8.x86_64
+  python3-dnf-4.7.0-8.el8.noarch
+  python3-dnf-plugins-core-4.0.21-11.el8.noarch
+  python3-gpg-1.13.1-11.el8.x86_64
+  python3-hawkey-0.63.0-8.el8.x86_64
+  python3-libcomps-0.1.18-1.el8.x86_64
+  python3-libdnf-0.63.0-8.el8.x86_64
+  python3-libs-3.6.8-45.el8.x86_64
+  python3-pip-wheel-9.0.3-22.el8.noarch
+  python3-rpm-4.14.3-23.el8.x86_64
+  python3-setuptools-wheel-39.2.0-6.el8.noarch
+  python3-six-1.11.0-8.el8.noarch
+  readline-7.0-10.el8.x86_64
+  redhat-release-8.6-0.1.el8.x86_64
+  rpm-4.14.3-23.el8.x86_64
+  rpm-build-libs-4.14.3-23.el8.x86_64
+  rpm-libs-4.14.3-23.el8.x86_64
+  sed-4.5-5.el8.x86_64
+  setup-2.12.2-6.el8.noarch
+  shadow-utils-2:4.6-16.el8.x86_64
+  sqlite-libs-3.26.0-15.el8.x86_64
+  systemd-libs-239-58.el8.x86_64
+  systemd-pam-239-58.el8.x86_64
+  systemd-udev-239-58.el8.x86_64
+  tpm2-tss-2.3.2-4.el8.x86_64
+  trousers-lib-0.3.15-1.el8.x86_64
+  tzdata-2022a-1.el8.noarch
+  util-linux-2.32.1-35.el8.x86_64
+  which-2.21-17.el8.x86_64
+  xz-5.2.4-3.el8.x86_64
+  xz-libs-5.2.4-3.el8.x86_64
+  zlib-1.2.11-18.el8_5.x86_64
+
+Complete!
+==> Processing phase `TargetTransactionCheck`
+====> * report_set_target_release
+        Reports information related to the release set in the subscription-manager after the upgrade.
+====> * tmp_actor_to_satisfy_sanity_checks
+        The actor does NOTHING but satisfy static sanity checks
+====> * local_repos_inhibit
+        Inhibits the upgrade if local repositories were found.
+====> * dnf_transaction_check
+        This actor tries to solve the RPM transaction to verify the all package dependencies can be successfully resolved.
+Applying transaction workaround - yum config fix
+
+Last metadata expiration check: 0:01:42 ago on Fri Sep  9 09:30:33 2022.
+=========================================================================================================================
+ Package                                          Arch    Version                                     Repository     Size
+=========================================================================================================================
+Installing:
+ authselect-compat                                x86_64  1.2.2-3.el8                                 AppStream      38 k
+     replacing  authconfig.x86_64 6.2.8-30.el7
+ coreutils-common                                 x86_64  8.30-12.el8                                 BaseOS        2.0 M
+ dbus-common                                      noarch  1:1.12.8-18.el8                             BaseOS         46 k
+ dbus-daemon                                      x86_64  1:1.12.8-18.el8                             BaseOS        240 k
+ dbus-tools                                       x86_64  1:1.12.8-18.el8                             BaseOS         86 k
+ dhcp-client                                      x86_64  12:4.3.6-47.el8                             BaseOS        318 k
+     replacing  dhclient.x86_64 12:4.2.5-83.el7_9.1
+ dnf-plugin-spacewalk                             noarch  2.8.5-11.module+el8.1.0+3455+3ddf2832       AppStream      24 k
+ dracut-live                                      x86_64  049-201.git20220131.el8                     BaseOS         71 k
+ dracut-squash                                    x86_64  049-201.git20220131.el8                     BaseOS         62 k
+ efi-filesystem                                   noarch  3-3.el8                                     BaseOS        9.0 k
+ fuse-common                                      x86_64  3.3.0-15.el8                                BaseOS         22 k
+ gdbm-libs                                        x86_64  1:1.18-1.el8                                BaseOS         60 k
+ glibc-all-langpacks                              x86_64  2.28-189.1.el8                              BaseOS         25 M
+ glibc-locale-source                              x86_64  2.28-189.1.el8                              BaseOS        4.2 M
+ glibc-minimal-langpack                           x86_64  2.28-189.1.el8                              BaseOS         61 k
+ gmp-c++                                          x86_64  1:6.1.2-10.el8                              BaseOS         33 k
+ grub2-tools-efi                                  x86_64  1:2.02-123.el8                              BaseOS        476 k
+ iproute-tc                                       x86_64  5.15.0-4.el8                                BaseOS        464 k
+ iptables-ebtables                                x86_64  1.8.4-22.el8                                BaseOS         72 k
+     replacing  ebtables.x86_64 2.0.10-16.el7
+ iptables-libs                                    x86_64  1.8.4-22.el8                                BaseOS        108 k
+ kernel                                           x86_64  4.18.0-372.9.1.el8                          BaseOS        8.0 M
+ kernel-core                                      x86_64  4.18.0-372.9.1.el8                          BaseOS         39 M
+ kernel-modules                                   x86_64  4.18.0-372.9.1.el8                          BaseOS         32 M
+ kernel-modules-extra                             x86_64  4.18.0-372.9.1.el8                          BaseOS        8.7 M
+ kernel-workaround                                noarch  0.1-1.el8                                   @commandline  2.2 k
+ leapp-deps-el8                                   noarch  5.0.8-100.202203181036Z.249925a3.master.el8 @commandline  6.5 k
+     replacing  leapp-deps.noarch 0.14.0-1.el7_9
+ leapp-repository-deps-el8                        noarch  5.0.8-100.202203181036Z.249925a3.master.el8 @commandline  6.6 k
+     replacing  leapp-upgrade-el7toel8-deps.noarch 0.16.0-4.el7_9
+ libX11-xcb                                       x86_64  1.6.8-5.el8                                 AppStream      14 k
+ libgudev                                         x86_64  232-4.el8                                   BaseOS         33 k
+     replacing  libgudev1.x86_64 219-78.el7_9.5
+ libmodulemd1                                     x86_64  1.8.16-0.2.13.0.1                           BaseOS        176 k
+ libnsl                                           x86_64  2.28-189.1.el8                              BaseOS        101 k
+ libslirp                                         x86_64  4.4.0-1.module+el8.6.0+14673+621cb8be       AppStream      70 k
+ libssh                                           x86_64  0.9.6-3.el8                                 BaseOS        216 k
+ libxcrypt                                        x86_64  4.1.1-6.el8                                 BaseOS         73 k
+ lua-libs                                         x86_64  5.3.4-12.el8                                BaseOS        118 k
+ lz4-libs                                         x86_64  1.8.3-3.el8_4                               BaseOS         66 k
+ make-devel                                       x86_64  1:4.2.1-11.el8                              BaseOS         22 k
+ mariadb-connector-c                              x86_64  3.1.11-2.el8_3                              AppStream     200 k
+ ncurses-c++-libs                                 x86_64  6.1-9.20180224.el8                          BaseOS         58 k
+ ncurses-compat-libs                              x86_64  6.1-9.20180224.el8                          BaseOS        328 k
+ netconsole-service                               noarch  10.00.15-1.el8                              BaseOS        149 k
+ network-scripts                                  x86_64  10.00.15-1.el8                              BaseOS        196 k
+ network-scripts-team                             x86_64  1.31-2.el8                                  BaseOS         28 k
+ npth                                             x86_64  1.5-4.el8                                   BaseOS         26 k
+ nss_db                                           x86_64  2.28-189.1.el8                              BaseOS         74 k
+ pcre-cpp                                         x86_64  8.42-6.el8                                  BaseOS         47 k
+ pcre-utf16                                       x86_64  8.42-6.el8                                  BaseOS        195 k
+ pcre-utf32                                       x86_64  8.42-6.el8                                  BaseOS        186 k
+ pkgconf-m4                                       noarch  1.4.2-1.el8                                 BaseOS         17 k
+     replacing  pkgconfig.x86_64 1:0.27.1-4.el7
+ pkgconf-pkg-config                               x86_64  1.4.2-1.el8                                 BaseOS         15 k
+     replacing  pkgconfig.x86_64 1:0.27.1-4.el7
+ platform-python                                  x86_64  3.6.8-45.el8                                BaseOS         85 k
+ policycoreutils-python-utils                     noarch  2.9-19.el8                                  BaseOS        253 k
+ polkit-libs                                      x86_64  0.115-13.el8_5.2                            BaseOS         77 k
+ postfix-ldap                                     x86_64  2:3.5.8-4.el8                               AppStream      69 k
+ postfix-mysql                                    x86_64  2:3.5.8-4.el8                               AppStream      54 k
+ postfix-pcre                                     x86_64  2:3.5.8-4.el8                               AppStream      52 k
+ python2-backports                                x86_64  1.0-16.module+el8.4.0+9193+f3daf6ef         AppStream      10 k
+ python2-backports-ssl_match_hostname             noarch  3.5.0.1-12.module+el8.4.0+9193+f3daf6ef     AppStream      17 k
+ python2-chardet                                  noarch  3.0.4-10.module+el8.1.0+3111+de3f2d8e       AppStream     188 k
+ python2-ipaddress                                noarch  1.0.18-6.module+el8.1.0+3111+de3f2d8e       AppStream      39 k
+ python2-libs                                     x86_64  2.7.18-10.module+el8.6.0+14191+7fdd52cd     AppStream     6.0 M
+ python2-lxml                                     x86_64  4.2.3-6.module+el8.6.0+13959+8e368262       AppStream     1.5 M
+ python2-pyyaml                                   x86_64  3.12-16.module+el8.1.0+3111+de3f2d8e        AppStream     191 k
+     replacing  PyYAML.x86_64 3.10-11.el7
+ python2-requests                                 noarch  2.20.0-3.module+el8.2.0+4577+feefd9b8       AppStream     124 k
+ python2-setuptools                               noarch  39.0.1-13.module+el8.4.0+9442+27d0e81c      AppStream     642 k
+ python2-six                                      noarch  1.11.0-6.module+el8.4.0+9287+299307c7       AppStream      37 k
+ python2-urllib3                                  noarch  1.24.2-3.module+el8.4.0+9193+f3daf6ef       AppStream     169 k
+ python3-chardet                                  noarch  3.0.4-7.el8                                 BaseOS        195 k
+ python3-configobj                                noarch  5.0.6-11.el8                                BaseOS         68 k
+ python3-dateutil                                 noarch  1:2.6.1-6.el8                               BaseOS        251 k
+ python3-dbus                                     x86_64  1.2.4-15.el8                                BaseOS        134 k
+ python3-decorator                                noarch  4.2.1-2.el8                                 BaseOS         27 k
+ python3-dmidecode                                x86_64  3.12.2-15.el8                               BaseOS         94 k
+ python3-dnf                                      noarch  4.7.0-8.el8                                 BaseOS        545 k
+ python3-ethtool                                  x86_64  0.14-5.el8                                  BaseOS         45 k
+ python3-firewall                                 noarch  0.9.3-13.el8                                BaseOS        434 k
+ python3-gobject-base                             x86_64  3.28.3-2.el8                                BaseOS        313 k
+ python3-hawkey                                   x86_64  0.63.0-8.el8                                BaseOS        117 k
+ python3-hwdata                                   noarch  2.3.6-3.el8                                 AppStream      39 k
+ python3-iniparse                                 noarch  0.4-31.el8                                  BaseOS         49 k
+ python3-inotify                                  noarch  0.9.6-13.el8                                BaseOS         57 k
+ python3-libcomps                                 x86_64  0.1.18-1.el8                                BaseOS         52 k
+ python3-libdnf                                   x86_64  0.63.0-8.el8                                BaseOS        778 k
+ python3-libs                                     x86_64  3.6.8-45.el8                                BaseOS        7.8 M
+ python3-libselinux                               x86_64  2.9-5.el8                                   BaseOS        283 k
+ python3-libsemanage                              x86_64  2.9-8.el8                                   BaseOS        128 k
+ python3-libxml2                                  x86_64  2.9.7-13.el8                                BaseOS        237 k
+ python3-linux-procfs                             noarch  0.7.0-1.el8                                 BaseOS         42 k
+ python3-lxml                                     x86_64  4.2.3-4.el8                                 AppStream     1.5 M
+ python3-magic                                    noarch  5.33-20.el8                                 BaseOS         46 k
+ python3-newt                                     x86_64  0.52.20-11.el8                              AppStream      64 k
+ python3-perf                                     x86_64  4.18.0-372.9.1.el8                          BaseOS        8.2 M
+ python3-pexpect                                  noarch  4.3.1-3.el8                                 AppStream     138 k
+ python3-policycoreutils                          noarch  2.9-19.el8                                  BaseOS        2.2 M
+ python3-pyOpenSSL                                noarch  19.0.0-1.el8                                AppStream     103 k
+ python3-pycurl                                   x86_64  7.43.0.2-4.el8                              AppStream     227 k
+ python3-pytoml                                   noarch  0.1.14-5.git7dea353.el8                     AppStream      25 k
+     replacing  python-pytoml.noarch 0.1.14-1.git7dea353.el7
+ python3-pyudev                                   noarch  0.21.0-7.el8                                BaseOS         84 k
+ python3-pyyaml                                   x86_64  3.12-12.el8                                 BaseOS        193 k
+ python3-requests                                 noarch  2.20.0-2.1.el8_1                            BaseOS        123 k
+ python3-rpm                                      x86_64  4.14.3-23.el8                               BaseOS        155 k
+ python3-schedutils                               x86_64  0.6-6.el8                                   BaseOS         29 k
+ python3-setools                                  x86_64  4.3.0-3.el8                                 BaseOS        624 k
+     replacing  setools-libs.x86_64 3.3.8-4.el7
+ python3-six                                      noarch  1.11.0-8.el8                                BaseOS         38 k
+ python3-slip                                     noarch  0.6.4-11.el8                                BaseOS         39 k
+ python3-slip-dbus                                noarch  0.6.4-11.el8                                BaseOS         39 k
+ python3-subscription-manager-rhsm                x86_64  1.28.29-3.el8                               BaseOS        388 k
+ python3-syspurpose                               x86_64  1.28.29-3.el8                               BaseOS        327 k
+ python3-urllib3                                  noarch  1.24.2-5.el8                                BaseOS        177 k
+ readonly-root                                    noarch  10.00.15-1.el8                              BaseOS        151 k
+ redhat-backgrounds                               noarch  84.5-1.el8                                  AppStream      42 M
+ redhat-logos-httpd                               noarch  84.5-1.el8                                  BaseOS         29 k
+ redhat-release                                   x86_64  8.6-0.1.el8                                 BaseOS         44 k
+     replacing  redhat-release-server.x86_64 7.9-6.el7_9
+ redhat-release-eula                              x86_64  8.6-0.1.el8                                 BaseOS         19 k
+ rsync-daemon                                     noarch  3.1.3-14.el8                                BaseOS         43 k
+ systemd-container                                x86_64  239-58.el8                                  BaseOS        756 k
+ systemd-pam                                      x86_64  239-58.el8                                  BaseOS        483 k
+ systemd-udev                                     x86_64  239-58.el8                                  BaseOS        1.6 M
+ timedatex                                        x86_64  0.5-3.el8                                   BaseOS         32 k
+ util-linux-user                                  x86_64  2.32.1-35.el8                               BaseOS        101 k
+Upgrading:
+ NetworkManager                                   x86_64  1:1.36.0-4.el8                              BaseOS        2.3 M
+ NetworkManager-config-server                     noarch  1:1.36.0-4.el8                              BaseOS        136 k
+ NetworkManager-libnm                             x86_64  1:1.36.0-4.el8                              BaseOS        1.8 M
+ NetworkManager-team                              x86_64  1:1.36.0-4.el8                              BaseOS        153 k
+ NetworkManager-tui                               x86_64  1:1.36.0-4.el8                              BaseOS        345 k
+ acl                                              x86_64  2.2.53-1.el8                                BaseOS         81 k
+ aide                                             x86_64  0.16-14.el8_5.1                             AppStream     156 k
+ alsa-firmware                                    noarch  1.0.29-6.el8                                AppStream     3.2 M
+ alsa-lib                                         x86_64  1.2.6.1-3.el8                               AppStream     491 k
+ alsa-tools-firmware                              x86_64  1.1.6-1.el8                                 AppStream      43 k
+ audit                                            x86_64  3.0.7-2.el8.2                               BaseOS        263 k
+ audit-libs                                       x86_64  3.0.7-2.el8.2                               BaseOS        123 k
+ basesystem                                       noarch  11-5.el8                                    BaseOS         11 k
+ bash                                             x86_64  4.4.20-3.el8                                BaseOS        1.5 M
+ bc                                               x86_64  1.07.1-5.el8                                BaseOS        129 k
+ bind-export-libs                                 x86_64  32:9.11.36-3.el8                            BaseOS        1.1 M
+ bind-libs-lite                                   x86_64  32:9.11.36-3.el8                            AppStream     1.2 M
+ bind-license                                     noarch  32:9.11.36-3.el8                            AppStream     103 k
+ binutils                                         x86_64  2.30-113.el8                                BaseOS        5.8 M
+ biosdevname                                      x86_64  0.7.3-2.el8                                 BaseOS         44 k
+ bzip2-libs                                       x86_64  1.0.6-26.el8                                BaseOS         48 k
+ ca-certificates                                  noarch  2021.2.50-80.0.el8_4                        BaseOS        390 k
+ checkpolicy                                      x86_64  2.9-1.el8                                   BaseOS        346 k
+ chkconfig                                        x86_64  1.19.1-1.el8                                BaseOS        198 k
+ chrony                                           x86_64  4.1-1.el8                                   BaseOS        327 k
+ container-selinux                                noarch  2:2.179.1-1.module+el8.6.0+14673+621cb8be   AppStream      58 k
+ containers-common                                x86_64  2:1-27.module+el8.6.0+14673+621cb8be        AppStream      95 k
+ copy-jdk-configs                                 noarch  4.0-2.el8                                   AppStream      31 k
+ coreutils                                        x86_64  8.30-12.el8                                 BaseOS        1.2 M
+ cpio                                             x86_64  2.12-11.el8                                 BaseOS        266 k
+ cracklib                                         x86_64  2.9.6-15.el8                                BaseOS         93 k
+ cracklib-dicts                                   x86_64  2.9.6-15.el8                                BaseOS        4.0 M
+ cronie                                           x86_64  1.5.2-6.el8                                 BaseOS        118 k
+ cronie-anacron                                   x86_64  1.5.2-6.el8                                 BaseOS         42 k
+ crontabs                                         noarch  1.11-17.20190603git.el8                     BaseOS         25 k
+ cryptsetup                                       x86_64  2.3.7-2.el8                                 BaseOS        198 k
+ cryptsetup-libs                                  x86_64  2.3.7-2.el8                                 BaseOS        488 k
+ curl                                             x86_64  7.61.1-22.el8                               BaseOS        351 k
+ cyrus-sasl-lib                                   x86_64  2.1.27-6.el8_5                              BaseOS        123 k
+ dbus                                             x86_64  1:1.12.8-18.el8                             BaseOS         41 k
+ dbus-glib                                        x86_64  0.110-2.el8                                 BaseOS        127 k
+ dbus-libs                                        x86_64  1:1.12.8-18.el8                             BaseOS        184 k
+ dejavu-fonts-common                              noarch  2.35-7.el8                                  BaseOS         74 k
+ dejavu-sans-fonts                                noarch  2.35-7.el8                                  BaseOS        1.5 M
+ desktop-file-utils                               x86_64  0.23-8.el8                                  AppStream      80 k
+ device-mapper                                    x86_64  8:1.02.181-3.el8                            BaseOS        377 k
+ device-mapper-event                              x86_64  8:1.02.181-3.el8                            BaseOS        271 k
+ device-mapper-event-libs                         x86_64  8:1.02.181-3.el8                            BaseOS        270 k
+ device-mapper-libs                               x86_64  8:1.02.181-3.el8                            BaseOS        410 k
+ device-mapper-persistent-data                    x86_64  0.9.0-6.el8                                 BaseOS        937 k
+ dhcp-common                                      noarch  12:4.3.6-47.el8                             BaseOS        207 k
+ dhcp-libs                                        x86_64  12:4.3.6-47.el8                             BaseOS        148 k
+ diffutils                                        x86_64  3.6-6.el8                                   BaseOS        359 k
+ dmidecode                                        x86_64  1:3.3-4.el8                                 BaseOS         92 k
+ dnf                                              noarch  4.7.0-8.el8                                 BaseOS        541 k
+ dnf-data                                         noarch  4.7.0-8.el8                                 BaseOS        155 k
+ dracut                                           x86_64  049-201.git20220131.el8                     BaseOS        376 k
+ dracut-config-rescue                             x86_64  049-201.git20220131.el8                     BaseOS         61 k
+ dracut-network                                   x86_64  049-201.git20220131.el8                     BaseOS        109 k
+ e2fsprogs                                        x86_64  1.45.6-4.el8                                BaseOS        1.0 M
+ e2fsprogs-libs                                   x86_64  1.45.6-4.el8                                BaseOS        233 k
+ elfutils-default-yama-scope                      noarch  0.186-1.el8                                 BaseOS         50 k
+ elfutils-libelf                                  x86_64  0.186-1.el8                                 BaseOS        229 k
+ elfutils-libs                                    x86_64  0.186-1.el8                                 BaseOS        295 k
+ emacs-filesystem                                 noarch  1:26.1-7.el8                                BaseOS         70 k
+ ethtool                                          x86_64  2:5.13-1.el8                                BaseOS        219 k
+ expat                                            x86_64  2.2.5-8.el8                                 BaseOS        113 k
+ file                                             x86_64  5.33-20.el8                                 BaseOS         77 k
+ file-libs                                        x86_64  5.33-20.el8                                 BaseOS        543 k
+ filesystem                                       x86_64  3.8-6.el8                                   BaseOS        1.1 M
+ findutils                                        x86_64  1:4.6.0-20.el8                              BaseOS        528 k
+ fipscheck                                        x86_64  1.5.0-4.el8                                 BaseOS         28 k
+ fipscheck-lib                                    x86_64  1.5.0-4.el8                                 BaseOS         16 k
+ firewalld                                        noarch  0.9.3-13.el8                                BaseOS        503 k
+ firewalld-filesystem                             noarch  0.9.3-13.el8                                BaseOS         78 k
+ fontconfig                                       x86_64  2.13.1-4.el8                                BaseOS        274 k
+ fontpackages-filesystem                          noarch  1.44-22.el8                                 BaseOS         16 k
+ freetype                                         x86_64  2.9.1-4.el8_3.1                             BaseOS        394 k
+ fuse                                             x86_64  2.9.7-15.el8                                BaseOS         83 k
+ fuse-libs                                        x86_64  2.9.7-15.el8                                BaseOS        102 k
+ fuse-overlayfs                                   x86_64  1.8.2-1.module+el8.6.0+14673+621cb8be       AppStream      73 k
+ fxload                                           x86_64  2008_10_13-10.el8                           BaseOS         32 k
+ gawk                                             x86_64  4.2.1-4.el8                                 BaseOS        1.1 M
+ gdbm                                             x86_64  1:1.18-1.el8                                BaseOS        130 k
+ geoipupdate                                      x86_64  2.5.0-2.el8                                 AppStream      40 k
+ gettext                                          x86_64  0.19.8.1-17.el8                             BaseOS        1.1 M
+ gettext-libs                                     x86_64  0.19.8.1-17.el8                             BaseOS        313 k
+ giflib                                           x86_64  5.1.4-3.el8                                 AppStream      51 k
+ glib2                                            x86_64  2.56.4-158.el8                              BaseOS        2.5 M
+ glibc                                            x86_64  2.28-189.1.el8                              BaseOS        2.2 M
+ glibc-common                                     x86_64  2.28-189.1.el8                              BaseOS        1.3 M
+ gmp                                              x86_64  1:6.1.2-10.el8                              BaseOS        321 k
+ gnupg2                                           x86_64  2.2.20-2.el8                                BaseOS        2.4 M
+ gobject-introspection                            x86_64  1.56.1-1.el8                                BaseOS        255 k
+ gpgme                                            x86_64  1.13.1-11.el8                               BaseOS        336 k
+ grep                                             x86_64  3.1-6.el8                                   BaseOS        274 k
+ groff-base                                       x86_64  1.22.3-18.el8                               BaseOS        1.0 M
+ grub2-common                                     noarch  1:2.02-123.el8                              BaseOS        893 k
+ grub2-pc                                         x86_64  1:2.02-123.el8                              BaseOS         44 k
+     replacing  grub2.x86_64 1:2.02-0.87.el7_9.9
+ grub2-pc-modules                                 noarch  1:2.02-123.el8                              BaseOS        918 k
+ grub2-tools                                      x86_64  1:2.02-123.el8                              BaseOS        2.0 M
+ grub2-tools-extra                                x86_64  1:2.02-123.el8                              BaseOS        1.1 M
+ grub2-tools-minimal                              x86_64  1:2.02-123.el8                              BaseOS        211 k
+ grubby                                           x86_64  8.40-42.el8                                 BaseOS         49 k
+ gzip                                             x86_64  1.9-12.el8                                  BaseOS        167 k
+ hardlink                                         x86_64  1:1.3-6.el8                                 BaseOS         29 k
+ hostname                                         x86_64  3.20-6.el8                                  BaseOS         32 k
+ hwdata                                           noarch  0.314-8.12.el8                              BaseOS        1.7 M
+ info                                             x86_64  6.5-7.el8                                   BaseOS        198 k
+ initscripts                                      x86_64  10.00.15-1.el8                              BaseOS        339 k
+ iproute                                          x86_64  5.15.0-4.el8                                BaseOS        798 k
+ iprutils                                         x86_64  2.4.19-1.el8                                BaseOS        256 k
+ ipset                                            x86_64  7.1-1.el8                                   BaseOS         45 k
+ ipset-libs                                       x86_64  7.1-1.el8                                   BaseOS         71 k
+ iptables                                         x86_64  1.8.4-22.el8                                BaseOS        585 k
+ iputils                                          x86_64  20180629-9.el8                              BaseOS        148 k
+ iwl100-firmware                                  noarch  39.31.5.1-107.el8.1                         BaseOS        174 k
+ iwl1000-firmware                                 noarch  1:39.31.5.1-107.el8.1                       BaseOS        237 k
+ iwl105-firmware                                  noarch  18.168.6.1-107.el8.1                        BaseOS        258 k
+ iwl135-firmware                                  noarch  18.168.6.1-107.el8.1                        BaseOS        267 k
+ iwl2000-firmware                                 noarch  18.168.6.1-107.el8.1                        BaseOS        261 k
+ iwl2030-firmware                                 noarch  18.168.6.1-107.el8.1                        BaseOS        270 k
+ iwl3160-firmware                                 noarch  1:25.30.13.0-107.el8.1                      BaseOS        1.7 M
+ iwl3945-firmware                                 noarch  15.32.2.9-107.el8.1                         BaseOS        112 k
+ iwl4965-firmware                                 noarch  228.61.2.24-107.el8.1                       BaseOS        126 k
+ iwl5000-firmware                                 noarch  8.83.5.1_1-107.el8.1                        BaseOS        318 k
+ iwl5150-firmware                                 noarch  8.24.2.2-107.el8.1                          BaseOS        171 k
+ iwl6000-firmware                                 noarch  9.221.4.1-107.el8.1                         BaseOS        191 k
+ iwl6000g2a-firmware                              noarch  18.168.6.1-107.el8.1                        BaseOS        334 k
+ iwl6000g2b-firmware                              noarch  18.168.6.1-107.el8.1                        BaseOS        334 k
+ iwl6050-firmware                                 noarch  41.28.5.1-107.el8.1                         BaseOS        267 k
+ iwl7260-firmware                                 noarch  1:25.30.13.0-107.el8.1                      BaseOS         23 M
+ jansson                                          x86_64  2.14-1.el8                                  BaseOS         47 k
+ javapackages-tools                               noarch  5.3.0-1.module+el8+2447+6f56d9a6            AppStream      44 k
+ json-c                                           x86_64  0.13.1-3.el8                                BaseOS         41 k
+ json-glib                                        x86_64  1.4.4-1.el8                                 BaseOS        144 k
+ kbd                                              x86_64  2.0.4-10.el8                                BaseOS        390 k
+ kbd-legacy                                       noarch  2.0.4-10.el8                                BaseOS        481 k
+ kbd-misc                                         noarch  2.0.4-10.el8                                BaseOS        1.5 M
+ kernel-tools                                     x86_64  4.18.0-372.9.1.el8                          BaseOS        8.2 M
+ kernel-tools-libs                                x86_64  4.18.0-372.9.1.el8                          BaseOS        8.0 M
+ kexec-tools                                      x86_64  2.0.20-68.el8                               BaseOS        523 k
+ keyutils-libs                                    x86_64  1.5.10-9.el8                                BaseOS         34 k
+ kmod                                             x86_64  25-19.el8                                   BaseOS        126 k
+ kmod-libs                                        x86_64  25-19.el8                                   BaseOS         68 k
+ kpartx                                           x86_64  0.8.4-22.el8                                BaseOS        114 k
+ krb5-libs                                        x86_64  1.18.2-14.el8                               BaseOS        840 k
+ less                                             x86_64  530-1.el8                                   BaseOS        164 k
+ libICE                                           x86_64  1.0.9-15.el8                                AppStream      74 k
+ libSM                                            x86_64  1.2.3-1.el8                                 AppStream      48 k
+ libX11                                           x86_64  1.6.8-5.el8                                 AppStream     611 k
+ libX11-common                                    noarch  1.6.8-5.el8                                 AppStream     158 k
+ libXau                                           x86_64  1.0.9-3.el8                                 AppStream      37 k
+ libXcomposite                                    x86_64  0.4.4-14.el8                                AppStream      29 k
+ libXext                                          x86_64  1.3.4-1.el8                                 AppStream      45 k
+ libXi                                            x86_64  1.7.10-1.el8                                AppStream      49 k
+ libXrender                                       x86_64  0.9.10-7.el8                                AppStream      33 k
+ libXtst                                          x86_64  1.2.3-7.el8                                 AppStream      22 k
+ libacl                                           x86_64  2.2.53-1.el8                                BaseOS         35 k
+ libaio                                           x86_64  0.3.112-1.el8                               BaseOS         33 k
+ libassuan                                        x86_64  2.5.1-3.el8                                 BaseOS         83 k
+ libattr                                          x86_64  2.4.48-3.el8                                BaseOS         27 k
+ libblkid                                         x86_64  2.32.1-35.el8                               BaseOS        219 k
+ libcap                                           x86_64  2.48-2.el8                                  BaseOS         74 k
+ libcap-ng                                        x86_64  0.7.11-1.el8                                BaseOS         33 k
+ libcom_err                                       x86_64  1.45.6-4.el8                                BaseOS         49 k
+ libcomps                                         x86_64  0.1.18-1.el8                                BaseOS         82 k
+ libcurl                                          x86_64  7.61.1-22.el8                               BaseOS        301 k
+ libdaemon                                        x86_64  0.14-15.el8                                 BaseOS         36 k
+ libdb                                            x86_64  5.3.28-42.el8_4                             BaseOS        751 k
+ libdb-utils                                      x86_64  5.3.28-42.el8_4                             BaseOS        150 k
+ libdnf                                           x86_64  0.63.0-8.el8                                BaseOS        706 k
+     replacing  python2-hawkey.x86_64 0.22.5-2.el7_9
+     replacing  python2-libdnf.x86_64 0.22.5-2.el7_9
+ libdrm                                           x86_64  2.4.108-1.el8                               AppStream     168 k
+ libedit                                          x86_64  3.1-23.20170329cvs.el8                      BaseOS        102 k
+ libestr                                          x86_64  0.1.10-1.el8                                AppStream      27 k
+ libfastjson                                      x86_64  0.99.9-1.el8                                AppStream      38 k
+ libffi                                           x86_64  3.1-23.el8                                  BaseOS         37 k
+ libfontenc                                       x86_64  1.1.3-8.el8                                 AppStream      37 k
+ libgcc                                           x86_64  8.5.0-10.el8                                BaseOS         80 k
+ libgcrypt                                        x86_64  1.8.5-6.el8                                 BaseOS        463 k
+ libgomp                                          x86_64  8.5.0-10.el8                                BaseOS        207 k
+ libgpg-error                                     x86_64  1.31-1.el8                                  BaseOS        242 k
+ libidn                                           x86_64  1.34-5.el8                                  AppStream     239 k
+ libjpeg-turbo                                    x86_64  1.5.3-12.el8                                AppStream     157 k
+ libmnl                                           x86_64  1.0.4-6.el8                                 BaseOS         30 k
+ libmodulemd                                      x86_64  2.13.0-1.el8                                BaseOS        233 k
+ libmount                                         x86_64  2.32.1-35.el8                               BaseOS        235 k
+ libmspack                                        x86_64  0.7-0.3.alpha.el8.4                         AppStream      71 k
+ libndp                                           x86_64  1.7-6.el8                                   BaseOS         40 k
+ libnetfilter_conntrack                           x86_64  1.0.6-5.el8                                 BaseOS         65 k
+ libnfnetlink                                     x86_64  1.0.1-13.el8                                BaseOS         33 k
+ libnl3                                           x86_64  3.5.0-1.el8                                 BaseOS        320 k
+ libnl3-cli                                       x86_64  3.5.0-1.el8                                 BaseOS        193 k
+ libpcap                                          x86_64  14:1.9.1-5.el8                              BaseOS        169 k
+ libpciaccess                                     x86_64  0.14-1.el8                                  BaseOS         32 k
+ libpipeline                                      x86_64  1.5.0-2.el8                                 BaseOS         54 k
+ libpng                                           x86_64  2:1.6.34-5.el8                              BaseOS        126 k
+ libpwquality                                     x86_64  1.4.4-3.el8                                 BaseOS        107 k
+ librepo                                          x86_64  1.14.2-1.el8                                BaseOS         93 k
+ libreport-filesystem                             x86_64  2.9.5-15.el8                                BaseOS         21 k
+ librhsm                                          x86_64  0.0.3-4.el8                                 BaseOS         33 k
+ libseccomp                                       x86_64  2.5.2-1.el8                                 BaseOS         71 k
+ libselinux                                       x86_64  2.9-5.el8                                   BaseOS        165 k
+ libselinux-utils                                 x86_64  2.9-5.el8                                   BaseOS        243 k
+ libsemanage                                      x86_64  2.9-8.el8                                   BaseOS        168 k
+ libsepol                                         x86_64  2.9-3.el8                                   BaseOS        340 k
+ libsmartcols                                     x86_64  2.32.1-35.el8                               BaseOS        178 k
+ libsolv                                          x86_64  0.7.20-1.el8                                BaseOS        375 k
+ libss                                            x86_64  1.45.6-4.el8                                BaseOS         54 k
+ libstdc++                                        x86_64  8.5.0-10.el8                                BaseOS        453 k
+ libsysfs                                         x86_64  2.1.0-25.el8                                BaseOS         53 k
+ libtasn1                                         x86_64  4.13-3.el8                                  BaseOS         76 k
+ libteam                                          x86_64  1.31-2.el8                                  BaseOS         64 k
+ libtool-ltdl                                     x86_64  2.4.6-25.el8                                BaseOS         58 k
+ libunistring                                     x86_64  0.9.9-3.el8                                 BaseOS        422 k
+ libuser                                          x86_64  0.62-24.el8                                 BaseOS        414 k
+ libutempter                                      x86_64  1.1.6-14.el8                                BaseOS         32 k
+ libuuid                                          x86_64  2.32.1-35.el8                               BaseOS         97 k
+ libverto                                         x86_64  0.3.0-5.el8                                 BaseOS         24 k
+ libxcb                                           x86_64  1.13.1-1.el8                                AppStream     229 k
+ libxml2                                          x86_64  2.9.7-13.el8                                BaseOS        696 k
+ libxslt                                          x86_64  1.1.32-6.el8                                BaseOS        250 k
+ libyaml                                          x86_64  0.1.7-5.el8                                 BaseOS         61 k
+ linux-firmware                                   noarch  20220210-107.git6342082c.el8                BaseOS        196 M
+     replacing  ivtv-firmware.noarch 2:20080701-26.el7
+ lksctp-tools                                     x86_64  1.0.18-3.el8                                BaseOS        100 k
+ logrotate                                        x86_64  3.14.0-4.el8                                BaseOS         86 k
+ lshw                                             x86_64  B.02.19.2-6.el8                             BaseOS        341 k
+ lsscsi                                           x86_64  0.32-3.el8                                  BaseOS         71 k
+ lua                                              x86_64  5.3.4-12.el8                                AppStream     192 k
+ lvm2                                             x86_64  8:2.03.14-3.el8                             BaseOS        1.7 M
+ lvm2-libs                                        x86_64  8:2.03.14-3.el8                             BaseOS        1.2 M
+ lz4                                              x86_64  1.8.3-3.el8_4                               BaseOS        104 k
+ lzo                                              x86_64  2.08-14.el8                                 BaseOS         69 k
+ make                                             x86_64  1:4.2.1-11.el8                              BaseOS        498 k
+ man-db                                           x86_64  2.7.6.1-18.el8                              BaseOS        887 k
+ microcode_ctl                                    x86_64  4:20220207-1.el8                            BaseOS        5.5 M
+ ncurses                                          x86_64  6.1-9.20180224.el8                          BaseOS        387 k
+ ncurses-base                                     noarch  6.1-9.20180224.el8                          BaseOS         81 k
+ ncurses-libs                                     x86_64  6.1-9.20180224.el8                          BaseOS        334 k
+ net-tools                                        x86_64  2.0-0.52.20160912git.el8                    BaseOS        322 k
+ newt                                             x86_64  0.52.20-11.el8                              BaseOS        122 k
+ nmap-ncat                                        x86_64  2:7.70-6.el8                                AppStream     237 k
+ nspr                                             x86_64  4.32.0-1.el8_4                              AppStream     142 k
+ nss                                              x86_64  3.67.0-7.el8_5                              AppStream     741 k
+ nss-softokn                                      x86_64  3.67.0-7.el8_5                              AppStream     487 k
+ nss-softokn-freebl                               x86_64  3.67.0-7.el8_5                              AppStream     395 k
+ nss-sysinit                                      x86_64  3.67.0-7.el8_5                              AppStream      73 k
+ nss-tools                                        x86_64  3.67.0-7.el8_5                              AppStream     576 k
+ nss-util                                         x86_64  3.67.0-7.el8_5                              AppStream     137 k
+ numactl-libs                                     x86_64  2.0.12-13.el8                               BaseOS         36 k
+ open-vm-tools                                    x86_64  11.3.5-1.el8                                AppStream     861 k
+ openldap                                         x86_64  2.4.46-18.el8                               BaseOS        352 k
+ openssh                                          x86_64  8.0p1-13.el8                                BaseOS        522 k
+ openssh-askpass                                  x86_64  8.0p1-13.el8                                AppStream      93 k
+     replacing  openssh-askpass-gnome.x86_64 7.9p1-1.el7
+ openssh-clients                                  x86_64  8.0p1-13.el8                                BaseOS        668 k
+ openssh-server                                   x86_64  8.0p1-13.el8                                BaseOS        491 k
+ openssl                                          x86_64  1:1.1.1k-6.el8_5                            BaseOS        709 k
+ openssl-libs                                     x86_64  1:1.1.1k-6.el8_5                            BaseOS        1.5 M
+ os-prober                                        x86_64  1.74-9.el8                                  BaseOS         51 k
+ p11-kit                                          x86_64  0.23.22-1.el8                               BaseOS        324 k
+ p11-kit-trust                                    x86_64  0.23.22-1.el8                               BaseOS        137 k
+ pam                                              x86_64  1.3.1-16.el8                                BaseOS        738 k
+ parted                                           x86_64  3.2-39.el8                                  BaseOS        555 k
+ passwd                                           x86_64  0.80-4.el8                                  BaseOS        115 k
+ pciutils                                         x86_64  3.7.0-1.el8                                 BaseOS        105 k
+ pciutils-libs                                    x86_64  3.7.0-1.el8                                 BaseOS         54 k
+ pcre                                             x86_64  8.42-6.el8                                  BaseOS        211 k
+ pinentry                                         x86_64  1.1.0-2.el8                                 AppStream     100 k
+ plymouth                                         x86_64  0.9.4-11.20200615git1e36e30.el8             AppStream     127 k
+ plymouth-core-libs                               x86_64  0.9.4-11.20200615git1e36e30.el8             AppStream     122 k
+ plymouth-scripts                                 x86_64  0.9.4-11.20200615git1e36e30.el8             AppStream      44 k
+ policycoreutils                                  x86_64  2.9-19.el8                                  BaseOS        374 k
+ polkit                                           x86_64  0.115-13.el8_5.2                            BaseOS        154 k
+ polkit-pkla-compat                               x86_64  0.1-12.el8                                  BaseOS         46 k
+ popt                                             x86_64  1.18-1.el8                                  BaseOS         61 k
+ postfix                                          x86_64  2:3.5.8-4.el8                               BaseOS        1.5 M
+ procps-ng                                        x86_64  3.3.15-6.el8                                BaseOS        329 k
+ pygobject2                                       x86_64  2.28.7-4.module+el8+2760+3d7d61b2           AppStream     237 k
+ qrencode-libs                                    x86_64  3.4.4-5.el8                                 AppStream      59 k
+ readline                                         x86_64  7.0-10.el8                                  BaseOS        199 k
+ redhat-logos                                     x86_64  84.5-1.el8                                  BaseOS        364 k
+ redhat-support-lib-python                        noarch  0.13.0-0.el8                                AppStream     288 k
+ redhat-support-tool                              noarch  0.13.0-0.el8                                AppStream     242 k
+ rhn-check                                        x86_64  2.8.16-13.module+el8.1.0+3455+3ddf2832      AppStream      25 k
+ rhn-client-tools                                 x86_64  2.8.16-13.module+el8.1.0+3455+3ddf2832      AppStream     385 k
+ rhn-setup                                        x86_64  2.8.16-13.module+el8.1.0+3455+3ddf2832      AppStream      30 k
+ rhnlib                                           noarch  2.8.6-8.module+el8.1.0+3455+3ddf2832        AppStream      18 k
+ rhnsd                                            x86_64  5.0.35-3.module+el8.1.0+3455+3ddf2832       AppStream      51 k
+ rootfiles                                        noarch  8.1-22.el8                                  BaseOS         13 k
+ rpm                                              x86_64  4.14.3-23.el8                               BaseOS        543 k
+ rpm-build-libs                                   x86_64  4.14.3-23.el8                               BaseOS        157 k
+ rpm-libs                                         x86_64  4.14.3-23.el8                               BaseOS        345 k
+ rsync                                            x86_64  3.1.3-14.el8                                BaseOS        405 k
+ rsyslog                                          x86_64  8.2102.0-7.el8                              AppStream     752 k
+ sed                                              x86_64  4.5-5.el8                                   BaseOS        298 k
+ selinux-policy                                   noarch  3.14.3-95.el8                               BaseOS        645 k
+ selinux-policy-targeted                          noarch  3.14.3-95.el8                               BaseOS         15 M
+ setup                                            noarch  2.12.2-6.el8                                BaseOS        181 k
+ shadow-utils                                     x86_64  2:4.6-16.el8                                BaseOS        1.2 M
+ shared-mime-info                                 x86_64  1.9-3.el8                                   BaseOS        329 k
+ slang                                            x86_64  2.3.2-3.el8                                 BaseOS        368 k
+ slirp4netns                                      x86_64  1.1.8-2.module+el8.6.0+14673+621cb8be       AppStream      51 k
+ snappy                                           x86_64  1.1.8-3.el8                                 BaseOS         37 k
+ sqlite                                           x86_64  3.26.0-15.el8                               BaseOS        668 k
+ subscription-manager                             x86_64  1.28.29-3.el8                               BaseOS        1.2 M
+ subscription-manager-rhsm-certificates           x86_64  1.28.29-3.el8                               BaseOS        284 k
+ sudo                                             x86_64  1.8.29-8.el8                                BaseOS        926 k
+ systemd                                          x86_64  239-58.el8                                  BaseOS        3.6 M
+ systemd-libs                                     x86_64  239-58.el8                                  BaseOS        1.1 M
+ tar                                              x86_64  2:1.30-5.el8                                BaseOS        838 k
+ teamd                                            x86_64  1.31-2.el8                                  BaseOS        130 k
+ ttmkfdir                                         x86_64  3.0.9-54.el8                                AppStream      62 k
+ tuned                                            noarch  2.18.0-2.el8                                BaseOS        316 k
+ tzdata                                           noarch  2022a-1.el8                                 BaseOS        474 k
+ tzdata-java                                      noarch  2022a-1.el8                                 AppStream     191 k
+ unzip                                            x86_64  6.0-46.el8                                  BaseOS        196 k
+ usermode                                         x86_64  1.113-2.el8                                 BaseOS        202 k
+ util-linux                                       x86_64  2.32.1-35.el8                               BaseOS        2.5 M
+ vim-minimal                                      x86_64  2:8.0.1763-16.el8_5.13                      BaseOS        575 k
+ virt-what                                        x86_64  1.18-13.el8                                 BaseOS         36 k
+ wget                                             x86_64  1.19.5-10.el8                               AppStream     734 k
+ which                                            x86_64  2.21-17.el8                                 BaseOS         49 k
+ wpa_supplicant                                   x86_64  1:2.10-1.el8                                BaseOS        2.1 M
+ xdg-utils                                        noarch  1.1.2-5.el8                                 AppStream      84 k
+ xfsprogs                                         x86_64  5.0.0-10.el8                                BaseOS        1.1 M
+ xmlsec1                                          x86_64  1.2.25-4.el8                                AppStream     191 k
+ xmlsec1-openssl                                  x86_64  1.2.25-4.el8                                AppStream      94 k
+ xorg-x11-font-utils                              x86_64  1:7.5-41.el8                                AppStream     104 k
+ xorg-x11-fonts-Type1                             noarch  7.5-19.el8                                  AppStream     522 k
+ xz                                               x86_64  5.2.4-3.el8                                 BaseOS        153 k
+ xz-libs                                          x86_64  5.2.4-3.el8                                 BaseOS         94 k
+ yajl                                             x86_64  2.1.0-10.el8                                AppStream      41 k
+ yum                                              noarch  4.7.0-8.el8                                 BaseOS        202 k
+ zip                                              x86_64  3.0-23.el8                                  BaseOS        270 k
+ zlib                                             x86_64  1.2.11-18.el8_5                             BaseOS        102 k
+Installing dependencies:
+ NetworkManager-initscripts-updown                noarch  1:1.36.0-4.el8                              BaseOS        137 k
+ atk                                              x86_64  2.28.1-1.el8                                AppStream     272 k
+ authselect                                       x86_64  1.2.2-3.el8                                 BaseOS        133 k
+ authselect-libs                                  x86_64  1.2.2-3.el8                                 BaseOS        222 k
+ avahi-libs                                       x86_64  0.7-20.el8                                  BaseOS         62 k
+ brotli                                           x86_64  1.0.6-3.el8                                 BaseOS        323 k
+ cairo                                            x86_64  1.15.12-6.el8                               AppStream     719 k
+ compat-openssl10                                 x86_64  1:1.0.2o-3.el8                              AppStream     1.1 M
+ criu                                             x86_64  3.15-3.module+el8.6.0+14673+621cb8be        AppStream     518 k
+ crypto-policies                                  noarch  20211116-1.gitae470d6.el8                   BaseOS         64 k
+ crypto-policies-scripts                          noarch  20211116-1.gitae470d6.el8                   BaseOS         83 k
+ cups-libs                                        x86_64  1:2.2.6-44.el8                              BaseOS        434 k
+ dnf-plugin-subscription-manager                  x86_64  1.28.29-3.el8                               BaseOS        311 k
+ dnf-plugins-core                                 noarch  4.0.21-11.el8                               BaseOS         71 k
+ fribidi                                          x86_64  1.0.4-8.el8                                 AppStream      89 k
+ fstrm                                            x86_64  0.6.1-2.el8                                 AppStream      29 k
+ fuse3                                            x86_64  3.3.0-15.el8                                BaseOS         54 k
+ gd                                               x86_64  2.2.5-7.el8                                 AppStream     144 k
+ gdk-pixbuf2                                      x86_64  2.36.12-5.el8                               BaseOS        467 k
+ gdk-pixbuf2-modules                              x86_64  2.36.12-5.el8                               AppStream     109 k
+ gnutls                                           x86_64  3.6.16-4.el8                                BaseOS        1.0 M
+ graphite2                                        x86_64  1.3.10-10.el8                               AppStream     122 k
+ gtk-update-icon-cache                            x86_64  3.22.30-10.el8                              AppStream      33 k
+ gtk2                                             x86_64  2.24.32-5.el8                               AppStream     3.4 M
+ harfbuzz                                         x86_64  1.7.5-3.el8                                 AppStream     294 k
+ hicolor-icon-theme                               noarch  0.17-2.el8                                  AppStream      48 k
+ ima-evm-utils                                    x86_64  1.3.2-12.el8                                BaseOS         64 k
+ ipcalc                                           x86_64  0.2.4-4.el8                                 BaseOS         38 k
+ jasper-libs                                      x86_64  2.0.14-5.el8                                AppStream     167 k
+ java-1.8.0-openjdk-headless                      x86_64  1:1.8.0.322.b06-11.el8                      AppStream      34 M
+ javapackages-filesystem                          noarch  5.3.0-1.module+el8+2447+6f56d9a6            AppStream      30 k
+ jbigkit-libs                                     x86_64  2.1-14.el8                                  AppStream      55 k
+ libXcursor                                       x86_64  1.1.15-3.el8                                AppStream      36 k
+ libXdamage                                       x86_64  1.1.4-14.el8                                AppStream      27 k
+ libXfixes                                        x86_64  5.0.3-7.el8                                 AppStream      25 k
+ libXft                                           x86_64  2.3.3-1.el8                                 AppStream      67 k
+ libXinerama                                      x86_64  1.1.4-1.el8                                 AppStream      16 k
+ libXpm                                           x86_64  3.5.12-8.el8                                AppStream      58 k
+ libXrandr                                        x86_64  1.5.2-1.el8                                 AppStream      34 k
+ libarchive                                       x86_64  3.3.3-3.el8_5                               BaseOS        360 k
+ libbpf                                           x86_64  0.4.0-3.el8                                 BaseOS        125 k
+ libdatrie                                        x86_64  0.2.9-7.el8                                 AppStream      33 k
+ libevent                                         x86_64  2.1.8-5.el8                                 BaseOS        253 k
+ libfdisk                                         x86_64  2.32.1-35.el8                               BaseOS        252 k
+ libibverbs                                       x86_64  37.2-1.el8                                  BaseOS        385 k
+ libicu                                           x86_64  60.3-2.el8_1                                BaseOS        8.8 M
+ libidn2                                          x86_64  2.2.0-1.el8                                 BaseOS         94 k
+ libkcapi                                         x86_64  1.2.0-2.el8                                 BaseOS         48 k
+ libkcapi-hmaccalc                                x86_64  1.2.0-2.el8                                 BaseOS         31 k
+ libksba                                          x86_64  1.3.5-7.el8                                 BaseOS        135 k
+ libmaxminddb                                     x86_64  1.2.0-10.el8                                AppStream      33 k
+ libmetalink                                      x86_64  0.1.3-7.el8                                 BaseOS         32 k
+ libnet                                           x86_64  1.1.6-15.el8                                AppStream      67 k
+ libnftnl                                         x86_64  1.1.5-5.el8                                 BaseOS         83 k
+ libnghttp2                                       x86_64  1.33.0-3.el8_2.1                            BaseOS         77 k
+ libnsl2                                          x86_64  1.2.0-2.20180605git4a062cf.el8              BaseOS         58 k
+ libpkgconf                                       x86_64  1.4.2-1.el8                                 BaseOS         35 k
+ libpsl                                           x86_64  0.20.2-6.el8                                BaseOS         61 k
+ libsecret                                        x86_64  0.18.6-1.el8                                BaseOS        163 k
+ libsigsegv                                       x86_64  2.11-5.el8                                  BaseOS         30 k
+ libssh-config                                    noarch  0.9.6-3.el8                                 BaseOS         19 k
+ libthai                                          x86_64  0.1.27-2.el8                                AppStream     203 k
+ libtiff                                          x86_64  4.0.9-21.el8                                AppStream     188 k
+ libtirpc                                         x86_64  1.1.4-6.el8                                 BaseOS        113 k
+ libusbx                                          x86_64  1.0.23-4.el8                                BaseOS         74 k
+ libwebp                                          x86_64  1.0.0-5.el8                                 AppStream     273 k
+ libzstd                                          x86_64  1.4.4-1.el8                                 BaseOS        266 k
+ mariadb-connector-c-config                       noarch  3.1.11-2.el8_3                              AppStream      15 k
+ mozjs60                                          x86_64  60.9.0-4.el8                                BaseOS        6.6 M
+ mpfr                                             x86_64  3.1.6-1.el8                                 BaseOS        221 k
+ nettle                                           x86_64  3.4.1-7.el8                                 BaseOS        301 k
+ nftables                                         x86_64  1:0.9.3-25.el8                              BaseOS        324 k
+ nginx-all-modules                                noarch  1:1.14.1-9.module+el8.0.0+4108+af250afe     AppStream      24 k
+ nginx-filesystem                                 noarch  1:1.14.1-9.module+el8.0.0+4108+af250afe     AppStream      24 k
+ nginx-mod-http-image-filter                      x86_64  1:1.14.1-9.module+el8.0.0+4108+af250afe     AppStream      35 k
+ nginx-mod-http-perl                              x86_64  1:1.14.1-9.module+el8.0.0+4108+af250afe     AppStream      46 k
+ nginx-mod-http-xslt-filter                       x86_64  1:1.14.1-9.module+el8.0.0+4108+af250afe     AppStream      34 k
+ nginx-mod-mail                                   x86_64  1:1.14.1-9.module+el8.0.0+4108+af250afe     AppStream      64 k
+ nginx-mod-stream                                 x86_64  1:1.14.1-9.module+el8.0.0+4108+af250afe     AppStream      85 k
+ oddjob                                           x86_64  0.34.7-1.el8                                AppStream      80 k
+ pango                                            x86_64  1.42.4-8.el8                                AppStream     297 k
+ pcre2                                            x86_64  10.32-2.el8                                 BaseOS        246 k
+ perl-Carp                                        noarch  1.42-396.el8                                BaseOS         30 k
+ perl-Data-Dumper                                 x86_64  2.167-399.el8                               BaseOS         58 k
+ perl-Digest                                      noarch  1.17-395.el8                                AppStream      27 k
+ perl-Digest-MD5                                  x86_64  2.55-396.el8                                AppStream      37 k
+ perl-Encode                                      x86_64  4:2.97-3.el8                                BaseOS        1.5 M
+ perl-Errno                                       x86_64  1.28-421.el8                                BaseOS         76 k
+ perl-Exporter                                    noarch  5.72-396.el8                                BaseOS         34 k
+ perl-File-Path                                   noarch  2.15-2.el8                                  BaseOS         38 k
+ perl-File-Temp                                   noarch  0.230.600-1.el8                             BaseOS         63 k
+ perl-Getopt-Long                                 noarch  1:2.50-4.el8                                BaseOS         63 k
+ perl-HTTP-Tiny                                   noarch  0.074-1.el8                                 BaseOS         58 k
+ perl-IO                                          x86_64  1.38-421.el8                                BaseOS        142 k
+ perl-MIME-Base64                                 x86_64  3.15-396.el8                                BaseOS         31 k
+ perl-Net-SSLeay                                  x86_64  1.88-2.module+el8.6.0+13392+f0897f98        AppStream     379 k
+ perl-PathTools                                   x86_64  3.74-1.el8                                  BaseOS         90 k
+ perl-Pod-Escapes                                 noarch  1:1.07-395.el8                              BaseOS         20 k
+ perl-Pod-Perldoc                                 noarch  3.28-396.el8                                BaseOS         88 k
+ perl-Pod-Simple                                  noarch  1:3.35-395.el8                              BaseOS        213 k
+ perl-Pod-Usage                                   noarch  4:1.69-395.el8                              BaseOS         34 k
+ perl-Scalar-List-Utils                           x86_64  3:1.49-2.el8                                BaseOS         68 k
+ perl-Socket                                      x86_64  4:2.027-3.el8                               BaseOS         59 k
+ perl-Storable                                    x86_64  1:3.11-3.el8                                BaseOS         98 k
+ perl-Term-ANSIColor                              noarch  4.06-396.el8                                BaseOS         46 k
+ perl-Term-Cap                                    noarch  1.17-395.el8                                BaseOS         23 k
+ perl-Text-ParseWords                             noarch  3.30-395.el8                                BaseOS         18 k
+ perl-Text-Tabs+Wrap                              noarch  2013.0523-395.el8                           BaseOS         24 k
+ perl-Time-Local                                  noarch  1:1.280-1.el8                               BaseOS         34 k
+ perl-URI                                         noarch  1.73-3.el8                                  AppStream     116 k
+ perl-Unicode-Normalize                           x86_64  1.25-396.el8                                BaseOS         82 k
+ perl-constant                                    noarch  1.33-396.el8                                BaseOS         25 k
+ perl-interpreter                                 x86_64  4:5.26.3-421.el8                            BaseOS        6.3 M
+ perl-libnet                                      noarch  3.11-3.el8                                  AppStream     121 k
+ perl-libs                                        x86_64  4:5.26.3-421.el8                            BaseOS        1.6 M
+ perl-macros                                      x86_64  4:5.26.3-421.el8                            BaseOS         72 k
+ perl-parent                                      noarch  1:0.237-1.el8                               BaseOS         20 k
+ perl-podlators                                   noarch  4.11-1.el8                                  BaseOS        118 k
+ perl-threads                                     x86_64  1:2.21-2.el8                                BaseOS         61 k
+ perl-threads-shared                              x86_64  1.58-2.el8                                  BaseOS         48 k
+ pixman                                           x86_64  0.38.4-2.el8                                AppStream     257 k
+ pkgconf                                          x86_64  1.4.2-1.el8                                 BaseOS         38 k
+ platform-python-pip                              noarch  9.0.3-22.el8                                BaseOS        1.6 M
+ platform-python-setuptools                       noarch  39.2.0-6.el8                                BaseOS        632 k
+ protobuf-c                                       x86_64  1.3.0-6.el8                                 AppStream      37 k
+ psmisc                                           x86_64  23.1-5.el8                                  BaseOS        151 k
+ publicsuffix-list-dafsa                          noarch  20180723-1.el8                              BaseOS         56 k
+ python2                                          x86_64  2.7.18-10.module+el8.6.0+14191+7fdd52cd     AppStream     110 k
+ python2-idna                                     noarch  2.5-7.module+el8.1.0+3111+de3f2d8e          AppStream      98 k
+ python2-pip-wheel                                noarch  9.0.3-19.module+el8.6.0+13001+ad200bd9      AppStream     892 k
+ python2-pysocks                                  noarch  1.6.8-6.module+el8.1.0+3111+de3f2d8e        AppStream      33 k
+ python2-setuptools-wheel                         noarch  39.0.1-13.module+el8.4.0+9442+27d0e81c      AppStream     287 k
+ python3-audit                                    x86_64  3.0.7-2.el8.2                               BaseOS         87 k
+ python3-cffi                                     x86_64  1.11.5-5.el8                                BaseOS        238 k
+ python3-cloud-what                               x86_64  1.28.29-3.el8                               BaseOS        310 k
+ python3-cryptography                             x86_64  3.2.1-5.el8                                 BaseOS        559 k
+ python3-dnf-plugin-spacewalk                     noarch  2.8.5-11.module+el8.1.0+3455+3ddf2832       AppStream      30 k
+ python3-dnf-plugins-core                         noarch  4.0.21-11.el8                               BaseOS        240 k
+ python3-gpg                                      x86_64  1.13.1-11.el8                               BaseOS        244 k
+ python3-idna                                     noarch  2.5-5.el8                                   BaseOS         97 k
+ python3-librepo                                  x86_64  1.14.2-1.el8                                BaseOS         54 k
+ python3-netifaces                                x86_64  0.10.6-4.el8                                AppStream      25 k
+ python3-nftables                                 x86_64  1:0.9.3-25.el8                              BaseOS         30 k
+ python3-pip                                      noarch  9.0.3-22.el8                                AppStream      20 k
+ python3-pip-wheel                                noarch  9.0.3-22.el8                                BaseOS        895 k
+ python3-ply                                      noarch  3.9-9.el8                                   BaseOS        111 k
+ python3-ptyprocess                               noarch  0.5.2-4.el8                                 AppStream      31 k
+ python3-pycparser                                noarch  2.14-14.el8                                 BaseOS        109 k
+ python3-pysocks                                  noarch  1.6.8-3.el8                                 BaseOS         34 k
+ python3-rhn-check                                x86_64  2.8.16-13.module+el8.1.0+3455+3ddf2832      AppStream      38 k
+ python3-rhn-client-tools                         x86_64  2.8.16-13.module+el8.1.0+3455+3ddf2832      AppStream     109 k
+ python3-rhn-setup                                x86_64  2.8.16-13.module+el8.1.0+3455+3ddf2832      AppStream      67 k
+ python3-rhnlib                                   noarch  2.8.6-8.module+el8.1.0+3455+3ddf2832        AppStream      77 k
+ python3-setuptools                               noarch  39.2.0-6.el8                                BaseOS        163 k
+ python3-setuptools-wheel                         noarch  39.2.0-6.el8                                BaseOS        289 k
+ python3-webencodings                             noarch  0.5.1-6.el8                                 AppStream      27 k
+ python36                                         x86_64  3.6.8-38.module+el8.5.0+12207+5c5719bc      AppStream      19 k
+ rpm-plugin-selinux                               x86_64  4.14.3-23.el8                               BaseOS         78 k
+ runc                                             x86_64  1:1.0.3-2.module+el8.6.0+14673+621cb8be     AppStream     3.0 M
+ sqlite-libs                                      x86_64  3.26.0-15.el8                               BaseOS        581 k
+ squashfs-tools                                   x86_64  4.3-20.el8                                  BaseOS        165 k
+ tpm2-tss                                         x86_64  2.3.2-4.el8                                 BaseOS        275 k
+ trousers-lib                                     x86_64  0.3.15-1.el8                                BaseOS        168 k
+ unbound-libs                                     x86_64  1.7.3-17.el8                                AppStream     504 k
+ xkeyboard-config                                 noarch  2.28-1.el8                                  AppStream     782 k
+Installing weak dependencies:
+ elfutils-debuginfod-client                       x86_64  0.186-1.el8                                 BaseOS         71 k
+ geolite2-city                                    noarch  20180605-1.el8                              AppStream      19 M
+ geolite2-country                                 noarch  20180605-1.el8                              AppStream     1.0 M
+ glibc-gconv-extra                                x86_64  2.28-189.1.el8                              AppStream     1.5 M
+ gnupg2-smime                                     x86_64  2.2.20-2.el8                                BaseOS        283 k
+ hdparm                                           x86_64  9.54-4.el8                                  BaseOS        100 k
+ libxkbcommon                                     x86_64  0.9.1-1.el8                                 AppStream     116 k
+ memstrack                                        x86_64  0.1.11-1.el8                                BaseOS         48 k
+ oddjob-mkhomedir                                 x86_64  0.34.7-1.el8                                AppStream      49 k
+ openssl-pkcs11                                   x86_64  0.4.10-2.el8                                BaseOS         66 k
+ perl-IO-Socket-IP                                noarch  0.39-5.el8                                  AppStream      47 k
+ perl-IO-Socket-SSL                               noarch  2.066-4.module+el8.3.0+6446+594cad75        AppStream     298 k
+ perl-Mozilla-CA                                  noarch  20160104-7.module+el8.3.0+6498+9eecfe51     AppStream      15 k
+ pigz                                             x86_64  2.4-4.el8                                   BaseOS         79 k
+ python2-pip                                      noarch  9.0.3-19.module+el8.6.0+13001+ad200bd9      AppStream     1.6 M
+ python3-html5lib                                 noarch  1:0.999999999-6.el8                         AppStream     214 k
+ python3-unbound                                  x86_64  1.7.3-17.el8                                AppStream     119 k
+ rpm-plugin-systemd-inhibit                       x86_64  4.14.3-23.el8                               BaseOS         79 k
+ trousers                                         x86_64  0.3.15-1.el8                                BaseOS        153 k
+Removing:
+ GeoIP                                            x86_64  1.5.0-14.el7                                @System       3.7 M
+ Red_Hat_Enterprise_Linux-Release_Notes-7-en-US   noarch  7-2.el7                                     @System       317 k
+ aic94xx-firmware                                 noarch  30-6.el7                                    @System        30 k
+ audit-libs-python                                x86_64  2.8.5-4.el7                                 @System       316 k
+ btrfs-progs                                      x86_64  4.9.1-1.el7                                 @System       4.0 M
+ dbus-python                                      x86_64  1.1.1-9.el7                                 @System       828 k
+ docker-rhel-push-plugin                          x86_64  2:1.13.1-208.git7d71120.el7_9               @System       6.8 M
+ libnl                                            x86_64  1.1.4-3.el7                                 @System       365 k
+ libselinux-python                                x86_64  2.5-15.el7                                  @System       589 k
+ libsemanage-python                               x86_64  2.5-14.el7                                  @System       441 k
+ libssh2                                          x86_64  1.8.0-4.el7                                 @System       187 k
+ libxml2-python                                   x86_64  2.9.1-6.el7_9.6                             @System       1.4 M
+ m2crypto                                         x86_64  0.21.1-17.el7                               @System       1.9 M
+ mariadb-libs                                     x86_64  1:5.5.68-1.el7                              @System       4.4 M
+ mozjs17                                          x86_64  17.0.0-20.el7                               @System       3.9 M
+ newt-python                                      x86_64  0.52.15-4.el7                               @System       114 k
+ nss-pem                                          x86_64  1.0.3-7.el7                                 @System       201 k
+ ntpdate                                          x86_64  4.2.6p5-29.el7_8.2                          @System       121 k
+ oci-register-machine                             x86_64  1:0-6.git2b44233.el7                        @System       3.2 M
+ pexpect                                          noarch  2.3-11.el7                                  @System       784 k
+ policycoreutils-python                           x86_64  2.5-34.el7                                  @System       1.2 M
+ pth                                              x86_64  2.0.7-23.el7                                @System       262 k
+ pyOpenSSL                                        x86_64  0.13.1-4.el7                                @System       630 k
+ pygpgme                                          x86_64  0.3-9.el7                                   @System       193 k
+ pyliblzma                                        x86_64  0.5.3-11.el7                                @System       186 k
+ python                                           x86_64  2.7.5-92.el7_9                              @System        79 k
+ python-IPy                                       noarch  0.75-6.el7                                  @System       119 k
+ python-backports                                 x86_64  1.0-8.el7                                   @System       638
+ python-backports-ssl_match_hostname              noarch  3.5.0.1-1.el7                               @System        18 k
+ python-chardet                                   noarch  2.2.1-3.el7                                 @System       1.1 M
+ python-configobj                                 noarch  4.7.2-7.el7                                 @System       598 k
+ python-dateutil                                  noarch  1.5-7.el7                                   @System       343 k
+ python-decorator                                 noarch  3.4.0-3.el7                                 @System        71 k
+ python-dmidecode                                 x86_64  3.12.2-4.el7                                @System       261 k
+ python-enum34                                    noarch  1.0.4-1.el7                                 @System       322 k
+ python-ethtool                                   x86_64  0.8-8.el7                                   @System        74 k
+ python-firewall                                  noarch  0.6.3-13.el7_9                              @System       1.9 M
+ python-gobject-base                              x86_64  3.22.0-1.el7_4.1                            @System       1.1 M
+ python-gudev                                     x86_64  147.2-7.el7                                 @System        45 k
+ python-hwdata                                    noarch  1.7.3-4.el7                                 @System       172 k
+ python-iniparse                                  noarch  0.4-9.el7                                   @System       112 k
+ python-inotify                                   noarch  0.9.4-4.el7                                 @System       256 k
+ python-ipaddr                                    noarch  2.1.11-2.el7                                @System       194 k
+ python-ipaddress                                 noarch  1.0.16-2.el7                                @System       227 k
+ python-javapackages                              noarch  3.4.1-11.el7                                @System        65 k
+ python-libs                                      x86_64  2.7.5-92.el7_9                              @System        24 M
+ python-linux-procfs                              noarch  0.4.11-4.el7                                @System        95 k
+ python-lxml                                      x86_64  3.2.1-4.el7                                 @System       2.6 M
+ python-magic                                     noarch  5.11-37.el7                                 @System        17 k
+ python-perf                                      x86_64  3.10.0-1160.71.1.el7                        @System       336 k
+ python-pycurl                                    x86_64  7.19.0-19.el7                               @System       236 k
+ python-pyudev                                    noarch  0.15-9.el7                                  @System       236 k
+ python-requests                                  noarch  2.6.0-10.el7                                @System       341 k
+ python-schedutils                                x86_64  0.4-6.el7                                   @System        42 k
+ python-setuptools                                noarch  0.9.8-7.el7                                 @System       1.9 M
+ python-six                                       noarch  1.9.0-2.el7                                 @System        97 k
+ python-slip                                      noarch  0.4.0-4.el7                                 @System        60 k
+ python-slip-dbus                                 noarch  0.4.0-4.el7                                 @System        75 k
+ python-syspurpose                                x86_64  1.24.51-1.el7_9                             @System       125 k
+ python-urlgrabber                                noarch  3.10-10.el7                                 @System       492 k
+ python-urllib3                                   noarch  1.10.2-7.el7                                @System       380 k
+ python2-dnf                                      noarch  4.0.9.2-2.el7_9                             @System       1.9 M
+ python2-futures                                  noarch  3.1.1-5.el7                                 @System        91 k
+ python2-libcomps                                 x86_64  0.1.8-14.el7                                @System       140 k
+ pyxattr                                          x86_64  0.5.1-5.el7                                 @System        62 k
+ rpm-python                                       x86_64  4.11.3-48.el7_9                             @System       146 k
+ rsh                                              x86_64  0.17-80.el7                                 @System        91 k
+ subscription-manager-rhsm                        x86_64  1.24.51-1.el7_9                             @System       412 k
+ systemd-sysv                                     x86_64  219-78.el7_9.5                              @System       3.9 k
+ sysvinit-tools                                   x86_64  2.88-14.dsf.el7                             @System       107 k
+ tcp_wrappers-libs                                x86_64  7.6-77.el7                                  @System       131 k
+ yum-metadata-parser                              x86_64  1.1.4-10.el7                                @System        57 k
+ yum-rhn-plugin                                   noarch  2.0.1-10.el7                                @System       202 k
+Removing dependent packages:
+ atomic-registries                                x86_64  1:1.22.1-26.gitb507039.el7                  @System        42 k
+ docker                                           x86_64  2:1.13.1-208.git7d71120.el7_9               @System        64 M
+ docker-client                                    x86_64  2:1.13.1-208.git7d71120.el7_9               @System        13 M
+ docker-common                                    x86_64  2:1.13.1-208.git7d71120.el7_9               @System       4.4 k
+Downgrading:
+ fuse3-libs                                       x86_64  3.3.0-15.el8                                BaseOS         95 k
+ irqbalance                                       x86_64  2:1.4.0-6.el8                               BaseOS         56 k
+ libcgroup                                        x86_64  0.41-19.el8                                 BaseOS         70 k
+ libcroco                                         x86_64  0.6.12-4.el8_2.1                            BaseOS        113 k
+ nginx                                            x86_64  1:1.14.1-9.module+el8.0.0+4108+af250afe     AppStream     570 k
+ sg3_utils                                        x86_64  1.44-5.el8                                  BaseOS        917 k
+ sg3_utils-libs                                   x86_64  1.44-5.el8                                  BaseOS         99 k
+Enabling module streams:
+ container-tools                                          rhel8
+ gimp                                                     2.8
+ javapackages-runtime                                     201801
+ nginx                                                    1.14
+ perl                                                     5.26
+ perl-IO-Socket-SSL                                       2.066
+ perl-libwww-perl                                         6.34
+ python27                                                 2.7
+ python36                                                 3.6
+ satellite-5-client                                       1.0
+
+Transaction Summary
+=========================================================================================================================
+Install    304 Packages
+Upgrade    335 Packages
+Remove      77 Packages
+Downgrade    7 Packages

@@ -1,0 +1,531 @@
+#######################################################################################################################################################################################################################	
+#############################################
+#											#
+#				CONTEXT						#
+#											#	
+#############################################	
+
+kubectl config set-cluster {cluster_name} --server=https://<Cluster Master Host>:8001 --insecure-skip-tls-verify=true
+kubectl config set-context {cluster_name}-context --cluster={cluster_name}
+kubectl config set-credentials {username} --token={token}
+kubectl config set-context {cluster_name}-context --user={username} --namespace=default
+kubectl config use-context {cluster_name}-context
+
+
+### Show config detail
+kubectl config view
+
+
+### Get current context name
+kubectl config current-context
+
+
+### Crete new context
+kubectl config set-context {context_name} --namespace={namespace_name}  --user={username}  --cluster={cluster_name} 
+
+
+### Switch the new context
+kubectl config use-context {context_name} 
+
+#######################################################################################################################################################################################################################
+
+kubectl get pods -A
+
+kubectl describe pods rtpengine-0 -n platform
+ 
+kubectl describe pods weave-net-zj5wr -n kube-system
+
+
+kubectl get pods --all-namespaces | grep -i multus
+
+
+kubectl describe pods freeswitchadapter-0 -n consumption
+
+
+kubectl get pod -A -o wide | grep multus
+
+
+kubectl get service --all-namespaces
+
+
+
+helm uninstall freeswitchadapter -n consumption
+
+
+
+kubectl exec -it freeswitchadapter-0 -n consumption -- bash     
+
+kubectl exec -it kube-multus-ds-795cz -n kube-system   -- bash 
+
+
+#############################################
+#											#
+#				POD							#
+#											#	
+#############################################
+
+########################################### pod listeleme ###########################################
+kubectl get pods
+
+kubectl get pods -l "app"   										# app labelına sahip podları listele
+
+kubectl get pods -l "app"  --show-labels 							# app labelına sahip podları listele ayrıca labelleri göster
+kubectl get pods -l "!app"  --show-labels 							# app labelına sahip olmayan podları listele ayrıca labelleri göster
+
+kubectl get pods -l "app:firstapp"  --show-labels 					# app labelına sahip degeri "firstapp" olanları listele ayrıca labelleri göster
+
+kubectl get pods -l "app=firstapp, tier=frontend"  --show-labels 	# app labelına sahip degeri "firstapp"  ve tier labelına sahip ve degeri "fronted" olanları listele ayrıca labelleri göster
+kubectl get pods -l "app=firstapp, tier!=frontend"  --show-labels 	# app labelına sahip degeri "firstapp"  ve tier labelına sahip ve degeri "fronted" olmayanları listele ayrıca labelleri göster
+
+kubectl get pods -l "app, tier=frontend"  --show-labels 			# app labelına sahip ve tier labelına sahip ve degeri "fronted" olanları listele ayrıca labelleri göster
+ 
+
+kubectl get pods -l 'app in (firstapp)'  --show-labels 				# app labelına sahip degeri "firstapp" olanları listele ayrıca labelleri göster
+kubectl get pods -l 'app in (firstapp, secondapp)'  --show-labels 	# app labelına sahip degeri "firstapp veya secondapp" olanları listele ayrıca labelleri göster
+
+kubectl get pods -l 'app, app notin (firstapp)'  --show-labels 			# app labelına sahip degeri "firstapp" olMayanları listele ayrıca labelleri göster
+
+########################################### pod label ekleme ###########################################
+kubectl label pods Pod_Name app="ersin" 		# Pod_Name isimli poda app isimli değeri "ersin" olan label ekleme
+
+kubectl get pods --show-labels					# tüm labelleri listele(podlara ait)
+###kubectl get nodes --show-labels					# tüm labelleri listele(nodelara ait)
+
+########################################### pod label silme ###########################################
+kubectl label pods Pod_Name app- 		# Pod_Name isimli poddan app labelını ve değerini sil
+
+########################################### pod label güncelleme ###########################################
+kubectl label --overwrite pods Pod_Name app="mert" 		# app labelının değeri mert olarak güncellendi
+
+########################################### tüm pod label ekleme ###########################################
+kubectl label pods --all test="deniz" 		# tüm podlara test isimli değeri "deniz" olan label eklendi
+
+
+
+########################################### pod olusturma ###########################################
+kubectl run Pod_Name --image=nginx --restart=Never
+
+
+########################################### pod üzerinde komut çalıştırma ###########################################
+kubectl exec Pod_Name  -- hostname => test
+
+kubectl exec Pod_Name  -- ls -l /  => /bin /etc /root ...
+
+
+########################################### pod'a bağlanma ###########################################
+kubectl exec -it  Pod_Name --SHELL_Name(/bin/bash /bin/sh vs.) 	#eğer pod içerisinde birden fazla container yoksa
+
+kubectl exec -it  Pod_Name -c Container_Name 					#eğer pod içerisinde birden fazla container varsa
+
+########################################### pod silme ###########################################
+kubectl delete pods  Pod_Name
+
+########################################### pod düzenleme(yaml olarak açıyor) ###########################################
+kubectl edit pods  Pod_Name
+
+
+########################################### pod log okuma ###########################################
+kubectl logs -f Pod_Name -c Container_Name 
+
+
+########################################### Obje bilgilerini öğrenme(api bilgisi) ###########################################
+kubectl explain pods 
+kubectl explain services
+
+
+########################################### pod oluşturma / yaml file çalıştırma ###########################################
+kubectl apply -f file_Name.yml
+
+
+########################################### pod silme ###########################################
+kubectl delete -f file_Name.yml
+
+Note: ImagePullBackOff imajı çekemiyordur.
+
+Note: ChrashLoopBackOff 10 saniyeden başlarayarrak restart eder ve süreyi 2 katına çıkarır 5 dk oluncaya kadar devam ettirir(düzelene kadar)
+	Bu durum düzelene kadar ya da müdahale edilene kadar devam eder.
+
+Note: Restart Policy 3 değer alır
+	- Always
+	- On-failure
+	- Never
+	
+	
+#######################################################################################################################################################################################################################	
+#############################################
+#											#
+#			NODE							#
+#											#	
+#############################################	
+	
+	
+kubectl drain <node_name> — force → node üzerindeki tüm podları siliyorsun.
+kubectl cordon <node_name> → node’u yönetimden çıkarıyorsun, yani artık podlar bu node üzerine deploy olmuyor.
+
+
+
+
+#######################################################################################################################################################################################################################	
+#############################################
+#											#
+#			NAMESPACE						#
+#											#	
+#############################################
+
+########################################### namespace olusturma ###########################################
+kubectl create namespace Namespace_Name
+
+########################################### namespace listeleme ###########################################
+kubectl get namespaceas
+
+########################################### namespace silme ###########################################
+kubectl delete namespaceas Namespace_Name
+
+########################################### default namespace değiştirme ###########################################
+kubectl config set-context --current --namespacea=Namespace_Name
+
+
+
+#######################################################################################################################################################################################################################
+
+#############################################
+#											#
+#			DEPLOYMENT						#
+#											#	
+#############################################
+
+########################################### deployment olusturma ###########################################
+kubectl create deployment Deployment_Name  --image=nginx:latest  --replicas=2
+
+########################################### deployment listeleme ###########################################
+kubectl get deployment
+
+########################################### deployment silme ###########################################
+kubectl delete deployment Deployment_Name
+
+########################################### deployment image değiştirme ###########################################
+kubectl set image deployment/Deployment_Name nginx=httpd
+
+########################################### deployment replica değiştirme ###########################################
+kubectl scale deployment Deployment_Name --replicas=5
+
+261 18 99
+
+
+#######################################################################################################################################################################################################################
+
+#############################################
+#											#
+#	Node - Affinity and anti-affinity		#
+#											#	
+#############################################
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: with-node-affinity
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: topology.kubernetes.io/zone
+            operator: In
+            values:
+            - antarctica-east1
+            - antarctica-west1
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: another-node-label-key
+            operator: In
+            values:
+            - another-node-label-value
+  containers:
+  - name: with-node-affinity
+    image: registry.k8s.io/pause:2.0
+
+
+########################################### açıklama ###########################################
+
+requiredDuringSchedulingIgnoredDuringExecution  => zorunlu
+preferredDuringSchedulingIgnoredDuringExecution => Eğer şartlar sağlanmıyorsa diğer başka Node da kullananilirsin
+
+değerler: In, NotIn, Exists, DoesNotExist
+
+In 				=> belirtilen key ve anahtar çiftine sahip, böyle bir Node bul 
+NotIn 			=> belirtilen key ve anahtar çiftine sahip değil ise, böyle bir Node bul
+Exists 			=> belirtilen key varsa anahtar değerinin önemi yok, böyle bir Node bul
+DoesNotExist 	=> belirtilen keyin bulunmadığı bir Node bul 
+
+
+Not:  preferredDuringSchedulingIgnoredDuringExecution ayrıca weight degerine de sahip: weight değeri öncelik belirtir önceliği büyük olan yüksek önceliklidir.
+
+
+
+#######################################################################################################################################################################################################################
+
+#############################################
+#											#
+#	Pod - Affinity and anti-affinity		#
+#											#	
+#############################################
+
+Note: podAffinity kendisi ile belirtilen özellikleri sağlayan pod ile aynı yerde çalış demek.
+
+değerler: podAffinity => In
+		  podAffinityTerm In     		###	   nodeAffinity de bulunan NotIn 'e karşalık gelir
+		  
+
+Not:  podAffinity de topologyKey değeri bulunur. Bu değer bu pod'un belirtilen özellikleri sağlayan pod ile aynı yerde çalışmasını sağlar.
+
+Not:  preferredDuringSchedulingIgnoredDuringExecution ayrıca weight degerine de sahip: weight değeri öncelik belirtir önceliği büyük olan yüksek önceliklidir.
+
+
+
+
+#######################################################################################################################################################################################################################
+
+#############################################
+#											#
+#				ConfigMap					#
+#											#	
+#############################################
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myconfigmap
+data:
+  # property-like keys; each key maps to a simple value
+  player_initial_lives: "3"
+  ui_properties_file_name: "user-interface.properties"
+
+  # file-like keys
+  game.properties: |
+    enemy.types=aliens,monsters
+    player.maximum-lives=5    
+  user-interface.properties: |
+    color.good=purple
+    color.bad=yellow
+    allow.textmode=true 
+	
+
+Not: ConfigMap, Secret lar ile aynı işe yapan bir k8s nesnesidir. Burada belirtilen değerlerin gizli tutulmasına ihtiyaç yoktur.
+	 Anahtar değer çiftleri "data" tagı altında tanımlanır.
+	 Pod tanımında  configMap tagı altında tanımlanır.
+	 
+	 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: redis
+    volumeMounts:
+    - name: foo
+      mountPath: "/etc/foo"
+      readOnly: true
+  volumes:
+  - name: foo
+    configMap:
+      name: myconfigmap
+	  
+	  
+#######################################################################################################################################################################################################################
+
+
+#############################################
+#											#
+#				Taint & Toleration			#
+#											#	
+#############################################
+
+Not: Node larda varsayılan olarak taint değeri boştur, bu herhangi bir pod bu node ile eşleşebilir demek.
+
+Not: Toleration değeri podlara eklenir.
+
+########################################### Taint değer ekleme  ###########################################
+kubectl taint node Node_Name Key=(operator)Value:Effect_value
+kubectl taint node Node1  platform=production:NoSchedule		# This means that no pod will be able to schedule onto Node1 unless it has a matching toleration.
+																# Bu değerleri bulundurmayanları çalışmasına izin verme
+
+kubectl taint node Node1  platform=production:NoExecute 		# Bu değerleri bulundurmayanları çalışmasına izin verme ve mevcutta çalışanlar varsa da sil!!!
+
+########################################### Taint değer silme  ###########################################
+kubectl taint node Node_Name Key-
+kubectl taint node minikube  platform-
+
+#Not label silermiş gibi
+
+
+########################################### Toleration değer ekleme  ###########################################
+kubectl taint node Pod_Name Key=(operator)Value:Effect_value  #operator=Equal
+or
+kubectl taint node Pod_Name Key=(operator):Effect_value  # if operator=Exist #value doesn't matter
+
+
+#######################################################################################################################################################################################################################
+
+
+#############################################
+#											#
+#				DaemonSet					#
+#											#	
+#############################################
+
+Bir podun bütün veya bazı Node lar üzerinde çalışması gerekiyorsa DaemonSet kullanırlır.
+Örneğin logları bir merkezi log sunucusuna gönderen bir container çalıştırılmak isnetirse DaemonSet kullanırılır. Yeni Node lar eklendiğinde ilgili container hemen o Node üzerinde çalışmaya başlar herhangi bir müdahale gerektirmeden.
+
+
+#######################################################################################################################################################################################################################
+
+
+#############################################
+#											#
+#				Jobs						#
+#											#	
+#############################################
+
+Not: Spesifik bir işi yapan bir container oluşturmak istediğimizde kullanılır genellikle. (Ör. veri tabanı kurulumu gibi ..)
+
+# backoffLimit 			=> Container oluşturma esnasında hata alırsan bu işi 5 defa yapmaya çalış, yapamazsa fail et.
+# activeDeadlineSeconds => belirtilen süre zarfında yapmaya çalış
+# restartPolicy			=> Bu değer ya Never yada On-failure olmalı.
+
+Not: İş bittiğinde container silinmez bu logları kontrol etmeye yarar
+
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi-with-timeout
+spec:
+  backoffLimit: 5
+  activeDeadlineSeconds: 100
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: perl:5.34.0
+        command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+      restartPolicy: Never
+	  
+	 
+#######################################################################################################################################################################################################################
+
+#############################################
+#											#
+#				Network Policy				#
+#											#	
+#############################################
+
+
+
+##########################################################################################
+spec:
+  podSelector:
+    matchLabels:
+      role: db  => ### role: db label'ına sahip podlar için geçerli
+##########################################################################################	  
+  policyTypes:
+    - Ingress
+    - Egress
+				=> ### Hem Ingress hem de Egress kısıtları olacak.
+##########################################################################################
+ingress:
+    - from:							=> ### Bu ip Blocklarından gelen isteklere izin ver
+        - ipBlock:
+            cidr: 172.17.0.0/16
+            except:					=> ### Bu ip Blocku hariç
+              - 172.17.1.0/24
+        - namespaceSelector:		=> ### myproject label'ına sahip namespacelerden gelen istekler
+            matchLabels:
+              project: myproject
+        - podSelector:				=> ### frontend label'ına sahip podlardan gelen istekler
+            matchLabels:
+              role: frontend
+      ports:						=> ### TCP protokolü ve 6379 portundan  gelen istekler
+        - protocol: TCP
+          port: 6379
+##########################################################################################
+egress:
+    - to:							=> ### Bu ip Blocklarına giden isteklere izin ver
+        - ipBlock:
+            cidr: 10.0.0.0/24
+      ports:						=> ### TCP protokolü ve 6379 portuna  giden istekler
+        - protocol: TCP				
+          port: 5978
+##########################################################################################
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      role: db
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - ipBlock:
+            cidr: 172.17.0.0/16
+            except:
+              - 172.17.1.0/24
+        - namespaceSelector:
+            matchLabels:
+              project: myproject
+        - podSelector:
+            matchLabels:
+              role: frontend
+      ports:
+        - protocol: TCP
+          port: 6379
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 10.0.0.0/24
+      ports:
+        - protocol: TCP
+          port: 5978
+
+	  
+	 
+#######################################################################################################################################################################################################################
+
+
+#kubectl delete pod
+for i in $(kubectl get pod -o=name |  sed "s/^.\{4\}//"); do kubectl delete pod $i; done
+
+
+#kubectl delete pvc
+for i in $(kubectl get pvc -o=name |  sed "s/^.\{22\}//"); do kubectl delete pvc $i; done
+
+
+#kubectl delete pv
+for i in $(kubectl get pv -o=name |  sed "s/^.\{17\}//"); do kubectl delete pv $i; done
+
+
+
+
+
+export HEKETI_CLI_USER=admin
+export HEKETI_CLI_KEY=admin
+heketi-cli  volume list
+
+for i in $( heketi-cli  volume list |  sed "s/^.\{3\}//"); do heketi-cli volume delete $i; done
+
+
+
+
+
+opendistro_security.ssl.http.enabled: false
+opensearch_security.ssl.http.enabled: false
+opensearch_security.multitenancy.enabled: "true"

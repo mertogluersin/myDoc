@@ -1,0 +1,68 @@
+terraform {
+ required_version = ">= 0.13"
+  required_providers {
+    libvirt = {
+      source  = "dmacvicar/libvirt"
+      version = "0.6.10"
+    }
+  }
+}
+
+
+provider "libvirt" {
+  uri = "qemu:///system"
+}
+
+provider "libvirt" {
+  alias = "local"
+  uri = "qemu:///system"
+}
+
+resource "libvirt_pool" "raw_test_pool" {
+    name = "raw_test_pool"
+    type = "dir"
+    path = "/data/kandy_guest/sysadm/terraform/raw_pool"
+}
+
+resource "null_resource" "convert_qcow2_image" {
+    provisioner "local-exec"{
+      command = "qemu-img convert -f qcow2 -O raw /data/kandy_guest/sysadm/terraform/images/KandyOS-CentOS-7.guest-CPaaS-7.0-139-x86_64.qcow2 /data/kandy_guest/sysadm/terraform/images/KandyOS-CentOS-7.guest-CPaaS-7.0-139-x86_64.raw"
+    }
+}
+
+resource "libvirt_volume" "raw_base_volume" {
+  name   = "raw_base_volume"
+  source = "/data/kandy_guest/sysadm/terraform/images/KandyOS-CentOS-7.guest-CPaaS-7.0-139-x86_64.raw"
+  pool   = libvirt_pool.raw_test_pool.name
+}
+
+resource "libvirt_domain" "guest" {
+
+  name        = "raw_test_vm"
+  description = "raw domain test"
+  qemu_agent  = true
+  autostart   = true
+  memory      = 30 * 1024
+  vcpu        = 10
+  cpu = {
+    mode = "host-passthrough"
+  }
+
+  disk {
+    volume_id = libvirt_volume.raw_base_volume.id
+  }
+
+
+  console {
+    type = "pty"
+    target_type = "serial"
+    target_port = "0"
+  }
+
+  graphics {
+    type = "spice"
+    listen_type = "address"
+    autoport = true
+  }
+
+}

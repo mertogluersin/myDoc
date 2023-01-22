@@ -1,0 +1,800 @@
+*********************************Milestone-1 kubespray kurulumu****************************
+#Packer: create superuser like sysadm to run ansible tasks 
+	adduser sysadm
+	passwd sysadm
+	id sysadm
+	usermod -aG wheel sysad
+
+# sudo pip3 install --upgrade pip
+# sudo pip3 install --upgrade setuptools
+# sudo pip3 install setuptools-rust
+# python3 -m pip install --user ansible-core==2.11.11
+
+export PATH=$PATH:/home/sysadm/.local/bin:/home/sysadm/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
+
+# ansible-galaxy install -r requirements.yml
+
+
+
+
+**Bunu ansible'e koyman lazım
+şunlada olur 
+sudo visudo
+
+visudo  
+
+#includedir /etc/sudoers.d
+dan sonra
+şu satırı ekle
+## Allow sysadm  sudo without password
+ sysadm ALL=(ALL) NOPASSWD:ALL
+
+
+ansible-playbook -i /etc/ansible/guestsetup/inventories/lab guest_setup.yml --skip-tags "access_kubernetes"  --ask-pass  -Kk
+ansible-playbook -i /etc/ansible/guestsetup/inventories/lab guest_setup.yml    --skip-tags "access_kubernetes" -Kk
+
+ansible-playbook -i /etc/ansible/guestsetup/inventories/lab guest_setup.yml  --tags  "access_kubernetes" -Kk
+
+
+ansible-playbook -i /etc/ansible/guestsetup/inventories/lab guest_setup.yml  --tags  "firewalld" -Kk
+ansible-playbook -i /etc/ansible/guestsetup/inventories/lab/secondaryserver guest_setup.yml  --tags  "firewalld" -Kk
+
+
+
+**************************************************Milestone-2 Kubernetes Kubespray Cluster Installation********************************************
+ 
+ upload kubespray directory to /etc/ansible
+ 
+  #cd kubespray
+ 
+  Packer: 
+ # ln -sf requirements-2.11.txt requirements.txt
+ 
+
+ 
+ 
+
+  Packer: 
+ #  pip3 install -r requirements.txt
+ 
+ 
+cp -rfp inventory/sample inventory/mycluster
+ 
+ #Ansible IP leri tanımlama , IP ler değişecek.
+             **virtualbox için -> declare -a IPS=(192.168.56.100 192.168.56.101 192.168.56.102)***
+declare -a IPS=(10.254.156.51 10.254.156.52 10.254.156.53 10.254.156.54)
+declare -a IPS=(10.254.156.57 10.254.156.58 10.254.156.59 10.254.156.60)
+CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
+**host dosyasını kontrol et
+cat inventory/mycluster/hosts.yaml
+vi inventory/mycluster/hosts.yaml
+
+***etcd notlarını düzenleme
+etcd nodları sadece main node olacak yoksa etcd çalışmıyor bug var
+
+etcd:
+      hosts:
+        node1:
+
+
+*Note: Bunlar olmaması lazım : yum remove python3.8
+*Note: ls -ls /usr/bin/python*
+
+
+#Ansible: kubespray install playbook
+ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml
+**ansible sudo için password isterse bu şekilde çalıştırmak gerekiyor:
+ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml -K
+
+****Access Kubernetes Cluster from Master şu ansible scriptini çalıştırmak gerekiyor 
+ansible-playbook -i /etc/ansible/guestsetup/inventories/lab/secondaryserver guest_setup.yml --tags "access_kubernetes" -K
+
+***disable firewalld******
+ansible-playbook -i /etc/ansible/guestsetup/inventories/lab/secondaryserver guest_setup.yml --tags "firewalld" -K
+
+
+***check node status on kubespray cluster***
+kubectl get nodes --kubeconfig=/home/sysadm/admin.conf
+
+
+
+*********************************Milestone-3 Installing OpenSearch clusters using Operator ****************************
+Parametreler:
+https://artifacthub.io/packages/helm/opensearch-project-helm-charts/opensearch#requirements
+
+
+
+1- Install  helm chart
+
+    * Install helm chart: 
+	# PACKER
+	 curl  "https://get.helm.sh/helm-v3.10.0-linux-amd64.tar.gz" --output helm-v3.10.0-linux-amd64.tar.gz
+	 tar -zxvf helm-v3.10.0-linux-amd64.tar.gz
+   sudo   mv linux-amd64/helm /usr/local/bin/helm
+
+2- Add the helm repo:
+
+# helm repo add opensearch-operator https://opster.github.io/opensearch-k8s-operator/ --kubeconfig=/home/sysadm/admin.conf
+
+
+
+
+
+
+***check repo is installed***
+ helm repo list --kubeconfig=/home/ansible/admin.conf -n monitoring
+
+
+ kubectl create namespace monitoring --kubeconfig=/home/sysadm/admin.conf
+kubectl config set-context --current --namespace=monitoring --kubeconfig=/home/sysadm/admin.conf
+
+
+3- Install the Operator:
+helm install my-opensearch-operator opensearch-operator/opensearch-operator --version 2.1.1 --kubeconfig=/home/sysadm/admin.conf
+
+
+****check whether char has been deployed***
+helm list --kubeconfig=/home/sysadm/admin.conf
+
+kubectl get namespace --kubeconfig=/home/sysadm/admin.conf
+
+*************chek pods are deployed**********
+ kubectl get pods  --kubeconfig=/home/sysadm/admin.conf --namespace=monitoring
+ kubectl get pods -A --kubeconfig=/home/sysadm/admin.conf
+
+
+
+****check crd***
+kubectl get crd --kubeconfig=/home/sysadm/admin.conf | grep opensearch-k8s-operator/
+
+
+**********clone opensearch-k8s-operator**************
+https://github.com/Opster/opensearch-k8s-operator/blob/main/docs/userguide/main.md
+
+# sudo dnf install git
+
+git clone https://github.com/Opster/opensearch-k8s-operator.git
+Dashboard Configuration: https://github.com/opensearch-project/OpenSearch-Dashboards/blob/main/config/opensearch_dashboards.yml
+**opensearch.yml örnek
+https://github.com/cht42/opensearch-keycloak/blob/main/opensearch.yml
+
+
+# kubectl create namespace demo --kubeconfig=/home/sysadm/admin.conf
+
+*******set current namespace to demo***
+kubectl config set-context --current --namespace=demo --kubeconfig=/home/sysadm/admin.conf
+
+sysctl -w vm.max_map_count=262144
+***for permanent solution***
+vi /etc/sysctl.conf
+vm.max_map_count=262144
+
+***create cluster
+# kubectl create -f opensearch-cluster.yaml  --kubeconfig=/home/sysadm/admin.conf
+ kubectl apply -f opensearch-cluster.yaml  --kubeconfig=/home/sysadm/admin.conf
+
+******Opensearh Objelerinin durumlarına bak
+ kubectl get all --kubeconfig=/home/sysadm/admin.conf
+
+
+ kubectl get opensearch -n default --kubeconfig=/home/sysadm/admin.conf
+
+****check if cluster pod are running
+kubectl get pod  --kubeconfig=/home/sysadm/admin.conf
+
+***Hata****
+ max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+ https://stackoverflow.com/questions/51445846/elasticsearch-max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-inc
+
+
+
+***cluster silme**
+ kubectl delete pvc -l opster.io/opensearch-cluster=my-cluster -n demo --kubeconfig=/home/sysadm/admin.conf 
+
+kubectl delete -f opensearch-cluster.yaml --kubeconfig=/home/sysadm/admin.conf
+
+
+***Opensearch Bağlanma****
+
+
+
+curl -XGET https://localhost:9200 -u 'admin:admin' --insecure
+curl -XGET http://localhost:5601 -u 'admin:admin' --insecure
+
+kubectl apply -f opensearch-cluster.yaml --kubeconfig=/home/sysadm/admin.conf 
+
+  kubectl port-forward svc/my-cluster-dashboards 5601 --kubeconfig=/home/sysadm/admin.conf
+
+ansible-playbook -i /etc/ansible/guestsetup/inventories/lab guest_setup.yml --tags "opensearchportforward" -Kk
+
+
+*****port forward*** t
+
+ ** copy "opensearchportforward.sh" and "opensearchportforward.stop.sh" to  /home/sysadm/opensearch **
+ ** copy opensearch.kubectl.portforward.service to /etc/systemd/system **
+ ** enable port forward service **
+  # systemctl daemon-reload
+  # systemctl enable --now opensearch.kubectl.portforward.service
+ 
+
+ kubectl port-forward --address 0.0.0.0 svc/my-cluster-dashboards  5601:5601 --kubeconfig=/home/sysadm/admin.conf
+ kubectl port-forward --address 0.0.0.0 svc/my-cluster  9200:9200 --kubeconfig=/home/sysadm/admin.conf
+
+http://10.254.156.51:5601/app/login?nextUrl=%2F
+
+
+
+
+
+******************ingress oluşturma*************************************
+https://devopscube.com/setup-ingress-kubernetes-nginx-controller/
+
+https://www.fairwinds.com/blog/intro-to-kubernetes-ingress-set-up-nginx-ingress-in-kubernetes-bare-metal
+https://kubernetes.github.io/ingress-nginx/deploy/
+https://matthewpalmer.net/kubernetes-app-developer/articles/kubernetes-ingress-guide-nginx-example.html
+
+kubectl create -f dashboardingress.yml -n opensearchingress--kubeconfig=/home/sysadm/admin.conf
+kubectl delete -f dashboardingress.yml -n opensearchingress--kubeconfig=/home/sysadm/admin.conf
+
+
+ kubectl get all --kubeconfig=/home/sysadm/admin.conf  --kubeconfig=/home/sysadm/admin.conf -n ingress-nginx
+
+kubectl describe service  ingress-nginx-controller -n ingress-nginx --kubeconfig=/home/sysadm/admin.conf
+
+kubectl get pods --namespace=ingress-nginx --kubeconfig=/home/sysadm/admin.conf
+
+ingress.networking.k8s.io/opensearchdashboardingress created
+
+ kubectl get pod -n opensearchdashboardingress -w
+ 
+ 
+ kubectl port-forward svc/my-cluster-dashboards  --kubeconfig=/home/sysadm/admin.conf
+ 
+ kubectl port-forward --address 0.0.0.0 pod/mypod 8888:5000
+ 
+ 
+ https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/
+ https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_expose/
+ 
+ kubectl expose service nginx --port=443 --target-port=8443 --name=opensearchdashboardingress
+ 
+ kubectl expose service my-cluster-dashboards --name=opensearchdashboardingress --port=80 --target-port=5601 --external-ip=10.254.156.51  --kubeconfig=/home/sysadm/admin.conf
+ 
+ kubectl port-forward --address 0.0.0.0 pod/mypod 5601:5601 --kubeconfig=/home/sysadm/admin.conf
+ 
+ ***port forward için aşağıdaki ansible komutunu çalıştırmak gerekiyor***
+  ansible-playbook -i /etc/ansible/guestsetup/inventories/lab guest_setup.yml --tags "opensearchportforward" 
+ 
+ /home/sysadm/opensearch/opensearchportforward.sh
+ ansible-playbook -i /etc/ansible/guestsetup/inventories/lab guest_setup.yml --tags "opensearchportforward"
+ 
+ 
+ kubectl port-forward svc/my-cluster-dashboards 5601 --kubeconfig=/home/sysadm/admin.conf
+  kubectl port-forward svc/my-cluster-dashboards 5601 --kubeconfig=/home/sysadm/admin.conf
+  
+***Container içine girme***
+  kubectl --kubeconfig=/home/sysadm/admin.conf  exec --stdin --tty my-cluster-masters-0  -- /bin/bash
+  **yüklü pluginleri listeleme***
+  ./bin/opensearch-plugin list
+  
+  
+  
+***port forward servisi açma***
+  systemctl daemon-reload
+  systemctl enable --now opensearch.kubectl.portforward.service
+  systemctl start --now opensearch.kubectl.portforward.service
+  
+  systemctl stop --now opensearch.kubectl.portforward.service
+  systemctl status opensearch.kubectl.portforward.service
+  
+  
+  
+******************************************Snapshot******************************************
+https://opensearch.org/docs/latest/opensearch/snapshots/snapshot-restore/#restore-snapshots
+
+ https://kubernetes.io/docs/concepts/storage/storage-classes/
+ 
+ *****ceph BLOCK DEVICES AND KUBERNETE*********
+ 
+ https://docs.ceph.com/en/latest/rbd/rbd-kubernetes/
+ 
+ https://docs.openshift.com/container-platform/3.11/install_config/storage_examples/gluster_dynamic_example.html
+ 
+ **gluster storage class oluşturma***
+ https://itnext.io/kubernetes-storage-part-2-glusterfs-complete-tutorial-77542c12a602
+ https://www.youtube.com/watch?v=65XOlaERvjw
+ 
+ 
+ 
+ 
+ 
+*********************************************************Install GlusterFS BEGIN ************************************************************
+
+https://buildlogs.centos.org/centos/8/storage/x86_64/gluster-8/Packages/g/
+ https://unicom.mirrors.ustc.edu.cn/centos-vault/centos/8.5.2111/storage/x86_64/gluster-9/
+ 
+ 
+ https://www.youtube.com/watch?v=8CJbyBdxcYU&list=PL34sAs7_26wOwCvth-EjdgGsHpTwbulWq&index=9
+ 
+ 
+***Birinci VM ve ikinci VM de şunları yap BEGIN***
+   http://mirror.centos.org/centos-8/8/extras/x86_64/os/Packages/centos-release-gluster9-1.0-1.el8.noarch.rpm
+ # sudo dnf install epel-release
+ # sudo yum -y install yum-utils
+
+ yum config-manager --set-enabled PowerTools
+ 
+ # yum-config-manager --add-repo https://unicom.mirrors.ustc.edu.cn/centos-vault/centos/8.5.2111/storage/x86_64/gluster-9/
+ # yum install glusterfs-server --nogpgcheck
+ # systemctl enable glusterd
+ # systemctl start glusterd
+ 
+ *check gluster server is running*
+ # systemctl status glusterd
+***Birinci VM ve ikinci VM de şunları yap END***
+
+***etc host dosyalarını ayarla BEGIN  gluster1 gluster2 ve client makinesi için***
+ sufo vi /etc/hosts
+ # glusterfs server hosts BEGIN
+192.168.56.100 gluester1.com  gluster1
+192.168.56.101 gluester2.com  gluster2
+# glusterfs server hosts END
+
+***Create single storage pool with gluster1 and gluster2 BEGIN***
+
+ * Bir ve ikinci gluster hostda
+  # systemctl stop firewalld
+  # gluster peer probe  gluster2
+ * Check gluster peer status 
+  # gluster peer status
+***Create single storage pool with gluster1 and gluster2 END***
+
+
+*** Create gluster client on 3h VM BEGIN***
+ # sudo dnf install epel-release
+ # sudo yum -y install yum-utils
+ # sudo yum-config-manager --add-repo https://unicom.mirrors.ustc.edu.cn/centos-vault/centos/8.5.2111/storage/x86_64/gluster-9/
+ # sudo yum install glusterfs-client --nogpgchec
+ 
+ *check gluster server is running*
+ # systemctl status glusterd
+ 
+*** Create gluster client on 3h VM END***
+
+
+****************Some playground on glusterfs BEGIN *****************
+
+***Create replicated gluster volumen BEGIN ***
+  # mkdir /gluster
+ * 2 replicalı volume oluştur *
+  # gluster volume create volume1 replica 2 gluster1:/gluster/brick1 gluster2:/gluster/brick1 force
+  
+ * Check volume is created *
+  # gluster volume list
+ 
+ * Volum başlat *
+ # gluster volume start volume1
+ 
+ * Check volume is started *
+ # gluster volume status
+ # gluster volume info
+ * Check volume is started *
+ 
+ 
+ **Mount Data to client BEGIN **
+  #  mkdir /mnt/volume1
+  mount -t glusterfs gluster1:volume1 /mnt/volume1/
+ 
+ **Mount Data to client BEGIN **
+ 
+***Create replicated gluster volumen END ***
+
+***Delete volume BEGIN***
+ # gluster volume stop volume1
+ # gluster volume delete volume1
+
+***Delete volume BEGIN***
+
+******Creating distributed volumes in Gluster FS BEGIN ******
+
+https://www.youtube.com/watch?v=s55Sg58M1c4&list=PL34sAs7_26wOwCvth-EjdgGsHpTwbulWq&index=4
+
+
+
+
+
+**replica falan yazmazsak otomatik distributed volume oluşuyor
+
+# gluster volume create volume2 gluster1:/gluster/brick2 gluster2:/gluster/brick2 force
+
+* start volume *
+# gluster volume start volume2
+
+ * Check volume is started *
+ # gluster volume status
+ # gluster volume info
+
+ **Mount Data to client BEGIN **
+  #  mkdir /mnt/volume2
+  mount -t glusterfs gluster1:volume2 /mnt/volume2/
+
+* Client makinesinde file oluşturma*
+ touch /mnt/volume2/file2
+ 
+* Yukarda oluşan dosya sadece glusterserver kurulu bir makinede oluşuyor replicaiton olmadığından
+ 
+ 
+
+ 
+
+******Creating distributed volumes in Gluster FS END ******
+
+
+******Some help command BEGIN ******
+ * kaç tana gluster server var
+  gluster peer status
+ 
+ * peer de kaç tana komut var
+# gluster peer help
+
+ * peer de kaç tana komut var
+ # gluster volume help
+
+*volume create komutlarını öğrenmek için 
+ # gluster volume create help
+
+***Volume extension****
+
+****************Some playground on glusterfs END*****************
+ 
+ gluster volume create volume1 gluster1:/gluster/brick1
+ 
+ **diğer makinede de brick oluşturuyorum bu şekilde**
+ # gluster volume add-brick volume1 gluster2:/gluster/brick1
+ 
+ ** dosyaları serverlara dengeli dağıt(varolanları da dağıtıyor)**
+ # gluster volume rebalance volume1 start
+ 
+ **Bir serverdan brick silme: Bu operasyon silinin brickdeki tüm dosyaları diğer serverlardaki bricklere dağıtır**
+  # gluster volume remove-brick volume1 gluster2:/gluster/brick1 start
+  # gluster volume remove-brick volume1 gluster2:/gluster/brick1 commit
+  
+  
+*******************************Manage Gluster Storage with Heketi REST API BEGIN*****************************
+https://github.com/justmeandopensource/glusterfs
+
+
+**root pathini ayarla**
+ visudo
+ -> Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin/
+
+***Download Heketi binaries (Bu ansible ile yapılabilir)***
+{
+  cd /tmp
+  wget https://github.com/heketi/heketi/releases/download/v10.1.0/heketi-v10.1.0.linux.amd64.tar.gz
+  tar zxf heketi*
+  mv heketi/{heketi,heketi-cli} /usr/local/bin/
+}
+
+
+***Set up user account for heketi(Bu ansible ile yapılabilir)***
+{
+  groupadd -r heketi
+  useradd -r -s /sbin/nologin -g heketi heketi
+  mkdir {/var/lib,/etc,/var/log}/heketi
+}
+
+
+***Create ssh passwordless access to Gluster nodes (Bu ansible ile yapılabilir)***
+{
+  ssh-keygen -f /etc/heketi/heketi_key -t rsa -N ''
+  for node in gluster1 gluster2; do
+    ssh-copy-id -i /etc/heketi/heketi_key.pub root@$node
+  done
+}
+
+
+
+***Configure heketi***
+cp /tmp/heketi/heketi.json /etc/heketi/
+
+***edit and upload heketli file örnek heketi.jsonı koypala**
+
+***Update permissions on heketi directories***
+chown -R heketi:heketi {/var/lib,/etc,/var/log}/heketi
+
+
+***Create systemd unit file for heketi***
+cat <<EOF >/etc/systemd/system/heketi.service
+[Unit]
+Description=Heketi Server
+
+[Service]
+m=simple
+WorkingDirectory=/var/lib/heketi
+EnvironmentFile=-/etc/heketi/heketi.env
+User=heketi
+ExecStart=/usr/local/bin/heketi --config=/etc/heketi/heketi.json
+Restart=on-failure
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+
+***Enable and start heketi service***
+{
+  systemctl daemon-reload
+  systemctl enable --now heketi
+}
+
+
+***Quick verification that heketi is running***
+curl localhost:8080/hello; echo
+
+***heketi cli bağlanma***
+heketi-cli --user admin --secret admin
+
+ya da 
+
+Export environment variables for heketi-cli
+export HEKETI_CLI_USER=admin
+export HEKETI_CLI_KEY=admin
+
+***create cluster***
+ # heketi-cli  cluster create
+** check cluster has been created**
+ # heketi-cli  cluster  list
+
+***Add node to  cluster BEGIN ***
+
+**İlk nodeu ekleme**
+ # heketi-cli  node add --zone 1 --cluster aa9a93e11905f0716efd459a90cb9050 --management-host-name gluster1 --storage-host-name gluster1
+ # heketi-cli  node add --zone 1 --cluster aa9a93e11905f0716efd459a90cb9050 --management-host-name gluster2 --storage-host-name gluster2
+  
+**nodeları listele**
+ # heketi-cli node list  
+  
+**node info **
+ # heketi-cli node info 5b4aa3dfeee9ae9806c1a9addb9abc9d
+ 
+**cluster  info **
+ # heketi-cli cluster info aa9a93e11905f0716efd459a90cb9050
+***Add node to  cluster END ***  
+  
+  
+*** Erase signature on disk (will run all gluster servers) BEGIN ***
+sudo wipefs -a /dev/vdb*
+*** Erase signature on disk (will run all gluster servers) END ***
+  
+***Nodelar için device ekleme  BEGIN ***
+  { 
+   heketi-cli device add  --name=/dev/vdb  --node=38fb31709d6865bda3fc081f49b23cf4
+   heketi-cli device add  --name=/dev/vdb  --node=61c9a20e8b8b4a58c3f42e9b94292d9c
+   heketi-cli device add  --name=/dev/vdb  --node=c56a94ade50723c0de92ae26605cfae4
+ }
+
+ **node altındaki ekli device'ı görebilirsin**
+ # heketi-cli node info  38fb31709d6865bda3fc081f49b23cf4
+ # heketi-cli node info  61c9a20e8b8b4a58c3f42e9b94292d9c
+ # heketi-cli node info  c56a94ade50723c0de92ae26605cfae4
+
+***device ekleme  END ***
+
+
+***devicea volume ekeleme BEGIN ***   
+  ** 2 replica ile volume ekle**
+  # heketi-cli volume create --size 1 --replica 2
+  
+  ** volumler oluşmu bak **
+  # heketi-cli volume list 
+  
+***devicea volume ekeleme END ***    
+
+***glusterfs client yükle heketide olabilir***
+ # dnf install -y glusterfs-client 
+  
+***mount clusterfs volume***
+[root@node3 GlusterFS]# heketi-cli volume info 65aafe340aa573583791cf355d1e2cfc
+Name: vol_65aafe340aa573583791cf355d1e2cfc
+Size: 1
+Volume Id: 65aafe340aa573583791cf355d1e2cfc
+Cluster Id: aa9a93e11905f0716efd459a90cb9050
+Mount: gluster1:vol_65aafe340aa573583791cf355d1e2cfc
+Mount Options: backup-volfile-servers=gluster2
+Block: false
+Free Size: 0
+Reserved Size: 0
+Block Hosting Restriction: (none)
+Block Volumes: []
+Durability Type: replicate
+Distribute Count: 1
+Replica Count: 2
+
+
+  mount -t glusterfs -o backup-volfile-servers=gluster2 gluster1:vol_65aafe340aa573583791cf355d1e2cfc /mnt
+ 
+
+  
+*******************************Manage Gluster Storage with Heketi REST API END*****************************
+ 
+ 
+**********************************************************kubertes storage class oluşturma BEGIN *************************************************
+ https://itnext.io/kubernetes-storage-part-2-glusterfs-complete-tutorial-77542c12a602
+ Github URL: https://github.com/justmeandopensource/kubernetes/tree/master/yamls/glusterfs-provisioner
+ 
+ 
+**root pathini ayarla**
+ visudo
+ -> Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin/
+
+***Download Heketi binaries (Bu ansible ile yapılabilir)***
+{
+  cd /tmp
+  wget https://github.com/heketi/heketi/releases/download/v10.1.0/heketi-v10.1.0.linux.amd64.tar.gz
+  tar zxf heketi*
+  mv heketi/{heketi,heketi-cli} /usr/local/bin/
+}
+
+
+***Set up user account for heketi(Bu ansible ile yapılabilir)***
+{
+  groupadd -r heketi
+  useradd -r -s /sbin/nologin -g heketi heketi
+  mkdir {/var/lib,/etc,/var/log}/heketi
+}
+
+
+***Create ssh passwordless access to Gluster nodes (Bu ansible ile yapılabilir)***
+{
+  ssh-keygen -f /etc/heketi/heketi_key -t rsa -N ''
+  for node in gluster1 gluster2 gluster2; do
+    ssh-copy-id -i /etc/heketi/heketi_key.pub root@$node
+  done
+}
+
+
+
+***Configure heketi***
+cp /tmp/heketi/heketi.json /etc/heketi/
+
+***edit and upload heketli file örnek heketi.jsonı koypala**
+
+***Update permissions on heketi directories***
+chown -R heketi:heketi {/var/lib,/etc,/var/log}/heketi
+
+
+***Create systemd unit file for heketi***
+cat <<EOF >/etc/systemd/system/heketi.service
+[Unit]
+Description=Heketi Server
+
+[Service]
+Type=simple
+WorkingDirectory=/var/lib/heketi
+EnvironmentFile=-/etc/heketi/heketi.env
+User=heketi
+ExecStart=/usr/local/bin/heketi --config=/etc/heketi/heketi.json
+Restart=on-failure
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+
+***Enable and start heketi service***
+{
+  systemctl daemon-reload
+  systemctl enable --now heketi
+}
+
+
+***Quick verification that heketi is running***
+curl localhost:8080/hello; echo
+
+***heketi cli bağlanma***
+heketi-cli --user admin --secret admin
+
+ya da 
+
+Export environment variables for heketi-cli
+export HEKETI_CLI_USER=admin
+export HEKETI_CLI_KEY=admin
+
+***create cluster***
+ # heketi-cli  cluster create
+** check cluster has been created**
+ # heketi-cli  cluster  list
+
+ 
+ **İlk nodeu ekleme(3 nodda ekleyebilirsin) **
+ # heketi-cli  node add --zone 1 --cluster aa9a93e11905f0716efd459a90cb9050 --management-host-name gluster1 --storage-host-name 192.168.56.100
+ # heketi-cli  node add --zone 1 --cluster aa9a93e11905f0716efd459a90cb9050 --management-host-name gluster2 --storage-host-name 192.168.56.101
+ 
+ 
+***Nodelar için device ekleme  BEGIN ***
+ # heketi-cli device add  --name=/dev/sdb  --node=9458f13e2309a603428fe906b80b8bc0
+ # heketi-cli device add  --name=/dev/sdb  --node=bd6c23f209a18ef1366aa1376eaead6a
+ 
+**storageclass kubernetes configuration dosyası oluştur örnektekini düzelt ve kullan*** 
+ 
+ 
+***Storage class nesnes oluştur kubernetesde***
+ kubectl create -f    storage-class-glusterfs.yaml --namespace=demo --kubeconfig=/home/sysadm/admin.conf
+ 
+ kubectl get storageclass --all-namespaces --kubeconfig=/home/sysadm/admin.conf
+ 
+**********************************************************kubertes storage cluster oluşturma END *************************************************
+
+
+*********************************************************Install GlusterFS END ************************************************************
+ 
+ 
+*******************************************************Bazı komutlar ************************************************************************
+
+ kubectl get deployment opensearch-operator-controller-manager -o yaml  --kubeconfig=/home/sysadm/admin.conf
+ kubectl logs -f my-cluster-masters-0  --kubeconfig=/home/sysadm/admin.conf 
+ 
+***bir podun tüm özelliklerini almak için***
+ kubectl describe pod   opensearch-operator-controller-manager-6f6f5bdf49-wnb4p  --kubeconfig=/home/sysadm/admin.conf
+ kubectl get all --kubeconfig=/home/sysadm/admin.conf 
+ 
+***bir podun logunu almak için***
+ kubectl logs -f  my-cluster-bootstrap-0 -n demo --kubeconfig=/home/sysadm/admin.conf
+ 
+***tüm namespacelerdeki podları almak için***
+ kubectl get pod -A --kubeconfig=/home/sysadm/admin.conf
+ 
+***Şu anki namespace deki tüm podları almak için***
+ kubectl get pod  --kubeconfig=/home/sysadm/admin.conf
+ 
+*** opensearche ulaşmak için ***
+ kubectl port-forward service/my-cluster 9999:9200  --kubeconfig=/home/sysadm/admin.conf
+ 
+***9999 portu açıkmı***
+sudo netstat -tulpn | grep 9200
+
+***pod are working which node***
+kubectl get pod  -o  wide --kubeconfig=/home/sysadm/admin.conf
+
+***port forward 
+kubectl port-forward svc/my-first-cluster 9200  --kubeconfig=/home/sysadm/admin.conf
+
+*********dashboard port forward***
+kubectl port-forward svc/my-cluster-dashboards 5601 --kubeconfig=/home/sysadm/admin.conf
+
+***********Servis Detay*****************
+kubectl describe service my-cluster --kubeconfig=/home/sysadm/admin.conf
+
+
+
+
+**********Opensearch bağlantı komutu*************
+curl -XGET https://localhost:9200 -u 'admin:admin' --insecure
+curl -XGET https://10.254.156.51:9999 -u 'admin:admin' --insecure
+
+
+kubectl apply -f opensearch-cluster.yaml --kubeconfig=/home/sysadm/admin.conf
+
+********************************************************Yararlı*********************************************************************
+Local Persistent Volumes – A Step-by-Step Tutorial with storage class
+https://vocon-it.com/2018/12/20/kubernetes-local-persistent-volumes/
+
+
+*****************************Yapılacaklar********************************
+1- Persistense volume is  emptyDir: {}  we should change it to  storageclass olarak
+2- userpass girilmesi lazım opensearch-cluster.yaml(örnek: opensearch-cluster-securityconfig.yaml )
+3- Private network ayarlayıp tüm portları açmak lazım
+
+
+************************************Storage Class Typs***********************************************
+CSI Driver List: https://kubernetes-csi.github.io/docs/drivers.html
+Openshift Persistence Storage: https://docs.openshift.com/container-platform/4.3/storage/understanding-persistent-storage.html#block-volume-support_understanding-persistent-storage
+
+
+
+

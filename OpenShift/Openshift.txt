@@ -1,0 +1,23 @@
+oc project  # hangi projede olduğu bilgisi döner
+
+oc projects  # projeleri listeler
+
+oc project project_name  # projeler arası geçiş yapmak 
+
+oc new-project project_name # yeni bir proje oluşturur
+
+
+
+
+
+oc explain pod
+
+oc explain pod.spec
+
+oc explain pod.spec.container
+
+
+
+oc explain svc
+
+oc explain svc.spec
