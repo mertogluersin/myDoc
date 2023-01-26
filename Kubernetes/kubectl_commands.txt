@@ -5,11 +5,11 @@
 #											#	
 #############################################	
 
-kubectl config set-cluster {cluster_name} --server=https://<Cluster Master Host>:8001 --insecure-skip-tls-verify=true
-kubectl config set-context {cluster_name}-context --cluster={cluster_name}
-kubectl config set-credentials {username} --token={token}
-kubectl config set-context {cluster_name}-context --user={username} --namespace=default
-kubectl config use-context {cluster_name}-context
+  kubectl config set-cluster {cluster_name} --server=https://<Cluster Master Host>:8001 --insecure-skip-tls-verify=true
+  kubectl config set-context {cluster_name}-context --cluster={cluster_name}
+  kubectl config set-credentials {username} --token={token}
+  kubectl config set-context {cluster_name}-context --user={username} --namespace=default
+  kubectl config use-context {cluster_name}-context
 
 
 ### Show config detail
@@ -496,6 +496,17 @@ spec:
         - protocol: TCP
           port: 5978
 
+#######################################################################################################################################################################################################################
+#############################################
+#											#
+#				ServisAccount				#
+#				ROLE						#
+#				ROLEBINDING					#
+#											#	
+#############################################
+kubectl create sa ersin-sa -n ersin-ns
+kubectl create role ersin-role --verb=get --verb=list --verb=watch --resource=pods --namespace=ersin-ns
+kubectl create rolebinding ersin-role-bind --role=ersin-role --serviceaccount=ersin-ns:ersin-sa --namespace=ersin-ns
 	  
 	 
 #######################################################################################################################################################################################################################
