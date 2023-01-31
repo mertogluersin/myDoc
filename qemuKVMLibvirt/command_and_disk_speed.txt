@@ -1,0 +1,193 @@
+
+
+###############################################################  QCOW2  ###############################################################
+
+qemu-img create -o preallocation=full 	-o cluster_size=512K -f qcow2 /data/kandy_guest/sysadm/terraform/libvirt/test.qcow2 100G
+qemu-img create -o preallocation=falloc -o cluster_size=512K -f qcow2 /data/kandy_guest/sysadm/terraform/libvirt/test.qcow2 100G
+qemu-img create -o preallocation=off 	-o cluster_size=512K -f qcow2 /data/kandy_guest/sysadm/terraform/libvirt/test.qcow2 100G
+qemu-img create -o preallocation=full 	-o cluster_size=512K -f qcow2 /data/kandy_guest/sysadm/terraform/libvirt/test.qcow2 100G
+qemu-img create -o preallocation=falloc -o cluster_size=512K -f qcow2 /data/kandy_guest/sysadm/terraform/libvirt/test.qcow2 100G
+
+<disk type='file' device='disk'>
+	<driver name='qemu' type='qcow2'/>
+	<source file='/data/kandy_guest/sysadm/terraform/libvirt/test.qcow2'/>
+	<target dev='vdb' bus='virtio'/>
+</disk>
+
+
+<disk type='file' device='disk'>
+	<driver name='qemu' type='qcow2' cache='none' io='native'/>
+	<source file='/data/kandy_guest/sysadm/terraform/libvirt/test.qcow2'/>
+	<target dev='vdb' bus='virtio'/>
+</disk>
+
+
+###############################################################  RAW  ###############################################################
+
+
+qemu-img create -o preallocation=full 	-f raw /data/kandy_guest/sysadm/terraform/libvirt/test.raw 100G
+qemu-img create -o preallocation=falloc -f raw /data/kandy_guest/sysadm/terraform/libvirt/test.raw 100G
+qemu-img create -o preallocation=off 	-f raw /data/kandy_guest/sysadm/terraform/libvirt/test.raw 100G
+qemu-img create -o preallocation=full 	-f raw /data/kandy_guest/sysadm/terraform/libvirt/test.raw 100G
+qemu-img create -o preallocation=falloc -f raw /data/kandy_guest/sysadm/terraform/libvirt/test.raw 100G
+
+
+<disk type='file' device='disk'>
+	<driver name='qemu' type='raw'/>
+	<source file='/data/kandy_guest/sysadm/terraform/libvirt/test.raw'/>
+	<target dev='vdb' bus='virtio'/>
+</disk>
+
+
+<disk type='file' device='disk'>
+	<driver name='qemu' type='raw' cache='none' io='native'/>
+	<source file='/data/kandy_guest/sysadm/terraform/libvirt/test.raw'/>
+	<target dev='vdb' bus='virtio'/>
+</disk>
+
+
+
+###############################################################  RAW2  ###############################################################
+
+
+qemu-img create -o preallocation=full 	-f raw /data2/kandy_guest/sysadm/terraform/libvirt/test.raw 100G
+qemu-img create -o preallocation=falloc -f raw /data2/kandy_guest/sysadm/terraform/libvirt/test.raw 100G
+qemu-img create -o preallocation=off 	-f raw /data2/kandy_guest/sysadm/terraform/libvirt/test.raw 100G
+qemu-img create -o preallocation=full 	-f raw /data2/kandy_guest/sysadm/terraform/libvirt/test.raw 100G
+qemu-img create -o preallocation=falloc -f raw /data2/kandy_guest/sysadm/terraform/libvirt/test.raw 100G
+
+
+<disk type='file' device='disk'>
+	<driver name='qemu' type='raw'/>
+	<source file='/data2/kandy_guest/sysadm/terraform/libvirt/test.raw'/>
+	<target dev='vdb' bus='virtio'/>
+</disk>
+
+
+<disk type='file' device='disk'>
+	<driver name='qemu' type='raw' cache='none' io='native'/>
+	<source file='/data2/kandy_guest/sysadm/terraform/libvirt/test.raw'/>
+	<target dev='vdb' bus='virtio'/>
+</disk>
+
+
+
+###############################################################  scpirt  ###############################################################
+#!/bin/bash
+
+for i in {1..5}
+do
+
+output_path=/home/sysadm/result_pre_fu
+sudo dd if=/dev/zero of=/mnt/dd/test bs=512K count=195300 oflag=direct iflag=fullblock 2>> $output_path    #100G
+
+sleep 30
+
+done
+
+
+
+
+
+
+#############################################################################################################################################################################################
+qemu-img create  -f qcow2 test.qcow2 200G
+sudo qemu-img convert test.qcow2 /dev/sdd
+output_path=/home/sysadm/sonuc_qcow_200
+sudo dd if=/dev/zero of=/dev/sdd bs=512K count=399360 oflag=dsync iflag=fullblock 2>> $output_path &
+
+
+qemu-img create  -f raw test.raw 200G
+sudo qemu-img convert test.raw /dev/sdc
+output_path=/home/sysadm/sonuc_raw_200
+sudo dd if=/dev/zero of=/dev/sdc bs=512K count=399360 oflag=dsync iflag=fullblock 2>> $output_path &
+
+qemu-img create  -f raw test.img 200G
+sudo qemu-img convert test.img /dev/sdd
+output_path=/home/sysadm/sonuc_img_200
+sudo dd if=/dev/zero of=/dev/sdd bs=512K count=399360 oflag=dsync iflag=fullblock 2>> $output_path &
+
+
+1.3 for qcow VM
+1.5 for raw VM
+#############################################################################################################################################################################################
+
+
+
+qemu-img create -o preallocation=full -o cluster_size=512K  -f qcow2 /data/kandy_guest/sysadm/terraform/libvirt/test.qcow2 100G
+
+virsh shutdown qcow_test_vm-1
+
+virsh edit qcow_test_vm-1
+
+virsh start qcow_test_vm-1
+
+virsh console qcow_test_vm-1
+
+
+
+sudo fdisk /dev/vdb
+
+sudo mkfs.xfs /dev/vdb1
+if [ ! -d /mnt/dd/ ]; then sudo mkdir /mnt/dd; fi
+sudo mount /dev/vdb1 /mnt/dd
+
+
+output_path=/home/sysadm/result_pre_full
+output_path=/home/sysadm/result_pre_falloc
+output_path=/home/sysadm/result_pre_offx
+output_path=/home/sysadm/result_pre_full_io
+output_path=/home/sysadm/result_pre_falloc_io
+
+
+output_path=/home/sysadm/result_pre_full
+sudo dd if=/dev/zero of=/mnt/dd/test bs=512K count=195000 oflag=direct iflag=fullblock 2>> $output_path &   #100G
+
+
+output_path=/home/sysadm/sonuc_block
+sudo dd if=/dev/zero of=/ddTest/test bs=512K count=195000 oflag=direct iflag=fullblock 2>> $output_path &   #100G
+
+output_path=/home/sysadm/sonuc_image_block_io
+sudo dd if=/dev/zero of=/dd/test bs=512K count=193000 oflag=direct iflag=fullblock 2>> $output_path &   #100G
+
+
+output_path=/home/sysadm/sonuc_sda_block
+sudo dd if=/dev/zero of=/mnt/dd/test bs=512K count=71000 oflag=direct iflag=fullblock 2>> $output_path &   #100G
+
+
+qemu-img create -o preallocation=full -f raw /data/kandy_guest/sysadm/terraform/libvirt/test.raw 100G & 
+qemu-img create -o preallocation=falloc -f raw /data/kandy_guest/sysadm/terraform/libvirt/test.raw 100G &
+qemu-img create -o preallocation=off -f raw /data/kandy_guest/sysadm/terraform/libvirt/test.raw 100G &
+
+
+
+
+#############################################################################################################################################################################################
+
+test directory /var/lib/
+test file /var/lib/deleteIfFound
+disk size 1 G
+blocksize 4096
+
+sudo fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=fiotest --filename=${test_file} --bs=${bs_size}          --iodepth=1  --size=${disk_size}G --readwrite=write
+
+sudo fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=fiotest --filename=${file_path} --bs=${block_size_array}K --iodepth=1  --size=${disk_size}G --readwrite=write
+
+
+sudo fio --name=seqwrite --rw=write --bs=128k --numjobs=1 --size=16G --runtime=120 --iodepth=1 --group_reporting
+
+
+
+
+
+
+  sudo dd if=/dev/zero of=/test bs=4096K count=768 oflag=dsync iflag=fullblock
+  
+  
+  sudo fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=fiotest --filename=/test --bs=4096 --iodepth=1  --size=3G --readwrite=write
+  
+  
+  sudo fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=fiotest --filename=${file_path} --bs=${block_size} --iodepth=1  --size=${disk_size}G --readwrite=write
+  
+  
+  sudo fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=fiotest --filename=/dd/test --bs=512K --iodepth=1  --size=5G --readwrite=write --rw_sequencer=sequential

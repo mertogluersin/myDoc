@@ -6,7 +6,7 @@ kubectl create secret tls address-finder-tls-secret \
    --cert=~/Desktop/k8s.crt \
    --key=~/Desktop/k8s.key
    
-  
+####################################################################################################################################################################################################################### 
 
 ### key oluşturma   
 openssl genrsa -out my_key.key 2048 
@@ -50,7 +50,7 @@ kubectl config set-credentials {user_name} --client-certificate=my_crt.crt --cli
 ### Kullanıcı yaratıldı ancak bunu Cluster ile iliskilendirmek gerekli
 ### Bunu context kullanarak yapacağız
 ### user_name sertifika oluştururken kullandığımız user ismi(CN)
-kubectl config set-context {context_name} --cluster{cluster_name} --user={user_name}
+kubectl config set-context {context_name} --cluster={cluster_name} --user={user_name}
 
 
 
@@ -125,4 +125,35 @@ kubectl auth can-i get 		pods --namespace ersin-ns --as system:serviceaccount:er
 kubectl auth can-i watch 	pods --namespace ersin-ns --as system:serviceaccount:ersin-ns:ersin-sa
 kubectl auth can-i create 	pods --namespace ersin-ns --as system:serviceaccount:ersin-ns:ersin-sa
 
+
+#######################################################################################################################################################################################################################
+openssl genrsa -out ersin.key 2048
+
+openssl req -new -key ersin.key -out ersin.csr -subj "/CN=ersin/O=Platform"
+
+openssl x509  req -in ersin.csr -CA -CA_LOCATION/ca.crt -CAkey CA_LOCATION/ca.key -CAcreateserial -out ersin.crt  -days 500
+
+
+
+
+#######################################################################################################################################################################################################################
+#############################################
+#											#
+#			STACKOVERFLOW					#
+#											#	
+#############################################
+
+mkdir cert && cd cert
+# create private key
+openssl genrsa -out johndoe.key 2048
+# create certificate signing request (CSR)
+openssl req -new -key johndoe.key -out johndoe.csr -subj "/CN=johndoe/O=cka"
+# sign the CSR with the Kubernetes cluster certificate authority (CA)
+openssl x509 -req -in johndoe.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out johndoe.crt -days 365
+# create user in Kubernetes
+kubectl config set-credentials johndoe --client-certificate=johndoe.crt --client-key=johndoe.key
+# switch to the new user
+kubectl config set-context johndoe-context --cluster=kind --user=johndoe
+# check
+kubectl config view
 #######################################################################################################################################################################################################################

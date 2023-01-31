@@ -1,0 +1,87 @@
+Adding Non-supported Drivers to Alma-Linux 
+- Extracting ISO Images
+mount -t iso9660 -o loop path/to/image.iso /mnt/iso
+mkdir /tmp/ISO
+cp -pRf /mnt/iso /tmp/ISO
+umount /mnt/iso
+
+- Uncompress
+
+mkdir initrd.new
+
+cp base_iso/alma_iso/isolinux/initrd.img initrd.new
+
+cd initrd.new
+
+xz -dc < initrd.img | cpio -idmv
+
+- Make Changes
+rpm2cpio <kmod driver rpm> | cpio -idmv 
+ depmod -a -b /home/initrd.new 4.18.0-240.el8.x86_64 // Loading a File from location other than default location
+ 4.18.0-305.el8.x86_64 
+sudo depmod -a -b <full directory of the top level> <kernel version>
+
+rm initrd.new/initrd.img
+
+- Rebuild
+cd initrd.new
+find . 2>/dev/null | cpio -c -o | xz -9 --check=crc32 --format=xz > ../base_iso/alma_iso/isolinux/initrd.img
+
+rm -R initrd.new
+
+-- Rebuild the pxeboot initrd.img
+
+-Uncompress
+mkdir initrd.new
+
+cp base_iso/alma_iso/images/pxeboot/initrd.img initrd.new
+
+cd initrd.new
+
+xz -dc < initrd.img | cpio -idmv
+
+-Make Changes
+rpm2cpio <kmod driver rpm> | cpio -idmv
+
+sudo depmod -a -b <full directory of the top level> <kernel version>
+
+rm initrd.new/initrd.img
+
+-Rebuild
+find . 2>/dev/null | cpio -c -o | xz -9 --check=crc32 --format=xz > ../base_iso/alma_iso/images/pxeboot/initrd.img
+
+-- The install.img is a squashfs filesystem that when uncompressed contains the rootfs.img, which needs the kernel modules added to it
+mkdir install.dir
+cp base_iso/alma_iso/images/install.img install.dir
+cd install.dir
+unsquashfs install.img
+unsquashfs /tmp/somefile/squashfs.img 
+cd squashfs-root/LiveOS/ 
+mkdir mounting_here 
+
+
+
+cd ..
+mkdir rootfs
+mount -o loop install.dir/squashfs-root/LiveOS/rootfs.img rootfs
+
+
+
+dd if=/dev/zero of=newrootfs.img bs=1024k count=3221
+mkfs.ext4 newrootfs.img
+mkdir newrootfs
+mount -o loop newrootfs.img newrootfs
+cp -v -r -p rootfs/* newrootfs
+cd newrootfs
+rpm2cpio <kmod driver rpm> | cpio -idmv
+sudo depmod -a -b <full directory of the top level> <kernel version>
+sync
+cd ..
+umount rootfs
+umount newrootfs
+cp newrootfs.img install.dir/squashfs-root/LiveOS/rootfs.img
+cd install.dir
+mksquashfs squashfs-root/ install.img -noappend -always-use-fragments
+cp install.img ../base_iso/alma_iso/images/install.img
+
+tar -cvfz centos-host_base_iso-8.2.tgz base_os
